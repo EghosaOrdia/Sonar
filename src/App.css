@@ -5,3 +5,238 @@
   --color-primary-dark: #050505;
   --color-dark-foreground: #a1a1aa;
 }
+
+/* =====================
+  Utilities
+  =====================
+*/
+.lucide-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("assets/img/noise.svg");
+  z-index: 9999;
+}
+
+.hero-float-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  z-index: 0;
+  opacity: 0.4;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+}
+
+.btn-primary {
+  background: #1ed760;
+  color: #000;
+  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease,
+    background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #1abc54;
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(30, 215, 96, 0.6);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  font-size: 15px;
+  backdrop-filter: blur(10px);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.radar-sweep {
+  animation: radar-sweep 2s linear infinite;
+}
+
+.wave-bar {
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(1) {
+  height: 66.565%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0s;
+}
+
+.wave-bar:nth-child(2) {
+  height: 2.50006%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.1s;
+}
+
+.wave-bar:nth-child(3) {
+  height: 46.2564%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.2s;
+}
+
+.wave-bar:nth-child(4) {
+  height: 73.1217%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.3s;
+}
+
+.wave-bar:nth-child(5) {
+  height: 95.5343%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.4s;
+}
+
+.wave-bar:nth-child(6) {
+  height: 62.5933%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.5s;
+}
+
+.wave-bar:nth-child(7) {
+  height: 7.66135%;
+  min-height: 8px;
+  max-height: 100%;
+  color: rgb(30, 215, 96);
+  animation-delay: 0.6s;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #1ed760 0%, #08fdd8 100%);
+  transition: width 0.5s ease-out;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+.hero-heading {
+  background: linear-gradient(135deg, #1ed760 0%, #08fdd8 50%, #1ed760 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.glass-card {
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.scan-imp {
+  background: linear-gradient(90deg, rgba(30, 215, 96, 0.8), transparent);
+}
+
+.ltr {
+  position: relative;
+  --radix-scroll-area-corner-width: 0px;
+  --radix-scroll-area-corner-height: 0px;
+}
+
+/* =====================
+  Animations
+  =====================
+*/
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Waveform Animation */
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.5);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Pulse Ring Animation */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Radar Sweep */
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,8 +1,11 @@
-import React from "react";
+import useStep from "../store/useStep";
+import { Clock } from "lucide-react";
 
 const ResultsState = () => {
+  const setStep = useStep((state) => state.setStep);
+
   return (
-    <div style="opacity: 1; transform: none" data-step="3" className="state">
+    <div className="state opacity-100 transform-none">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-2xl font-bold">10 songs found</h3>
@@ -11,30 +14,15 @@ const ResultsState = () => {
             <span> · 2 not found</span>
           </p>
         </div>
-        <button
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 w-9 text-dark-foreground hover:text-white"
-          data-testid="reset-button"
-        ></button>
+        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 w-9 text-dark-foreground hover:text-white"></button>
       </div>
-      <div
-        data-orientation="horizontal"
-        className="shrink-0 h-px w-full bg-white/10 mb-6"
-      ></div>
+      <div className="shrink-0 h-px w-full bg-white/10 mb-6"></div>
       <div
         dir="ltr"
-        className="relative overflow-hidden h-80 pr-4 mb-6"
-        style="
-                  position: relative;
-                  --radix-scroll-area-corner-width: 0px;
-                  --radix-scroll-area-corner-height: 0px;
-                "
+        className="ltr custom-scroll relative overflow-scroll h-80 pr-4 mb-6"
       >
-        <div
-          data-radix-scroll-area-viewport=""
-          className="h-full w-full rounded-[inherit]"
-          style="overflow: hidden scroll"
-        >
-          <div style="min-width: 100%; display: table">
+        <div className="h-full w-full rounded-[inherit] overflow-scroll min-w-full table">
+          <div>
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-sm font-medium text-dark-foreground">
@@ -42,11 +30,7 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-1"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Blinding Lights"
@@ -62,18 +46,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <i data-lucide="clock" className="lucide-icon"></i>
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">3:20</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-2"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Shape of You"
@@ -89,17 +69,15 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
+
                     <span className="text-sm text-dark-foreground">3:53</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-3"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Dance Monkey"
@@ -115,17 +93,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">3:29</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-4"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Someone Like You"
@@ -141,17 +116,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">4:45</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-5"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Levitating"
@@ -167,17 +139,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">3:23</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-7"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Uptown Funk"
@@ -193,17 +162,15 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
+
                     <span className="text-sm text-dark-foreground">4:30</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-9"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Stay"
@@ -219,17 +186,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">2:21</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer"
-                  data-testid="matched-song-10"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                     <img
                       alt="Heat Waves"
@@ -245,6 +209,7 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">3:58</span>
                     <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
                       Matched
@@ -260,11 +225,7 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl opacity-60"
-                  data-testid="unmatched-song-6"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">My Local Track</p>
@@ -273,17 +234,14 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">4:12</span>
                     <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-white/10 text-dark-foreground">
                       Not found
                     </div>
                   </div>
                 </div>
-                <div
-                  className="song-item flex items-center gap-4 p-3 rounded-xl opacity-60"
-                  data-testid="unmatched-song-8"
-                  style="opacity: 1; transform: none"
-                >
+                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
                   <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">Untitled Demo</p>
@@ -292,6 +250,7 @@ const ResultsState = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Clock className="lucide-icon" />
                     <span className="text-sm text-dark-foreground">2:58</span>
                     <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-white/10 text-dark-foreground">
                       Not found
@@ -303,7 +262,11 @@ const ResultsState = () => {
           </div>
         </div>
       </div>
-      <button className="nextstep inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-[#1ED760] hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg">
+
+      <button
+        onClick={() => setStep(4)}
+        className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-[#1ED760] hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
+      >
         Create Spotify Playlist (8 songs)
       </button>
     </div>

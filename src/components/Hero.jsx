@@ -1,9 +1,12 @@
+import { FolderOpen } from "lucide-react";
+import { hero_bg } from "../media/media";
+
 const Hero = () => {
   return (
     <section className="relative py-24">
       <div className="hero-float-bg absolute top-0 left-0 w-full h-150 opacity-40 pointer-events-none z-0">
         <img
-          src="media/hero-bg.png"
+          src={hero_bg}
           alt="abstract dark flowing sound waves green minimal subtle"
           className="w-full h-full object-cover"
         />
@@ -22,7 +25,7 @@ const Hero = () => {
           href="#pickfolder"
           className="select-folder inline-flex items-center justify-center gap-4 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow btn-primary text-lg px-10 py-4 h-auto bg-[#1ED760] hover:bg-[#1abc54] text-black font-bold rounded-full"
         >
-          <i data-lucide="folder-open" className="lucide-icon"></i>
+          <FolderOpen className="lucide-icon" />
           <span>Select Music Folder</span>
         </a>
       </div>
