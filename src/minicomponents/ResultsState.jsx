@@ -1,6 +1,97 @@
 import useStep from "../store/useStep";
 import { Clock } from "lucide-react";
 
+const songs = [
+  {
+    id: 1,
+    songName: "Blinding Lights",
+    artist: "The Weeknd",
+    duration: "3:20",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 2,
+    songName: "Shape of You",
+    artist: "Ed Sheeran",
+    duration: "3:54",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 3,
+    songName: "Dance Monkey",
+    artist: "Tones and I",
+    duration: "3:29",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 4,
+    songName: "Someone Like You",
+    artist: "Adele",
+    duration: "4:45",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 5,
+    songName: "Levitating",
+    artist: "Dua Lupa",
+    duration: "3:23",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1504898770365-14faca6a7320?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 6,
+    songName: "Uptown Funk",
+    artist: "Bruno Mars",
+    duration: "4:30",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 7,
+    songName: "Stay",
+    artist: "The Kid LAROI",
+    duration: "2:21",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 8,
+    songName: "Heat Waves",
+    artist: "Glass Animals",
+    duration: "3:58",
+    matched: true,
+    thumbnail:
+      "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=60&amp;h=60&amp;fit=crop",
+  },
+  {
+    id: 9,
+    songName: "My Local Track",
+    artist: "",
+    duration: "4:12",
+    matched: false,
+    thumbnail: "",
+  },
+  {
+    id: 10,
+    songName: "Untitled Demo",
+    artist: "",
+    duration: "2:58",
+    matched: false,
+    thumbnail: "",
+  },
+];
+
 const ResultsState = () => {
   const setStep = useStep((state) => state.setStep);
 
@@ -30,192 +121,41 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Blinding Lights"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Blinding Lights</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      The Weeknd
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">3:20</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Shape of You"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Shape of You</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Ed Sheeran
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-
-                    <span className="text-sm text-dark-foreground">3:53</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Dance Monkey"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Dance Monkey</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Tones and I
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">3:29</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Someone Like You"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Someone Like You</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Adele
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">4:45</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Levitating"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1504898770365-14faca6a7320?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Levitating</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Dua Lipa
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">3:23</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Uptown Funk"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Uptown Funk</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Bruno Mars
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-
-                    <span className="text-sm text-dark-foreground">4:30</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Stay"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Stay</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      The Kid LAROI
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">2:21</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                    <img
-                      alt="Heat Waves"
-                      className="w-full h-full object-cover"
-                      src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=60&amp;h=60&amp;fit=crop"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Heat Waves</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Glass Animals
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">3:58</span>
-                    <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
-                      Matched
-                    </div>
-                  </div>
-                </div>
+                {songs.map(
+                  (song) =>
+                    song.matched && (
+                      <div
+                        key={song.id}
+                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
+                      >
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
+                          <img
+                            alt={song.songName}
+                            className="w-full h-full object-cover"
+                            src={song.thumbnail}
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium truncate">
+                            {song.songName}
+                          </p>
+                          <p className="text-sm text-dark-foreground truncate">
+                            {song.artist}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Clock className="lucide-icon" />
+                          <span className="text-sm text-dark-foreground">
+                            {song.duration}
+                          </span>
+                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+                            {song.matched ? "Matched" : "Not Found"}
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                )}
               </div>
             </div>
             <div>
@@ -225,38 +165,35 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">My Local Track</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Unknown Artist
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">4:12</span>
-                    <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-white/10 text-dark-foreground">
-                      Not found
-                    </div>
-                  </div>
-                </div>
-                <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none">
-                  <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">Untitled Demo</p>
-                    <p className="text-sm text-dark-foreground truncate">
-                      Local Band
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="lucide-icon" />
-                    <span className="text-sm text-dark-foreground">2:58</span>
-                    <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-white/10 text-dark-foreground">
-                      Not found
-                    </div>
-                  </div>
-                </div>
+                {songs.map(
+                  (song) =>
+                    !song.matched && (
+                      <div
+                        key={song.id}
+                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
+                      >
+                        <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
+
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium truncate">
+                            {song.songName}
+                          </p>
+                          <p className="text-sm text-dark-foreground truncate">
+                            Unknown Artist
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Clock className="lucide-icon" />
+                          <span className="text-sm text-dark-foreground">
+                            {song.duration}
+                          </span>
+                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+                            {song.matched ? "Matched" : "Not Found"}
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                )}
               </div>
             </div>
           </div>
