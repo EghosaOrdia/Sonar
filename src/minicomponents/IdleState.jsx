@@ -1,5 +1,5 @@
 // JUMP TO LINE 20 TO VIEW COMPONENT
-import React, { useEffect } from "react";
+import React from "react";
 import * as mm from "music-metadata";
 import { FolderOpen, FolderClosed } from "lucide-react";
 import useTrackStore from "../store/useTrackStore";
@@ -32,11 +32,11 @@ const sanitizeFileName = (raw) => {
     .replace(/\b\w+\.\w+\b/gi, "")
     // Remove brackets, parentheses, and their contents if they contain unwanted text
     .replace(
-      /[\$\$].*?(official|video|audio|lyrics|download|www|hd|kbps).*?[\$\$]/gi,
+      /[$$].*?(official|video|audio|lyrics|download|www|hd|kbps).*?[$$]/gi,
       "",
     )
     // Replace remaining brackets/parentheses with spaces
-    .replace(/[\$\$\$\$]/g, " ")
+    .replace(/[$$$$]/g, " ")
     // Replace underscores, hyphens, and multiple spaces with single spaces
     .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")
