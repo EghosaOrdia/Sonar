@@ -1,5 +1,5 @@
 import useStep from "../store/useStep";
-import { Clock } from "lucide-react";
+import { Clock, RotateCcw } from "lucide-react";
 
 const songs = [
   {
@@ -134,7 +134,9 @@ const ResultsState = () => {
                             className="w-full h-full object-cover"
                             src={song.thumbnail}
                           />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <RotateCcw className="lucide-icon" />
+                          </div>
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">
