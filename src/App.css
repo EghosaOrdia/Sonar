@@ -1,9 +1,11 @@
 @import "tailwindcss";
+@import url("assets/DMSans-VariableFont_opsz\,wght.ttf");
 
 @theme {
   --color-primary-green: #1db954;
   --color-primary-dark: #050505;
   --color-dark-foreground: #a1a1aa;
+  --font-family-sans: "DM Sans", sans-serif;
 }
 
 /* =====================
