@@ -1,5 +1,5 @@
 import { FolderOpen } from "lucide-react";
-import { hero_bg } from "../media/media";
+import { hero_bg } from "../constants/media";
 
 const Hero = () => {
   return (
