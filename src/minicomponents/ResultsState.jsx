@@ -1,77 +1,198 @@
 import useStep from "../store/useStep";
-import { Clock, RotateCcw } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CheckCheckIcon,
+  CheckCircle,
+  CheckCircle2Icon,
+  Clock,
+  Lock,
+  RefreshCcw,
+  RotateCcw,
+} from "lucide-react";
 import { songs } from "../constants/data";
 import { useState } from "react";
 import Modal from "../components/Modal";
+import { spotify } from "../constants/media";
 
 const ResultsState = () => {
   const setStep = useStep((state) => state.setStep);
   const [isOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
   return (
     <div className="state opacity-100 transform-none">
-      <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        customStyles={{
-          backdrop: "",
-          container: "",
-        }}
-      >
-        <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-          <h2 class="tracking-tight text-xl font-bold flex items-center gap-2">
-            <RotateCcw className="lucide-icon text-primary-green" />
-            Re-Search Results
-          </h2>
-          <p class="text-sm text-[#A1A1AA]">
-            <span>
-              Searching for alternative versions of{" "}
-              <span class="text-white font-medium">"Dance Monkey"</span> by{" "}
-              <span class="text-white font-medium">Tones and I</span>
-            </span>
-          </p>
-        </div>
-
-        <div class="mt-4">
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-            <p class="text-sm text-[#A1A1AA]">
-              Showing <span class="text-white font-medium">0</span> of{" "}
-              <span class="text-white font-medium">0</span> results
-            </p>
-            <div class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
-              Re-search
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        {modalContent == "research" && (
+          <>
+            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+              <h2 className="tracking-tight text-xl font-bold flex items-center gap-2">
+                <RotateCcw className="lucide-icon text-primary-green" />
+                Re-Search Results
+              </h2>
+              <p className="text-sm text-[#A1A1AA]">
+                <span>
+                  Searching for alternative versions of{" "}
+                  <span className="text-white font-medium">"Dance Monkey"</span>{" "}
+                  by <span className="text-white font-medium">Tones and I</span>
+                </span>
+              </p>
             </div>
-          </div>
-          <div class="relative pr-4">
-            <div class="h-full w-full rounded-[inherit]">
-              <div className="min-h-full">
-                <div class="space-y-2 h-67.5 overflow-scroll custom-scroll">
-                  <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5">
-                      <img
-                        alt="blinding lights"
-                        className="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop"
-                      />
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+                <p className="text-sm text-[#A1A1AA]">
+                  Showing <span className="text-white font-medium">0</span> of{" "}
+                  <span className="text-white font-medium">0</span> results
+                </p>
+                <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
+                  Re-search
+                </div>
+              </div>
+              <div className="relative pr-4">
+                <div className="h-full w-full rounded-[inherit]">
+                  <div className="min-h-full">
+                    <div className="space-y-2 h-67.5 overflow-scroll custom-scroll">
+                      <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5">
+                          <img
+                            alt="blinding lights"
+                            className="w-full h-full object-cover"
+                            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium truncate">
+                            Blinding Lights
+                          </p>
+                          <p className="text-sm text-dark-foreground truncate">
+                            The Weeknd
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">Blinding Lights</p>
-                      <p className="text-sm text-dark-foreground truncate">
-                        The Weeknd
-                      </p>
+                    <div className="mt-6 pt-4 border-t border-white/10">
+                      <button className="bg-primary-green/50 w-full py-2 px-6 rounded-full font-bold duration-150 hover:scale-105 cursor-pointer flex gap-2 justify-center items-center ">
+                        <RotateCcw className="lucide-icon" />
+                        Load More Results
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-white/10">
-                  <button className="bg-primary-green/50 w-full py-2 px-6 rounded-full font-bold duration-150 hover:scale-105 cursor-pointer flex gap-2 justify-center items-center ">
-                    <RotateCcw className="lucide-icon" />
-                    Load More Results
+              </div>
+            </div>
+          </>
+        )}
+
+        {modalContent == "spotify-connect" && (
+          <>
+            <div className="text-center space-y-1">
+              <div className="w-24 h-24 flex bg-primary-green/20 rounded-full mx-auto">
+                <RefreshCcw className="size-8 text-primary-green m-auto" />
+              </div>
+              <h2 className="text-center text-2xl font-medium mt-8">
+                Connect your Spotify account
+              </h2>
+              <p className="text-dark-foreground w-1/2 mx-auto">
+                We need permission to create playlist in your library
+              </p>
+
+              <button className="w-full bg-primary-green flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-8">
+                <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+                <span className="font-bold">Connect Spotify account</span>
+              </button>
+
+              <div className="text-center border-t py-4 border-white/10 text-dark-foreground mt-8">
+                <p className="font-bold">PRIVACY FIRST</p>
+                <p>We only request access to create and manage playlist.</p>
+                <p>Your personal data stays yours</p>
+              </div>
+            </div>
+
+            {/*  */}
+
+            <div className="overflow-hidden hidden">
+              <div className="p-8 flex flex-col items-center">
+                <div className="mb-8 text-center">
+                  <h1 className="text-white text-[28px] font-bold leading-tight mb-2">
+                    Connect to Spotify
+                  </h1>
+                  <p className="text-dark-foreground">
+                    Sync your local library seamlessly
+                  </p>
+                </div>
+
+                {/* <div className="w-full mb-6">
+                  <button className="w-full h-12 bg-primary hover:bg-primary/90 transition-all rounded-xl flex items-center justify-center gap-3 text-white font-bold">
+                    <div className="spinner"></div>
+                    <span>Connecting...</span>
+                  </button>
+                </div> */}
+                <div className="w-full space-y-6">
+                  <div className="bg-primary-dark rounded-xl p-5 border border-white/10 flex flex-col gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className="w-12 h-12 rounded-full bg-cover bg-center ring-2 ring-white/10 overflow-hidden">
+                          <img
+                            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop"
+                            alt=""
+                          />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 bg-primary text-background-dark rounded-full size-5 flex items-center justify-center">
+                          <CheckCircle2Icon fill="#1ed760" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-white text-base font-bold leading-tight">
+                          Connected as: Alex_Music_Lover
+                        </p>
+                        <p className="text-primary-green text-sm font-medium">
+                          Ready to sync
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 bg-primary-green/10 text-primary-green px-3 py-2 rounded-lg w-fit">
+                      <CheckCircle2Icon fill="#1ed760" />
+
+                      <span className="text-xs font-bold uppercase tracking-wider">
+                        Spotify Premium Account
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2 pt-2">
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-medium">Connection Status</p>
+                      <p className="text-primary-green text-sm font-bold">
+                        100%
+                      </p>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                      <div className="h-full bg-primary-green rounded-full w-full"></div>
+                    </div>
+                    <p className="text-dark-foreground text-xs text-center mt-1 italic">
+                      API Handshake successful
+                    </p>
+                  </div>
+
+                  <button className="btn-primary w-full flex justify-center align-center gap-4">
+                    <span>Start Syncing Music</span>
+                    <ArrowRight />
                   </button>
                 </div>
               </div>
+
+              <div className="border-t border-white/5 pt-4 flex justify-between items-center px-8">
+                <div className="flex items-center gap-2 text-[#94c7a7] text-xs">
+                  <Lock className="lucide-icon" />
+                  <span>Secure Connection</span>
+                </div>
+                <button className="text-[#94c7a7] hover:text-white transition-colors text-xs font-medium">
+                  Change Account
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </Modal>
 
       <div className="flex items-center justify-between mb-6">
@@ -112,7 +233,10 @@ const ResultsState = () => {
                             src={song.thumbnail}
                           />
                           <div
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => {
+                              setIsOpen(true);
+                              setModalContent("research");
+                            }}
                             className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
                           >
                             <RotateCcw className="lucide-icon" />
@@ -183,7 +307,10 @@ const ResultsState = () => {
       </div>
 
       <button
-        onClick={() => setStep(4)}
+        onClick={() => {
+          setIsOpen(true);
+          setModalContent("spotify-connect");
+        }}
         className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
         Create Spotify Playlist (8 songs)
