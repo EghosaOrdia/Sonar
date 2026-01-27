@@ -42,11 +42,32 @@ const ResultsState = () => {
               Re-search
             </div>
           </div>
-          <div dir="ltr" class="relative overflow-hidden h-87.5 pr-4">
-            <div class="h-full w-full rounded-[inherit] overflow-hidden custom-scroll">
-              <div className="min-h-full table">
-                <div class="space-y-2"></div>
-                <div class="mt-6 pb-4"></div>
+          <div class="relative pr-4">
+            <div class="h-full w-full rounded-[inherit]">
+              <div className="min-h-full">
+                <div class="space-y-2 h-67.5 overflow-scroll custom-scroll">
+                  <div className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5">
+                      <img
+                        alt="blinding lights"
+                        className="w-full h-full object-cover"
+                        src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">Blinding Lights</p>
+                      <p className="text-sm text-dark-foreground truncate">
+                        The Weeknd
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/10">
+                  <button className="bg-primary-green/50 w-full py-2 px-6 rounded-full font-bold duration-150 hover:scale-105 cursor-pointer flex gap-2 justify-center items-center ">
+                    <RotateCcw className="lucide-icon" />
+                    Load More Results
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -82,7 +103,7 @@ const ResultsState = () => {
                     song.matched && (
                       <div
                         key={song.id}
-                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
+                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
                       >
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                           <img
