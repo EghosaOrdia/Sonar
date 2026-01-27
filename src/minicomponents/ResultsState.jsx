@@ -20,7 +20,7 @@ const ResultsState = () => {
       >
         <div class="flex flex-col space-y-1.5 text-center sm:text-left">
           <h2 class="tracking-tight text-xl font-bold flex items-center gap-2">
-            <RotateCcw className="lucide-icon text-[#1ED760]" />
+            <RotateCcw className="lucide-icon text-primary-green" />
             Re-Search Results
           </h2>
           <p class="text-sm text-[#A1A1AA]">
@@ -38,7 +38,7 @@ const ResultsState = () => {
               Showing <span class="text-white font-medium">0</span> of{" "}
               <span class="text-white font-medium">0</span> results
             </p>
-            <div class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+            <div class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
               Re-search
             </div>
           </div>
@@ -57,7 +57,7 @@ const ResultsState = () => {
         <div>
           <h3 className="text-2xl font-bold">10 songs found</h3>
           <p className="text-dark-foreground">
-            <span className="text-[#1ED760]">8 matched</span>
+            <span className="text-primary-green">8 matched</span>
             <span> · 2 not found</span>
           </p>
         </div>
@@ -92,7 +92,7 @@ const ResultsState = () => {
                           />
                           <div
                             onClick={() => setIsOpen(true)}
-                            className="absolute inset-0 bg-black/40 opacity-0 hover:bg-[#1ED760]/70 hover:opacity-100 transition-opacity flex items-center justify-center"
+                            className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
                           >
                             <RotateCcw className="lucide-icon" />
                           </div>
@@ -110,7 +110,7 @@ const ResultsState = () => {
                           <span className="text-sm text-dark-foreground">
                             {song.duration}
                           </span>
-                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
                             {song.matched ? "Matched" : "Not Found"}
                           </div>
                         </div>
@@ -148,7 +148,7 @@ const ResultsState = () => {
                           <span className="text-sm text-dark-foreground">
                             {song.duration}
                           </span>
-                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
                             {song.matched ? "Matched" : "Not Found"}
                           </div>
                         </div>
@@ -163,7 +163,7 @@ const ResultsState = () => {
 
       <button
         onClick={() => setStep(4)}
-        className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-[#1ED760] hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
+        className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
         Create Spotify Playlist (8 songs)
       </button>
