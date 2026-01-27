@@ -38,7 +38,7 @@ const HowItWorks = () => {
     <section className="mt-20 py-14">
       <div className="text-center text-white max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-          How It <span className="text-[#1ED760]">Works</span>
+          How It <span className="text-primary-green">Works</span>
         </h2>
         <p className="text-dark-foreground text-lg max-w-xl mx-auto">
           Four simple steps to transform your music library
@@ -59,7 +59,7 @@ const HowItWorks = () => {
                 </span>
                 <div
                   component="icon-box"
-                  className="bg-[#1ed76015] text-[#1ed760] w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                  className="bg-primary-green/8 text-primary-green w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
                 >
                   <Icon className="lucide-icon" />
                 </div>

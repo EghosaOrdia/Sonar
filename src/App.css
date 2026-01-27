@@ -4,6 +4,7 @@
   --color-primary-green: #1db954;
   --color-primary-dark: #050505;
   --color-dark-foreground: #a1a1aa;
+  ---color-primary-green: #1ed760;
   --font-family-sans: "DM Sans";
 }
 
@@ -98,6 +99,14 @@
 .custom-scroll::-webkit-scrollbar {
   width: 0px;
   background: transparent;
+}
+
+.app-overlay {
+  background: radial-gradient(
+    at 50% 30%,
+    rgba(30, 215, 96, 0.08) 0%,
+    transparent 50%
+  );
 }
 
 .radar-sweep {

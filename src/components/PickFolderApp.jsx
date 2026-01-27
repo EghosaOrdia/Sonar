@@ -1,6 +1,5 @@
-import React from "react";
 import useStep from "../store/useStep";
-import { IdleState, ScanningState, ResultsState } from "../minicomponents";
+import { ScanningState, ResultsState } from "../minicomponents";
 import SuccessState from "../minicomponents/SuccessState";
 
 const PickFolderApp = () => {
@@ -11,16 +10,16 @@ const PickFolderApp = () => {
       <div className="app-overlay absolute inset-0 pointer-events-none"></div>
       <div className="max-w-4xl mx-auto relative z-10 text-white">
         <div className="section-header text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-10xl sm:text-4xl lg:text-10xl font-bold tracking-tight mb-4">
             Start
-            <span className="text-[#1ED760]">Converting</span>
+            <span className="text-primary-green"> Converting</span>
           </h2>
           <p className="text-dark-foreground text-lg">
             Select your music folder and watch the magic happen
           </p>
         </div>
         <div className="glass-card p-8 lg:p-12">
-          {step === 1 && <IdleState />}
+          {step === 1 && <ResultsState />}
           {step === 2 && <ScanningState />}
           {step === 3 && <ResultsState />}
           {step === 4 && <SuccessState />}

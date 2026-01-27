@@ -1,12 +1,58 @@
 import useStep from "../store/useStep";
 import { Clock, RotateCcw } from "lucide-react";
 import { songs } from "../constants/data";
+import { useState } from "react";
+import Modal from "../components/Modal";
 
 const ResultsState = () => {
   const setStep = useStep((state) => state.setStep);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="state opacity-100 transform-none">
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        customStyles={{
+          backdrop: "",
+          container: "",
+        }}
+      >
+        <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+          <h2 class="tracking-tight text-xl font-bold flex items-center gap-2">
+            <RotateCcw className="lucide-icon text-[#1ED760]" />
+            Re-Search Results
+          </h2>
+          <p class="text-sm text-[#A1A1AA]">
+            <span>
+              Searching for alternative versions of{" "}
+              <span class="text-white font-medium">"Dance Monkey"</span> by{" "}
+              <span class="text-white font-medium">Tones and I</span>
+            </span>
+          </p>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+            <p class="text-sm text-[#A1A1AA]">
+              Showing <span class="text-white font-medium">0</span> of{" "}
+              <span class="text-white font-medium">0</span> results
+            </p>
+            <div class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-[#1ED760]/10 text-[#1ED760] border-0">
+              Re-search
+            </div>
+          </div>
+          <div dir="ltr" class="relative overflow-hidden h-87.5 pr-4">
+            <div class="h-full w-full rounded-[inherit] overflow-hidden custom-scroll">
+              <div className="min-h-full table">
+                <div class="space-y-2"></div>
+                <div class="mt-6 pb-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-2xl font-bold">10 songs found</h3>
@@ -44,7 +90,10 @@ const ResultsState = () => {
                             className="w-full h-full object-cover"
                             src={song.thumbnail}
                           />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <div
+                            onClick={() => setIsOpen(true)}
+                            className="absolute inset-0 bg-black/40 opacity-0 hover:bg-[#1ED760]/70 hover:opacity-100 transition-opacity flex items-center justify-center"
+                          >
                             <RotateCcw className="lucide-icon" />
                           </div>
                         </div>

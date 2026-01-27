@@ -23,7 +23,7 @@ const Hero = () => {
         </p>
         <a
           href="#pickfolder"
-          className="select-folder inline-flex items-center justify-center gap-4 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow btn-primary text-lg px-10 py-4 h-auto bg-[#1ED760] hover:bg-[#1abc54] text-black font-bold rounded-full"
+          className="select-folder inline-flex items-center justify-center gap-4 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow btn-primary text-lg px-10 py-4 h-auto bg-primary-green hover:bg-[#1abc54] text-black font-bold rounded-full"
         >
           <FolderOpen className="lucide-icon" />
           <span>Select Music Folder</span>
