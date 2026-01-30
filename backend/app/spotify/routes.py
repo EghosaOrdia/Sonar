@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 
 # from app.spotify.auth import get_auth_url, exchange_code_for_token
 from app.spotify.client import SpotifyClient
-from app.spotify.search import search_track
+from app.spotify.search import search_track, search_single_track
 from pydantic import BaseModel
 from app.schema import Song
 
@@ -38,7 +38,7 @@ def me():
 
 @router.post("/search")
 def search_song(song: Song):
-    match = search_track(song.title, song.artist)
+    match = search_single_track(song.title, song.artist)
     return {"match": match}
 
 

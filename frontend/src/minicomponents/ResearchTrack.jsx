@@ -48,7 +48,7 @@ const ResearchTrack = ({ track }) => {
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
           <p className="text-sm text-[#A1A1AA]">
             Showing <span className="text-white font-medium">0</span> of{" "}
-            <span className="text-white font-medium">{results.length}</span>{" "}
+            <span className="text-white font-medium">{results?.length}</span>{" "}
             results
           </p>
           <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
