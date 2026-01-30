@@ -1,14 +1,35 @@
-import { useEffect } from "react";
 import useStep from "../store/useStep";
+import useTrackStore from "../store/useTrackStore";
+
+const steps = [
+  "Uploading and checking your file",
+  "Processing your information",
+  "Sending for reviewing",
+  "Waiting for results",
+];
+
+const sendToServer = async (data) => {
+  const res = await fetch("http://localhost:5000/spotify/search/batch", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  return res.json();
+};
 
 const ScanningState = () => {
   const setStep = useStep((state) => state.setStep);
+  const tracks = useTrackStore((state) => state.tracks);
+  const setResults = useTrackStore((state) => state.setResults);
 
-  useEffect(() => {
-    setTimeout(() => {
+  const Move = async () => {
+    const response = await sendToServer(tracks);
+    if (response) {
+      setResults(response.results);
       setStep(3);
-    }, 3000);
-  });
+    }
+  };
 
   return (
     <div className="state text-center py-12 opacity-100 transform-none">
