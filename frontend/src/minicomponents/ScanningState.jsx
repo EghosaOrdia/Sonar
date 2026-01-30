@@ -1,11 +1,12 @@
+import { useState } from "react";
 import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
 
 const steps = [
-  "Uploading and checking your file",
-  "Processing your information",
-  "Sending for reviewing",
-  "Waiting for results",
+  { label: "Uploading and checking your file", progress: 25 },
+  { label: "Processing your information", progress: 50 },
+  { label: "Sending for reviewing", progress: 75 },
+  { label: "Waiting for results", progress: 95 },
 ];
 
 const sendToServer = async (data) => {
@@ -22,9 +23,12 @@ const ScanningState = () => {
   const setStep = useStep((state) => state.setStep);
   const tracks = useTrackStore((state) => state.tracks);
   const setResults = useTrackStore((state) => state.setResults);
+  const { progress, setProgress } = useState(steps[0]);
 
   const Move = async () => {
+    setProgress(steps[1]);
     const response = await sendToServer(tracks);
+    setProgress(steps[1]);
     if (response) {
       setResults(response.results);
       setStep(3);
@@ -52,15 +56,20 @@ const ScanningState = () => {
         <div className="w-1 bg-current rounded-full wave-bar"></div>
         <div className="w-1 bg-current rounded-full wave-bar"></div>
       </div>
-      <p className="text-xl font-medium mt-6 mb-2">Finalizing results...</p>
+      <p className="text-xl font-medium mt-6 mb-2">{progress.label}...</p>
       <p className="text-dark-foreground mb-8">
         Please wait while we process your files
       </p>
       <div className="max-w-md mx-auto">
         <div className="relative w-full overflow-hidden rounded-full h-2 bg-white/10">
-          <div className="progress-fill h-full w-full flex-1 bg-primary transition-all -translate-x-1/10"></div>
+          <div
+            style={{ width: `${progress.progress}%` }}
+            className="progress-fill h-full flex-1 bg-primary transition-all -translate-x-1/10"
+          ></div>
         </div>
-        <p className="text-sm text-dark-foreground mt-2">95%</p>
+        <p className="text-sm text-dark-foreground mt-2">
+          {progress.progress}%
+        </p>
       </div>
     </div>
   );
