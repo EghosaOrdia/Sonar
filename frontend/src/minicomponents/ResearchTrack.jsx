@@ -13,10 +13,13 @@ const sendToServer = async (data) => {
 };
 
 const ResearchTrack = ({ track }) => {
+  console.log(track);
+
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     const fetchResults = async () => {
+      const data = {}
       const response = await sendToServer(track);
       if (response?.results) {
         setResults(response.results);
