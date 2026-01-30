@@ -13,6 +13,7 @@ import Modal from "../components/Modal";
 import { spotify } from "../constants/media";
 import ResearchTrack from "./ResearchTrack";
 import useTrackStore from "../store/useTrackStore";
+import useStep from "../store/useStep";
 
 const ResultsState = () => {
   // const setStep = useStep((state) => state.setStep);
@@ -20,6 +21,7 @@ const ResultsState = () => {
   const [modalContent, setModalContent] = useState("");
   const [researchTrack, setResearchTrack] = useState(null);
   const results = useTrackStore((state) => state.results);
+  const setStep = useStep((state) => state.setStep);
 
   const loginWithSpotify = () => {
     window.location.href = "http://localhost:5000/spotify/login";
@@ -254,8 +256,9 @@ const ResultsState = () => {
 
       <button
         onClick={() => {
-          setIsOpen(true);
-          setModalContent("spotify-connect");
+          // setIsOpen(true);
+          // setModalContent("spotify-connect");
+          setStep(4);
         }}
         className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
