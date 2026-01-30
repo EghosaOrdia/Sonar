@@ -14,9 +14,9 @@ import { spotify } from "../constants/media";
 import ResearchTrack from "./ResearchTrack";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
+import { formatMilliseconds } from "../constants/functions";
 
 const ResultsState = () => {
-  // const setStep = useStep((state) => state.setStep);
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [researchTrack, setResearchTrack] = useState(null);
@@ -202,7 +202,7 @@ const ResultsState = () => {
                     <div className="flex items-center gap-3">
                       <Clock className="lucide-icon" />
                       <span className="text-sm text-dark-foreground">
-                        {song.duration}
+                        {formatMilliseconds(song.match.duration)}
                       </span>
                       <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
                         Matched

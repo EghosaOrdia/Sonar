@@ -67,4 +67,11 @@ async function ScanAudioFiles(directoryHandle) {
   return results;
 }
 
-export { sanitizeFileName, ScanAudioFiles };
+function formatMilliseconds(ms) {
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.round((ms / 1000) % 60);
+
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+export { sanitizeFileName, ScanAudioFiles, formatMilliseconds };

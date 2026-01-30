@@ -37,9 +37,9 @@ def me():
 
 
 @router.post("/search")
-def search_song(payload: SearchRequest):
-    client = SpotifyClient(TOKENS["access_token"])
-    return client.search_track(payload.query)
+def search_song(song: Song):
+    match = search_track(song.title, song.artist)
+    return {"match": match}
 
 
 @router.post("/playlist")

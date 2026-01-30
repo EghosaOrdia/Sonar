@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
 
@@ -23,17 +23,36 @@ const ScanningState = () => {
   const setStep = useStep((state) => state.setStep);
   const tracks = useTrackStore((state) => state.tracks);
   const setResults = useTrackStore((state) => state.setResults);
-  const { progress, setProgress } = useState(steps[0]);
+  const [stepIndex, setStepIndex] = useState(0);
 
-  const Move = async () => {
-    setProgress(steps[1]);
-    const response = await sendToServer(tracks);
-    setProgress(steps[1]);
-    if (response) {
-      setResults(response.results);
-      setStep(3);
+  const runProcess = async () => {
+    try {
+      setStepIndex(0);
+
+      setStepIndex(1);
+
+      setStepIndex(2);
+      const response = await sendToServer(tracks);
+      setStepIndex(3);
+
+      if (response?.results) {
+        setResults(response.results);
+        setStep(3);
+      }
+    } catch (err) {
+      console.error("Scanning failed:", err);
     }
   };
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      runProcess();
+    }, 0);
+
+    return () => clearTimeout(id);
+  });
+
+  const [progress, setProgress] = useState(steps[0]);
 
   return (
     <div className="state text-center py-12 opacity-100 transform-none">
