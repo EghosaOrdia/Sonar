@@ -74,11 +74,13 @@ async function ScanAudioFiles(directoryHandle) {
 }
 
 const sendToServer = async (data) => {
-  await fetch("/api/audio-metadata", {
+  const res = await fetch("http://localhost:5000/spotify/search/batch", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
+  return res.json();
 };
 
 const handleScan = async () => {
@@ -96,15 +98,19 @@ const handleScan = async () => {
 const IdleState = () => {
   const setStep = useStep((state) => state.setStep);
   const setTracks = useTrackStore((state) => state.setTracks);
+  const setResults = useTrackStore((state) => state.setResults);
 
   const Move = async () => {
     const files = await handleScan();
 
     if (!files || files.length == 0) return;
     setTracks(files);
-    console.log(files);
 
-    setStep(2);
+    const response = await sendToServer(files);
+    if (response) {
+      setResults(response.results);
+      setStep(3);
+    }
   };
 
   return (

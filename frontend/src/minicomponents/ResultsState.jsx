@@ -12,12 +12,18 @@ import { useState } from "react";
 import Modal from "../components/Modal";
 import { spotify } from "../constants/media";
 import ResearchTrack from "./ResearchTrack";
+import useTrackStore from "../store/useTrackStore";
 
 const ResultsState = () => {
   // const setStep = useStep((state) => state.setStep);
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [researchTrack, setResearchTrack] = useState(null);
+  const results = useTrackStore((state) => state.results);
+
+  const loginWithSpotify = () => {
+    window.location.href = "http://localhost:5000/spotify/login";
+  };
 
   return (
     <div className="state opacity-100 transform-none">
@@ -37,7 +43,10 @@ const ResultsState = () => {
                 We need permission to create playlist in your library
               </p>
 
-              <button className="w-full bg-primary-green flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-8">
+              <button
+                onClick={loginWithSpotify}
+                className="w-full bg-primary-green flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-8"
+              >
                 <img src={spotify} alt="spotify logo" className="w-9 h-9" />
                 <span className="font-bold">Connect Spotify account</span>
               </button>
@@ -158,50 +167,47 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                {songs.map(
-                  (song) =>
-                    song.matched && (
+                {results.map((song) => (
+                  <div
+                    key={song.id}
+                    className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
+                  >
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
+                      <img
+                        alt={song.songName}
+                        className="w-full h-full object-cover"
+                        src={song.match.thumbnail}
+                      />
                       <div
-                        key={song.id}
-                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
+                        onClick={() => {
+                          setIsOpen(true);
+                          setModalContent("research");
+                          setResearchTrack(song);
+                        }}
+                        className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
                       >
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
-                          <img
-                            alt={song.songName}
-                            className="w-full h-full object-cover"
-                            src={song.thumbnail}
-                          />
-                          <div
-                            onClick={() => {
-                              setIsOpen(true);
-                              setModalContent("research");
-                              setResearchTrack(song);
-                            }}
-                            className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
-                          >
-                            <RotateCcw className="lucide-icon" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate">
-                            {song.songName}
-                          </p>
-                          <p className="text-sm text-dark-foreground truncate">
-                            {song.artist}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Clock className="lucide-icon" />
-                          <span className="text-sm text-dark-foreground">
-                            {song.duration}
-                          </span>
-                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
-                            {song.matched ? "Matched" : "Not Found"}
-                          </div>
-                        </div>
+                        <RotateCcw className="lucide-icon" />
                       </div>
-                    ),
-                )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">
+                        {song.match.track_name}
+                      </p>
+                      <p className="text-sm text-dark-foreground truncate">
+                        {song.match.artist}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock className="lucide-icon" />
+                      <span className="text-sm text-dark-foreground">
+                        {song.duration}
+                      </span>
+                      <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
+                        Matched
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             <div>

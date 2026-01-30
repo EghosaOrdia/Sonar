@@ -12,8 +12,8 @@ const ResearchTrack = ({ track }) => {
         <p className="text-sm text-[#A1A1AA]">
           <span>
             Searching for alternative versions of{" "}
-            <span className="text-white font-medium">"{track.songName}"</span>{" "}
-            by <span className="text-white font-medium">{track.artist}</span>
+            <span className="text-white font-medium">"{track.match.track_name}"</span>{" "}
+            by <span className="text-white font-medium">{track.match.artist}</span>
           </span>
         </p>
       </div>
@@ -36,13 +36,13 @@ const ResearchTrack = ({ track }) => {
                     <img
                       alt="blinding lights"
                       className="w-full h-full object-cover"
-                      src={track.thumbnail}
+                      src={track.match.thumbnail}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{track.songName}</p>
+                    <p className="font-medium truncate">{track.match.track_name}</p>
                     <p className="text-sm text-dark-foreground truncate">
-                      {track.artist}
+                      {track.match.artist}
                     </p>
                   </div>
                 </div>
