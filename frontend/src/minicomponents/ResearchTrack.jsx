@@ -13,16 +13,35 @@ const sendToServer = async (data) => {
 };
 
 const ResearchTrack = ({ track }) => {
-  console.log(track);
-
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
     const fetchResults = async () => {
-      const data = {}
-      const response = await sendToServer(track);
+      const data = {
+        fileName: track.match.name,
+        size: parseFloat(track.match.size),
+        duration: parseInt(track.match.duration),
+        artist: track.match.artist,
+        title: track.match.title,
+      };
+
+      const response = await sendToServer(data);
+      console.log("Spotify search response:", response);
+
       if (response?.results) {
         setResults(response.results);
+      } else {
+        setResults([
+          {
+            match: {
+              id: "na",
+              track_name: "Not Available",
+              artist: "Not Available",
+              duration: 25000,
+              thumbnail: "/placeholder.png",
+            },
+          },
+        ]);
       }
     };
 
@@ -69,7 +88,7 @@ const ResearchTrack = ({ track }) => {
                   >
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                       <img
-                        alt={song.songName}
+                        alt={song.match.track_name}
                         className="w-full h-full object-cover"
                         src={song.match.thumbnail}
                       />
