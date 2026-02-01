@@ -36,8 +36,9 @@ const ResearchTrack = ({ track }) => {
         const response = await sendToServer(data);
         console.log("Spotify search response:", response);
 
-        if (response?.results) {
-          setTrackResults(response.results);
+        if (response) {
+          setTrackResults(response.match);
+          console.log(trackResults);
         } else {
           setTrackResults([
             {
@@ -51,6 +52,7 @@ const ResearchTrack = ({ track }) => {
             },
           ]);
         }
+        console.log(trackResults);
       } catch (err) {
         console.error("Error fetching results:", err);
       } finally {
