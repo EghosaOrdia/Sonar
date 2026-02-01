@@ -21,14 +21,6 @@ const ResultsState = () => {
   const [researchTrack, setResearchTrack] = useState(null);
   const results = useTrackStore((state) => state.results);
   const setStep = useStep((state) => state.setStep);
-  console.log(results);
-  for (const song of results) {
-    if (song?.match) {
-      console.log(song.match.id);
-    } else {
-      console.log("Song with no match", song);
-    }
-  }
 
   const validResults = results.filter((song) => song?.match);
 
