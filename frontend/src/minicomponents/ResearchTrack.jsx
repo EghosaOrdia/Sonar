@@ -24,16 +24,7 @@ const ResearchTrack = ({ track }) => {
       };
       console.log(data);
 
-      // const response = await sendToServer(data);
-      const response = {
-        match: {
-          id: "na",
-          track_name: "Not Available",
-          artist: "Not Available",
-          duration: 25000,
-          thumbnail: "/placeholder.png",
-        },
-      };
+      const response = await sendToServer(data);
       console.log("Spotify search response:", response);
 
       if (response?.results) {
