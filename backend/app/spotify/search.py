@@ -1,4 +1,5 @@
 import requests
+import uuid
 from app.spotify.token import TokenStore
 
 SEARCH_URL = "https://api.spotify.com/v1/search"
@@ -34,9 +35,11 @@ def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int 
 
 
 def _format_track(item):
+    unique_id = uuid.uuid4()
     images = item["album"].get("images", [])
 
     return {
+        "id": unique_id,
         "track_name": item["name"],
         "artist": item["artists"][0]["name"],
         "uri": item["uri"],
