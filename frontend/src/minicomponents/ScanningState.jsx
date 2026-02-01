@@ -19,21 +19,28 @@ const sendToServer = async (data) => {
   return res.json();
 };
 
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
 const ScanningState = () => {
   const setStep = useStep((state) => state.setStep);
   const tracks = useTrackStore((state) => state.tracks);
   const setResults = useTrackStore((state) => state.setResults);
-  const [stepIndex, setStepIndex] = useState(0);
+
+  const [progress, setProgress] = useState(steps[0]);
 
   const runProcess = async () => {
     try {
-      setStepIndex(0);
+      // Step 1 → 3 (timed)
+      for (let i = 0; i < 3; i++) {
+        setProgress(steps[i]);
+        await sleep(2500);
+      }
 
-      setStepIndex(1);
-
-      setStepIndex(2);
+      // Actual server work
       const response = await sendToServer(tracks);
-      setStepIndex(3);
+
+      // Final UI state
+      setProgress(steps[3]);
 
       if (response?.results) {
         setResults(response.results);
@@ -52,8 +59,6 @@ const ScanningState = () => {
     return () => clearTimeout(id);
   });
 
-  const [progress, setProgress] = useState(steps[0]);
-
   return (
     <div className="state text-center py-12 opacity-100 transform-none">
       <div className="relative w-40 h-40 mx-auto mb-8">
@@ -63,28 +68,27 @@ const ScanningState = () => {
         <div className="absolute inset-0 radar-sweep">
           <div className="scan-imp absolute top-1/2 left-1/2 w-1/2 h-1 origin-left"></div>
         </div>
-        <div className="absolute inset-0 flex items-center justify-center"></div>
         <div className="absolute inset-0 rounded-full border border-primary-green/50 pulse-ring"></div>
       </div>
+
       <div className="flex items-center justify-center gap-1 h-8">
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
-        <div className="w-1 bg-current rounded-full wave-bar"></div>
+        {Array.from({ length: 7 }).map((_, i) => (
+          <div key={i} className="w-1 bg-current rounded-full wave-bar"></div>
+        ))}
       </div>
+
       <p className="text-xl font-medium mt-6 mb-2">{progress.label}...</p>
+
       <p className="text-dark-foreground mb-8">
         Please wait while we process your files
       </p>
+
       <div className="max-w-md mx-auto">
         <div className="relative w-full overflow-hidden rounded-full h-2 bg-white/10">
           <div
             style={{ width: `${progress.progress}%` }}
-            className="progress-fill h-full flex-1 bg-primary transition-all -translate-x-1/10"
-          ></div>
+            className="progress-fill h-full bg-primary transition-all duration-500"
+          />
         </div>
         <p className="text-sm text-dark-foreground mt-2">
           {progress.progress}%

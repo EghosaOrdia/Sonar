@@ -46,7 +46,7 @@ const ResearchTrack = ({ track }) => {
     };
 
     fetchResults();
-  }, [track]);
+  });
 
   return (
     <>
