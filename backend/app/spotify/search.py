@@ -7,10 +7,8 @@ tokenStore = TokenStore()
 
 
 def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int = 5):
-    if song_title == "":
-        song_title = filename
-    if artist_name == "":
-        artist_name = filename
+    song_title = song_title or filename
+    artist_name = artist_name or filename
 
     query = f"track:{song_title} artist:{artist_name}"
     params = {"q": query, "type": "track", "limit": limit}
