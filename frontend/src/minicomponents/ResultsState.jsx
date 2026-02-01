@@ -7,7 +7,6 @@ import {
   RefreshCcw,
   RotateCcw,
 } from "lucide-react";
-import { songs } from "../constants/data";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import ResearchTrack from "./ResearchTrack";
@@ -23,6 +22,15 @@ const ResultsState = () => {
   const results = useTrackStore((state) => state.results);
   const setStep = useStep((state) => state.setStep);
   console.log(results);
+  for (const song of results) {
+    if (song?.match) {
+      console.log(song.match.id);
+    } else {
+      console.log("Song with no match", song);
+    }
+  }
+
+  const validResults = results.filter((song) => song?.match);
 
   return (
     <div className="state opacity-100 transform-none">
@@ -35,8 +43,14 @@ const ResultsState = () => {
         <div>
           <h3 className="text-2xl font-bold">{results.length} songs found</h3>
           <p className="text-dark-foreground">
-            <span className="text-primary-green">{results.length} matched</span>
-            <span> · 2 not found</span>
+            <span className="text-primary-green">
+              {validResults.length} matched
+            </span>
+
+            <span>
+              {" "}
+              · {results.filter((song) => !song?.match).length} not found
+            </span>
           </p>
         </div>
         <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 w-9 text-dark-foreground hover:text-white"></button>
@@ -55,7 +69,7 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                {results.map((song) => (
+                {validResults.map((song) => (
                   <div
                     key={song.match.id}
                     className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
@@ -105,35 +119,35 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                {songs.map(
-                  (song) =>
-                    !song.matched && (
-                      <div
-                        key={song.id}
-                        className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
-                      >
-                        <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
+                {results
+                  .filter((song) => !song?.match)
+                  .map(
+                    (song) =>
+                      !song.matched && (
+                        <div
+                          key={0}
+                          className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
+                        >
+                          <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
 
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate">
-                            {song.songName}
-                          </p>
-                          <p className="text-sm text-dark-foreground truncate">
-                            Unknown Artist
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Clock className="lucide-icon" />
-                          <span className="text-sm text-dark-foreground">
-                            {song.duration}
-                          </span>
-                          <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
-                            {song.matched ? "Matched" : "Not Found"}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">Unknown</p>
+                            <p className="text-sm text-dark-foreground truncate">
+                              Unknown
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Clock className="lucide-icon" />
+                            <span className="text-sm text-dark-foreground">
+                              {song.duration || "N/A"}
+                            </span>
+                            <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
+                              Not Found
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ),
-                )}
+                      ),
+                  )}
               </div>
             </div>
           </div>

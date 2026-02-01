@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RotateCcw, Clock } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 
@@ -13,34 +13,48 @@ const sendToServer = async (data) => {
 };
 
 const ResearchTrack = ({ track }) => {
-  const [results, setResults] = useState([]);
+  const [trackResults, setTrackResults] = useState([]);
+  const isFetchingRef = useRef(false);
+  const currentTrackRef = useRef(null);
 
   useEffect(() => {
+    if (!track || isFetchingRef.current || currentTrackRef.current == track)
+      return;
+
     const fetchResults = async () => {
+      isFetchingRef.current = true;
+      currentTrackRef.current = track;
+
       const data = {
         fileName: track.match.track_name,
         artist: track.match.artist,
         title: track.match.track_name,
       };
-      console.log(data);
+      console.log("Scanning Data: ", data);
 
-      const response = await sendToServer(data);
-      console.log("Spotify search response:", response);
+      try {
+        const response = await sendToServer(data);
+        console.log("Spotify search response:", response);
 
-      if (response?.results) {
-        setResults(response.results);
-      } else {
-        setResults([
-          {
-            match: {
-              id: "na",
-              track_name: "Not Available",
-              artist: "Not Available",
-              duration: 25000,
-              thumbnail: "/placeholder.png",
+        if (response?.results) {
+          setTrackResults(response.results);
+        } else {
+          setTrackResults([
+            {
+              match: {
+                id: "na",
+                track_name: "Not Available",
+                artist: "Not Available",
+                duration: 25000,
+                thumbnail: "/placeholder.png",
+              },
             },
-          },
-        ]);
+          ]);
+        }
+      } catch (err) {
+        console.error("Error fetching results:", err);
+      } finally {
+        isFetchingRef.current = false;
       }
     };
 
@@ -69,7 +83,9 @@ const ResearchTrack = ({ track }) => {
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
           <p className="text-sm text-[#A1A1AA]">
             Showing <span className="text-white font-medium">0</span> of{" "}
-            <span className="text-white font-medium">{results?.length}</span>{" "}
+            <span className="text-white font-medium">
+              {trackResults?.length}
+            </span>{" "}
             results
           </p>
           <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
@@ -80,7 +96,7 @@ const ResearchTrack = ({ track }) => {
           <div className="h-full w-full rounded-[inherit]">
             <div className="min-h-full">
               <div className="space-y-1 custom-scroll">
-                {results.map((song) => (
+                {trackResults.map((song) => (
                   <div
                     key={song.id}
                     className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
