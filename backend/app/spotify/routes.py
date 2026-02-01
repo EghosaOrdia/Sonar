@@ -38,7 +38,7 @@ def me():
 
 @router.post("/search")
 def search_song(song: Song):
-    match = search_single_track(song.title, song.artist)
+    match = search_single_track(song.title, song.artist, song.fileName)
     return {"match": match}
 
 
@@ -59,7 +59,7 @@ def batch_search(songs: List[Song]):
     results = []
 
     for song in songs:
-        match = search_track(song.title, song.artist)
+        match = search_track(song.title, song.artist, song.fileName)
         results.append({"match": match})
 
     return {

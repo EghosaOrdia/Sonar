@@ -55,12 +55,8 @@ async function ScanAudioFiles(directoryHandle) {
     const metadata = await mm.parseBlob(file);
     results.push({
       fileName: sanitizeFileName(entry.name),
-      size: file.size,
-      duration: metadata.format.duration,
       artist: sanitizeFileName(metadata.common.artist),
       title: sanitizeFileName(metadata.common.title),
-      album: metadata.common.album,
-      year: metadata.common.year,
     });
   }
 
