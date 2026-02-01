@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Clock } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 
 const sendToServer = async (data) => {
@@ -18,14 +18,22 @@ const ResearchTrack = ({ track }) => {
   useEffect(() => {
     const fetchResults = async () => {
       const data = {
-        fileName: track.match.name,
-        size: parseFloat(track.match.size),
-        duration: parseInt(track.match.duration),
+        fileName: track.match.track_name,
         artist: track.match.artist,
-        title: track.match.title,
+        title: track.match.track_name,
       };
+      console.log(data);
 
-      const response = await sendToServer(data);
+      // const response = await sendToServer(data);
+      const response = {
+        match: {
+          id: "na",
+          track_name: "Not Available",
+          artist: "Not Available",
+          duration: 25000,
+          thumbnail: "/placeholder.png",
+        },
+      };
       console.log("Spotify search response:", response);
 
       if (response?.results) {
@@ -46,7 +54,7 @@ const ResearchTrack = ({ track }) => {
     };
 
     fetchResults();
-  });
+  }, [track]);
 
   return (
     <>

@@ -22,6 +22,7 @@ const ResultsState = () => {
   const [researchTrack, setResearchTrack] = useState(null);
   const results = useTrackStore((state) => state.results);
   const setStep = useStep((state) => state.setStep);
+  console.log(results);
 
   const loginWithSpotify = () => {
     window.location.href = "http://localhost:5000/spotify/login";
@@ -171,12 +172,12 @@ const ResultsState = () => {
               <div className="space-y-1">
                 {results.map((song) => (
                   <div
-                    key={song.id}
+                    key={song.match.id}
                     className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
                   >
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                       <img
-                        alt={song.songName}
+                        alt={song.match.track_name}
                         className="w-full h-full object-cover"
                         src={song.match.thumbnail}
                       />

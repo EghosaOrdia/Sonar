@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // Removed useCallback and useRef (not needed here)
 import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
 
@@ -28,36 +28,29 @@ const ScanningState = () => {
 
   const [progress, setProgress] = useState(steps[0]);
 
-  const runProcess = async () => {
-    try {
-      // Step 1 → 3 (timed)
-      for (let i = 0; i < 3; i++) {
-        setProgress(steps[i]);
-        await sleep(2500);
-      }
-
-      // Actual server work
-      const response = await sendToServer(tracks);
-
-      // Final UI state
-      setProgress(steps[3]);
-
-      if (response?.results) {
-        setResults(response.results);
-        setStep(3);
-      }
-    } catch (err) {
-      console.error("Scanning failed:", err);
-    }
-  };
-
   useEffect(() => {
-    const id = setTimeout(() => {
-      runProcess();
-    }, 0);
+    const runProcess = async () => {
+      try {
+        for (let i = 0; i < 4; i++) {
+          setProgress(steps[i]);
+          await sleep(2500);
+        }
 
-    return () => clearTimeout(id);
-  });
+        const response = await sendToServer(tracks);
+
+        setProgress(steps[3]);
+
+        if (response?.results) {
+          setResults(response.results);
+          setStep(3);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    runProcess();
+  }, [tracks, setResults, setStep]);
 
   return (
     <div className="state text-center py-12 opacity-100 transform-none">

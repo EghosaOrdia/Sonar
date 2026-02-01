@@ -14,22 +14,47 @@ def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int 
     params = {"q": query, "type": "track", "limit": limit}
 
     def make_request():
-        return requests.get(
-            SEARCH_URL,
-            params=params,
-            headers={"Authorization": f"Bearer {tokenStore.access_token}"},
-        )
+        try:
+            return requests.get(
+                SEARCH_URL,
+                params=params,
+                headers={"Authorization": f"Bearer {tokenStore.access_token}"},
+                timeout=10,  # Add a timeout to prevent hanging
+            )
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+            return None  # Return None on error instead of crashing
 
     response = make_request()
+    if response is None:
+        return None  # Early exit if request failed
 
     if response.status_code == 401:
-        tokenStore.refresh_access_token()
-        response = make_request()
+        print("Token expired, refreshing...")
+        try:
+            refresh_success = (
+                tokenStore.refresh_access_token()
+            )  # Assume this returns True/False or raises on failure
+            if not refresh_success:
+                print("Token refresh failed")
+                return None
+            response = make_request()  # Retry with new token
+            if response is None:
+                return None
+        except Exception as e:
+            print(f"Error during token refresh: {e}")
+            return None
 
     if not response.ok:
+        print(f"Request failed with status {response.status_code}: {response.text}")
         return None
 
-    return response.json().get("tracks", {}).get("items", [])
+    try:
+        data = response.json()
+        return data.get("tracks", {}).get("items", [])
+    except ValueError as e:  # JSON decode error
+        print(f"Failed to parse JSON: {e}")
+        return None
 
 
 def _format_track(item):
