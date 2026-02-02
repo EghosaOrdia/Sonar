@@ -151,9 +151,14 @@ const ResearchTrack = ({ track }) => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-dark-foreground">
-                    Loading results or no data available...
-                  </p>
+                  <div className="flex items-center justify-center gap-1 h-8">
+                    {Array.from({ length: 7 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 bg-current rounded-full wave-bar"
+                      ></div>
+                    ))}
+                  </div>
                 )}
               </div>
               <div className="mt-6 pt-4 border-t border-white/10">
