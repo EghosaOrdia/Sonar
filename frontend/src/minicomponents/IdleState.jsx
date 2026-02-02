@@ -1,4 +1,3 @@
-// JUMP TO LINE 31 TO VIEW COMPONENT
 import React from "react";
 import { FolderOpen, FolderClosed } from "lucide-react";
 import useTrackStore from "../store/useTrackStore";

@@ -37,7 +37,6 @@ const ResearchTrack = ({ track }) => {
         // console.log("Full Spotify search response:", response);
 
         if (response && response.match) {
-          // Ensure trackResults is always an array
           const results = Array.isArray(response.match)
             ? response.match
             : [response.match];
@@ -76,7 +75,7 @@ const ResearchTrack = ({ track }) => {
     };
 
     fetchResults();
-  }, [track]); // Removed trackResults from deps to prevent infinite loops
+  }, [track]);
 
   return (
     <>
@@ -119,7 +118,7 @@ const ResearchTrack = ({ track }) => {
           <div className="h-full w-full rounded-[inherit]">
             <div className="min-h-full">
               <div className="space-y-1 custom-scroll">
-                {Array.isArray(trackResults) && trackResults.length > 0 ? ( // Added guard
+                {Array.isArray(trackResults) && trackResults.length > 0 ? (
                   trackResults.map((song) => (
                     <div
                       key={song?.match?.id || song?.id || Math.random()}

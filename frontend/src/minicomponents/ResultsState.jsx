@@ -1,4 +1,3 @@
-// import useStep from "../store/useStep";
 import {
   ArrowRight,
   CheckCircle2Icon,
