@@ -35,7 +35,7 @@ const steps = [
 ];
 const HowItWorks = () => {
   return (
-    <section className="mt-20 py-14">
+    <section className="mt-20 p-14">
       <div className="text-center text-white max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
           How It <span className="text-primary-green">Works</span>
