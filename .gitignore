@@ -27,3 +27,4 @@ dist-ssr
 
 
 *env
+backend/app/spotify/__pycache__/search.cpython-314.pyc
