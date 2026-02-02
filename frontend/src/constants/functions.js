@@ -53,10 +53,12 @@ async function ScanAudioFiles(directoryHandle) {
 
     const file = await entry.getFile();
     const metadata = await mm.parseBlob(file);
+    let artist = metadata.common.artist || entry.name;
+    let title = metadata.common.title || entry.name;
     results.push({
       fileName: sanitizeFileName(entry.name),
-      artist: sanitizeFileName(metadata.common.artist),
-      title: sanitizeFileName(metadata.common.title),
+      artist: sanitizeFileName(artist),
+      title: sanitizeFileName(title),
     });
   }
 
