@@ -77,7 +77,8 @@ const ResultsState = () => {
                 {validResults.map((song) => (
                   <div
                     key={song.match.id}
-                    className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
+                    style={{ "--i": song.match.id }}
+                    className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer  hover:bg-white/5"
                   >
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
                       <img
