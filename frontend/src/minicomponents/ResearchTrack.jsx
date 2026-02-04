@@ -132,7 +132,9 @@ const ResearchTrack = ({ track, closeModal }) => {
 
                         setTracks(updatedResults);
                         toast.success("Track list updated successfully");
-                        closeModal(false);
+                        setTimeout(() => {
+                          closeModal(false);
+                        }, 800);
                       }}
                       key={song?.match?.id || song?.id || Math.random()}
                       className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
