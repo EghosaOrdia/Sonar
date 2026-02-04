@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
 import { toast } from "sonner";
-import { Info } from "lucide-react";
+import { Info, Scan } from "lucide-react";
 
 const steps = [
   { label: "Uploading and checking your file", progress: 25 },
@@ -46,10 +46,10 @@ const ScanningState = () => {
           await sleep(2500);
         }
 
-        const response = await sendToServer(tracks);
-        // const response = {
-        //   match: {},
-        // };
+        // const response = await sendToServer(tracks);
+        const response = {
+          match: {},
+        };
 
         setProgress(steps[3]);
 
@@ -74,6 +74,9 @@ const ScanningState = () => {
         <div className="absolute inset-8 rounded-full border border-primary-green/40"></div>
         <div className="absolute inset-0 radar-sweep">
           <div className="scan-imp absolute top-1/2 left-1/2 w-1/2 h-1 origin-left"></div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <Scan className="lucide-icon text-primary-green" />
         </div>
         <div className="absolute inset-0 rounded-full border border-primary-green/50 pulse-ring"></div>
       </div>

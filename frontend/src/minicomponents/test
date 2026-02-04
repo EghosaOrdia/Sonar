@@ -1,0 +1,269 @@
+<div
+  class="text-center py-12"
+  data-testid="scanning-state"
+  style="opacity: 1; transform: none"
+>
+  <div
+    class="relative w-40 h-40 mx-auto mb-8"
+    x-file-name="App"
+    x-line-number="658"
+    x-component="div"
+    x-id="App_658"
+    x-dynamic="false"
+  >
+    <div
+      class="absolute inset-0 rounded-full border-2 border-[#1ED760]/20"
+      x-file-name="App"
+      x-line-number="659"
+      x-component="div"
+      x-id="App_659"
+      x-dynamic="false"
+    ></div>
+    <div
+      class="absolute inset-4 rounded-full border border-[#1ED760]/30"
+      x-file-name="App"
+      x-line-number="660"
+      x-component="div"
+      x-id="App_660"
+      x-dynamic="false"
+    ></div>
+    <div
+      class="absolute inset-8 rounded-full border border-[#1ED760]/40"
+      x-file-name="App"
+      x-line-number="661"
+      x-component="div"
+      x-id="App_661"
+      x-dynamic="false"
+    ></div>
+    <div
+      class="absolute inset-0 radar-sweep"
+      x-file-name="App"
+      x-line-number="664"
+      x-component="div"
+      x-id="App_664"
+      x-dynamic="false"
+    >
+      <div
+        class="absolute top-1/2 left-1/2 w-1/2 h-1 origin-left"
+        x-file-name="App"
+        x-line-number="665"
+        x-component="div"
+        x-id="App_665"
+        x-dynamic="false"
+        style="
+          background: linear-gradient(
+            90deg,
+            rgba(30, 215, 96, 0.8),
+            transparent
+          );
+        "
+      ></div>
+    </div>
+    <div
+      class="absolute inset-0 flex items-center justify-center"
+      x-file-name="App"
+      x-line-number="674"
+      x-component="div"
+      x-id="App_674"
+      x-dynamic="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-scan text-[#1ED760]"
+        aria-hidden="true"
+        x-file-name="App"
+        x-line-number="675"
+        x-component="Scan"
+        x-id="App_675"
+        x-dynamic="false"
+      >
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+      </svg>
+    </div>
+    <div
+      class="absolute inset-0 rounded-full border border-[#1ED760]/50 pulse-ring"
+      x-file-name="App"
+      x-line-number="679"
+      x-component="div"
+      x-id="App_679"
+      x-dynamic="false"
+    ></div>
+  </div>
+  <div
+    class="flex items-center justify-center gap-1 h-8"
+    x-file-name="App"
+    x-line-number="241"
+    x-component="div"
+    x-id="App_241"
+    x-dynamic="true"
+  >
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 41.5237%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 14.1868%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 59.5537%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 67.4271%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 38.9901%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 94.1859%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+    <div
+      class="w-1 bg-current rounded-full wave-bar"
+      x-file-name="App"
+      x-line-number="243"
+      x-component="div"
+      x-id="App_243"
+      x-dynamic="true"
+      style="
+        height: 85.0845%;
+        min-height: 8px;
+        max-height: 100%;
+        color: rgb(30, 215, 96);
+      "
+    ></div>
+  </div>
+  <p
+    class="text-xl font-medium mt-6 mb-2"
+    x-file-name="App"
+    x-line-number="684"
+    x-component="p"
+    x-id="App_684"
+    x-dynamic="true"
+  >
+    Finalizing results...
+  </p>
+  <p
+    class="text-[#A1A1AA] mb-8"
+    x-file-name="App"
+    x-line-number="685"
+    x-component="p"
+    x-id="App_685"
+    x-dynamic="false"
+  >
+    Please wait while we process your files
+  </p>
+  <div
+    class="max-w-md mx-auto"
+    x-file-name="App"
+    x-line-number="687"
+    x-component="div"
+    x-id="App_687"
+    x-dynamic="false"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      role="progressbar"
+      data-state="indeterminate"
+      data-max="100"
+      class="relative w-full overflow-hidden rounded-full h-2 bg-white/10"
+      x-file-name="App"
+      x-line-number="688"
+      x-component="Progress"
+      x-id="App_688"
+      x-dynamic="true"
+    >
+      <div
+        data-state="indeterminate"
+        data-max="100"
+        class="h-full w-full flex-1 bg-primary transition-all"
+        style="transform: translateX(-5%)"
+      ></div>
+    </div>
+    <p
+      class="text-sm text-[#A1A1AA] mt-2"
+      x-file-name="App"
+      x-line-number="689"
+      x-component="p"
+      x-id="App_689"
+      x-dynamic="true"
+    >
+      95%
+    </p>
+  </div>
+</div>
