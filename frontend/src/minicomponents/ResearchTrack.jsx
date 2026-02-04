@@ -104,10 +104,6 @@ const ResearchTrack = ({ track }) => {
             <span className="text-white font-medium">
               {trackResults.length > 0 ? trackResults.length : 0}
             </span>{" "}
-            of{" "}
-            <span className="text-white font-medium">
-              {trackResults.length}
-            </span>{" "}
             results
           </p>
           <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
