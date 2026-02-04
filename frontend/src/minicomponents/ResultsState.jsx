@@ -26,7 +26,9 @@ const ResultsState = () => {
   return (
     <div className="state opacity-100 transform-none">
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        {modalContent == "research" && <ResearchTrack track={researchTrack} />}
+        {modalContent == "research" && (
+          <ResearchTrack track={researchTrack} closeModal={setIsOpen} />
+        )}
         {modalContent == "spotify-connect" && <SpotifyConnect />}
       </Modal>
 

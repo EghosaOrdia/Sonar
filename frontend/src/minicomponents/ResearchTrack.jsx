@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { RotateCcw, Clock } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
+import useTrackStore from "../store/useTrackStore";
 
 const sendToServer = async (data) => {
   const res = await fetch("http://localhost:5000/spotify/search", {
@@ -12,10 +13,12 @@ const sendToServer = async (data) => {
   return res.json();
 };
 
-const ResearchTrack = ({ track }) => {
+const ResearchTrack = ({ track, closeModal }) => {
   const [trackResults, setTrackResults] = useState([]);
   const isFetchingRef = useRef(false);
   const currentTrackRef = useRef(null);
+  const storeTrackResults = useTrackStore((state) => state.results);
+  const setTracks = useTrackStore((state) => state.setResults);
 
   useEffect(() => {
     if (!track || isFetchingRef.current || currentTrackRef.current === track)
@@ -117,6 +120,18 @@ const ResearchTrack = ({ track }) => {
                 {Array.isArray(trackResults) && trackResults.length > 0 ? (
                   trackResults.map((song) => (
                     <div
+                      onClick={() => {
+                        const newMatch = song.match ?? song;
+
+                        const updatedResults = storeTrackResults.map((item) =>
+                          item.match?.id === track.match?.id
+                            ? { ...item, match: newMatch }
+                            : item,
+                        );
+
+                        setTracks(updatedResults);
+                        closeModal(false);
+                      }}
                       key={song?.match?.id || song?.id || Math.random()}
                       className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none hover:bg-white/5"
                     >
