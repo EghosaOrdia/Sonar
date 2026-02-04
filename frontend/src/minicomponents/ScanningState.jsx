@@ -46,10 +46,10 @@ const ScanningState = () => {
           await sleep(2500);
         }
 
-        // const response = await sendToServer(tracks);
-        const response = {
-          match: {},
-        };
+        const response = await sendToServer(tracks);
+        // const response = {
+        //   match: {},
+        // };
 
         setProgress(steps[3]);
 
