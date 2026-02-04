@@ -1,4 +1,12 @@
-import { Clock, RotateCcw } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  RotateCcw,
+  Sparkle,
+  SparkleIcon,
+  SparklesIcon,
+  X,
+} from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
 import Modal from "../components/Modal";
@@ -60,6 +68,7 @@ const ResultsState = () => {
           <div>
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
+                <CheckCircle className="lucide-icon text-primary-green" />
                 <span className="text-sm font-medium text-dark-foreground">
                   Matched on Spotify
                 </span>
@@ -110,6 +119,7 @@ const ResultsState = () => {
             </div>
             <div>
               <div className="flex items-center gap-2 mb-3">
+                <X className="lucide-icon text-dark-foreground" />
                 <span className="text-sm font-medium text-dark-foreground">
                   Not found on Spotify
                 </span>
@@ -158,6 +168,7 @@ const ResultsState = () => {
         }}
         className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
+        <SparklesIcon className="lucide-icon text-black" />
         Create Spotify Playlist (8 songs)
       </button>
     </div>

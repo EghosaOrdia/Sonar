@@ -27,6 +27,7 @@ const PickFolderApp = () => {
           </p>
         </div>
         <div className="glass-card p-8 lg:p-12">
+          <ResultsState />
           {step === 1 && <IdleState />}
           {step === 2 && <ScanningState />}
           {step === 3 && <ResultsState />}

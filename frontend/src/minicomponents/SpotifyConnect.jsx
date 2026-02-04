@@ -1,5 +1,6 @@
 import React from "react";
 import { spotify } from "../constants/media";
+import { ArrowRight, CheckCircle2Icon, Lock, RefreshCcw } from "lucide-react";
 
 const loginWithSpotify = () => {
   window.location.href = "http://localhost:5000/spotify/login";
