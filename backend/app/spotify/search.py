@@ -91,6 +91,9 @@ def search_track(song_title: str, artist_name: str, filename: str):
 
 def search_single_track(song_title: str, artist_name: str, filename: str):
     tracks = _search_tracks(song_title, artist_name, filename)
+    curated_tracks = []
     if not tracks or len(tracks) == 0:
         return None
-    return _format_track(tracks)
+    for track in tracks:
+        curated_tracks.append(_format_track(track))
+    return curated_tracks
