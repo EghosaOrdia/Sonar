@@ -132,10 +132,10 @@ const ResearchTrack = ({ track }) => {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">
+                        <p className="font-medium">
                           {song?.track_name || "Unknown Track"}
                         </p>
-                        <p className="text-sm text-dark-foreground truncate">
+                        <p className="text-sm text-dark-foreground">
                           {song?.artist || "Unknown Artist"}
                         </p>
                       </div>
