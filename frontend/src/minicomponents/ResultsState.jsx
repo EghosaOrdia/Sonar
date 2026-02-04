@@ -1,12 +1,13 @@
 import { Clock, RotateCcw } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "../components/Modal";
 import ResearchTrack from "./ResearchTrack";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
 import { formatMilliseconds } from "../constants/functions";
 import SpotifyConnect from "./SpotifyConnect";
+import { toast } from "sonner";
 
 const ResultsState = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,8 +15,19 @@ const ResultsState = () => {
   const [researchTrack, setResearchTrack] = useState(null);
   const results = useTrackStore((state) => state.results);
   const setStep = useStep((state) => state.setStep);
+  const hasRunRef = useRef(false);
 
   const validResults = results.filter((song) => song?.match);
+  const notFoundResults = results.filter((song) => !song?.match);
+
+  useEffect(() => {
+    if (hasRunRef.current) return;
+    hasRunRef.current = true;
+
+    toast.success("Scan complete!", {
+      description: `Found ${results.length} songs, (${validResults.length} matched, (${notFoundResults.length} not found)`,
+    });
+  }, []);
 
   return (
     <div className="state opacity-100 transform-none">
@@ -34,10 +46,7 @@ const ResultsState = () => {
               {validResults.length} matched
             </span>
 
-            <span>
-              {" "}
-              · {results.filter((song) => !song?.match).length} not found
-            </span>
+            <span> · {notFoundResults.length} not found</span>
           </p>
         </div>
         <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 w-9 text-dark-foreground hover:text-white"></button>

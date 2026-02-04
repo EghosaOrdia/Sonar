@@ -3,6 +3,7 @@ import { FolderOpen, FolderClosed } from "lucide-react";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
 import { ScanAudioFiles } from "../constants/functions";
+import { toast } from "sonner";
 
 const handleScan = async () => {
   try {
@@ -28,7 +29,14 @@ const IdleState = () => {
 
   return (
     <div className="state text-center py-12">
-      <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 text-primary-green border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
+      <button
+        onClick={() =>
+          toast.success("clicked", {
+            description: "You have clicked me, hahaha",
+          })
+        }
+        className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 text-primary-green border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer"
+      >
         <FolderOpen className="lucide-icon group-hover:scale-125 transition-all duration-300" />
       </button>
 

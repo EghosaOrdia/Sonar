@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
+import { toast } from "sonner";
+import { Info } from "lucide-react";
 
 const steps = [
   { label: "Uploading and checking your file", progress: 25 },
@@ -25,10 +27,18 @@ const ScanningState = () => {
   const setStep = useStep((state) => state.setStep);
   const tracks = useTrackStore((state) => state.tracks);
   const setResults = useTrackStore((state) => state.setResults);
+  const hasRunRef = useRef(false);
 
   const [progress, setProgress] = useState(steps[0]);
 
   useEffect(() => {
+    if (hasRunRef.current) return;
+    hasRunRef.current = true;
+
+    toast("Scanning Started", {
+      description: "Reading your music files...",
+      icon: <Info />,
+    });
     const runProcess = async () => {
       try {
         for (let i = 0; i < 4; i++) {
@@ -37,11 +47,15 @@ const ScanningState = () => {
         }
 
         const response = await sendToServer(tracks);
+        // const response = {
+        //   match: {},
+        // };
 
         setProgress(steps[3]);
 
         if (response?.results) {
           setResults(response.results);
+          toast.success("Songs fetched success");
           setStep(3);
         }
       } catch (err) {

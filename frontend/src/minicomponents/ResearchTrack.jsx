@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { RotateCcw, Clock } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 import useTrackStore from "../store/useTrackStore";
@@ -130,6 +131,7 @@ const ResearchTrack = ({ track, closeModal }) => {
                         );
 
                         setTracks(updatedResults);
+                        toast.success("Track list updated successfully");
                         closeModal(false);
                       }}
                       key={song?.match?.id || song?.id || Math.random()}
