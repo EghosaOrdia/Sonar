@@ -1,17 +1,16 @@
 import useStep from "../store/useStep";
 import { ScanningState, ResultsState, IdleState } from "../minicomponents";
 import SuccessState from "../minicomponents/SuccessState";
-import { useEffect, useState } from "react";
 
 const PickFolderApp = () => {
   const step = useStep((state) => state.step);
-  const [authenticated, setIsAuthenticated] = useState(false);
+  // const [authenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/spotify/me")
-      .then((res) => res.json())
-      .then((data) => setIsAuthenticated(data.authenticated));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/spotify/me")
+  //     .then((res) => res.json())
+  //     .then((data) => setIsAuthenticated(data.authenticated));
+  // }, []);
 
   return (
     <section id="pickfolder" className="py-24 lg:py-32 px-6 relative">
@@ -27,7 +26,6 @@ const PickFolderApp = () => {
           </p>
         </div>
         <div className="glass-card p-8 lg:p-12">
-          <ResultsState />
           {step === 1 && <IdleState />}
           {step === 2 && <ScanningState />}
           {step === 3 && <ResultsState />}
