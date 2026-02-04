@@ -1,11 +1,5 @@
-import {
-  ArrowRight,
-  CheckCircle2Icon,
-  Clock,
-  Lock,
-  RefreshCcw,
-  RotateCcw,
-} from "lucide-react";
+import { Clock, RotateCcw } from "lucide-react";
+
 import { useState } from "react";
 import Modal from "../components/Modal";
 import ResearchTrack from "./ResearchTrack";
