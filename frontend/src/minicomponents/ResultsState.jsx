@@ -22,6 +22,8 @@ const ResultsState = () => {
   const [modalContent, setModalContent] = useState("");
   const [researchTrack, setResearchTrack] = useState(null);
   const results = useTrackStore((state) => state.results);
+
+  const resetTrackStore = useTrackStore((state) => state.reset);
   const setStep = useStep((state) => state.setStep);
   const hasRunRef = useRef(false);
 
@@ -57,7 +59,15 @@ const ResultsState = () => {
             <span> · {notFoundResults.length} not found</span>
           </p>
         </div>
-        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 w-9 text-dark-foreground hover:text-white"></button>
+        <button
+          onClick={() => {
+            resetTrackStore();
+            setStep(1);
+          }}
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+        >
+          <X />
+        </button>
       </div>
       <div className="shrink-0 h-px w-full bg-white/10 mb-6"></div>
       <div
