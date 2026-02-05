@@ -40,7 +40,7 @@ const ResultsState = () => {
   }, []);
 
   return (
-    <div className="state opacity-100 transform-none">
+    <div className="state animate__animated animate__zoomIn opacity-100 transform-none">
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         {modalContent == "research" && (
           <ResearchTrack track={researchTrack} closeModal={setIsOpen} />

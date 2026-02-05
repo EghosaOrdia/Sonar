@@ -8,7 +8,7 @@ const SuccessState = () => {
   const resetStore = useTrackStore((state) => state.reset);
 
   return (
-    <div className="state text-center py-12 opacity-100 transform-none">
+    <div className="state animate__animated animate__zoomIn text-center py-12 opacity-100 transform-none">
       <div className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-full  bg-primary-green/20 text-primary-green flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer transform-none">
         <CircleCheck className="size-12 group-hover:scale-125 transition-all duration-300" />
       </div>

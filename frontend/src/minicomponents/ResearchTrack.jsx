@@ -82,7 +82,7 @@ const ResearchTrack = ({ track, closeModal }) => {
   }, [track]);
 
   return (
-    <>
+    <div className="animate__animated animate__zoomIn">
       <div className="flex flex-col space-y-1.5 text-center sm:text-left">
         <h2 className="tracking-tight text-xl font-bold flex items-center gap-2">
           <RotateCcw className="lucide-icon text-primary-green" />
@@ -185,7 +185,7 @@ const ResearchTrack = ({ track, closeModal }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

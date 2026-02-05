@@ -26,7 +26,7 @@ const IdleState = () => {
   };
 
   return (
-    <div className="state text-center py-12">
+    <div className="state animate__animated animate__zoomIn text-center py-12">
       <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
         <FolderOpen className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
       </button>
