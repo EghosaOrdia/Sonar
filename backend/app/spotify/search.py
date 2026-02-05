@@ -6,7 +6,7 @@ SEARCH_URL = "https://api.spotify.com/v1/search"
 tokenStore = TokenStore()
 
 
-def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int = 5):
+def _search_tracks(song_title: str, artist_name: str, limit: int = 5):
     query = f"track:{song_title} artist:{artist_name}"
     if song_title == artist_name:
         query = f"track:{song_title}"
@@ -68,8 +68,8 @@ def _format_track(item):
     }
 
 
-def search_track(song_title: str, artist_name: str, filename: str):
-    tracks = _search_tracks(song_title, artist_name, filename)
+def search_track(song_title: str, artist_name: str):
+    tracks = _search_tracks(song_title, artist_name)
     if not tracks:
         return None
 
@@ -86,8 +86,8 @@ def search_track(song_title: str, artist_name: str, filename: str):
     return _format_track(tracks[0])
 
 
-def search_single_track(song_title: str, artist_name: str, filename: str):
-    tracks = _search_tracks(song_title, artist_name, filename, limit=10)
+def search_single_track(song_title: str, artist_name: str):
+    tracks = _search_tracks(song_title, artist_name, limit=10)
     curated_tracks = []
     if not tracks or len(tracks) == 0:
         return None
