@@ -58,7 +58,6 @@ async function ScanAudioFiles(directoryHandle) {
     let title = metadata.common.title || sanitizedFileName;
 
     results.push({
-      fileName: sanitizedFileName,
       artist: sanitizeFileName(artist),
       title: sanitizeFileName(title),
     });
