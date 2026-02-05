@@ -75,7 +75,7 @@ const ScanningState = () => {
         <div className="absolute inset-0 radar-sweep">
           <div className="scan-imp absolute top-1/2 left-1/2 w-1/2 h-1 origin-left"></div>
         </div>
-        <div class="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           <Scan className="lucide-icon text-primary-green" />
         </div>
         <div className="absolute inset-0 rounded-full border border-primary-green/50 pulse-ring"></div>

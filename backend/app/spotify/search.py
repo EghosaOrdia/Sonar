@@ -7,10 +7,9 @@ tokenStore = TokenStore()
 
 
 def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int = 5):
-    song_title = song_title or filename
-    artist_name = artist_name or filename
-
     query = f"track:{song_title} artist:{artist_name}"
+    if song_title == artist_name:
+        query = f"track:{song_title}"
     params = {"q": query, "type": "track", "limit": limit}
 
     def make_request():
@@ -19,26 +18,24 @@ def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int 
                 SEARCH_URL,
                 params=params,
                 headers={"Authorization": f"Bearer {tokenStore.access_token}"},
-                timeout=10,  # Add a timeout to prevent hanging
+                timeout=10,
             )
         except requests.exceptions.RequestException as e:
             print(f"Request failed: {e}")
-            return None  # Return None on error instead of crashing
+            return None
 
     response = make_request()
     if response is None:
-        return None  # Early exit if request failed
+        return None
 
     if response.status_code == 401:
         print("Token expired, refreshing...")
         try:
-            refresh_success = (
-                tokenStore.refresh_access_token()
-            )  # Assume this returns True/False or raises on failure
+            refresh_success = tokenStore.refresh_access_token()
             if not refresh_success:
                 print("Token refresh failed")
                 return None
-            response = make_request()  # Retry with new token
+            response = make_request()
             if response is None:
                 return None
         except Exception as e:
@@ -52,7 +49,7 @@ def _search_tracks(song_title: str, artist_name: str, filename: str, limit: int 
     try:
         data = response.json()
         return data.get("tracks", {}).get("items", [])
-    except ValueError as e:  # JSON decode error
+    except ValueError as e:
         print(f"Failed to parse JSON: {e}")
         return None
 
@@ -90,7 +87,7 @@ def search_track(song_title: str, artist_name: str, filename: str):
 
 
 def search_single_track(song_title: str, artist_name: str, filename: str):
-    tracks = _search_tracks(song_title, artist_name, filename)
+    tracks = _search_tracks(song_title, artist_name, filename, limit=10)
     curated_tracks = []
     if not tracks or len(tracks) == 0:
         return None

@@ -28,3 +28,5 @@ dist-ssr
 
 *env
 *.cpython-314.pyc
+*.pyc
+backend/app/spotify/__pycache__/token.cpython-314.pyc
