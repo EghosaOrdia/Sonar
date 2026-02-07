@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { RotateCcw, Clock } from "lucide-react";
+import { RotateCcw, Clock, X } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 import useTrackStore from "../store/useTrackStore";
 
@@ -84,10 +84,19 @@ const ResearchTrack = ({ track, closeModal }) => {
   return (
     <div className="animate__animated animate__zoomIn">
       <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-        <h2 className="tracking-tight text-xl font-bold flex items-center gap-2">
-          <RotateCcw className="lucide-icon text-primary-green" />
-          Re-Search Results
-        </h2>
+        <div className="flex justify-between items-center">
+          <h2 className="tracking-tight text-xl font-bold flex items-center gap-2">
+            <RotateCcw className="lucide-icon text-primary-green" />
+            Re-Search Results
+          </h2>
+          <button
+            onClick={() => closeModal()}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+          >
+            <X className="lucide-icon" />
+          </button>
+        </div>
+
         <p className="text-sm text-[#A1A1AA]">
           <span>
             Searching for alternative versions of{" "}
@@ -114,10 +123,10 @@ const ResearchTrack = ({ track, closeModal }) => {
             Re-search
           </div>
         </div>
-        <div className="relative pr-4">
+        <div className="relative">
           <div className="h-full w-full rounded-[inherit]">
-            <div className="min-h-full">
-              <div className="space-y-1 custom-scroll">
+            <div className="min-h-full flex flex-col">
+              <div className="grow space-y-1 overflow-scroll max-h-72 custom-scroll">
                 {Array.isArray(trackResults) && trackResults.length > 0 ? (
                   trackResults.map((song) => (
                     <div
@@ -175,7 +184,7 @@ const ResearchTrack = ({ track, closeModal }) => {
                   </div>
                 )}
               </div>
-              <div className="mt-6 pt-4 border-t border-white/10">
+              <div className="py-4 border-t border-white/10">
                 <button className="bg-primary-green/50 w-full py-2 px-6 rounded-full font-bold duration-150 hover:scale-105 cursor-pointer flex gap-2 justify-center items-center ">
                   <RotateCcw className="lucide-icon" />
                   Load More Results

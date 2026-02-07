@@ -1,12 +1,4 @@
-import {
-  CheckCircle,
-  Clock,
-  RotateCcw,
-  Sparkle,
-  SparkleIcon,
-  SparklesIcon,
-  X,
-} from "lucide-react";
+import { CheckCircle, Clock, RotateCcw, SparklesIcon, X } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
 import Modal from "../components/Modal";
@@ -16,6 +8,7 @@ import useStep from "../store/useStep";
 import { formatMilliseconds } from "../constants/functions";
 import SpotifyConnect from "./SpotifyConnect";
 import { toast } from "sonner";
+import { sognsNew } from "../constants/data";
 
 const ResultsState = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +20,8 @@ const ResultsState = () => {
   const setStep = useStep((state) => state.setStep);
   const hasRunRef = useRef(false);
 
-  const validResults = results.filter((song) => song?.match);
+  // const validResults = results.filter((song) => song?.match);
+  const validResults = sognsNew;
   const notFoundResults = results.filter((song) => !song?.match);
 
   useEffect(() => {
@@ -173,9 +167,9 @@ const ResultsState = () => {
 
       <button
         onClick={() => {
-          // setIsOpen(true);
-          // setModalContent("spotify-connect");
-          setStep(4);
+          setIsOpen(true);
+          setModalContent("spotify-connect");
+          // setStep(4);
         }}
         className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
