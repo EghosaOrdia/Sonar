@@ -8,7 +8,6 @@ import useStep from "../store/useStep";
 import { formatMilliseconds } from "../constants/functions";
 import SpotifyConnect from "./SpotifyConnect";
 import { toast } from "sonner";
-import { sognsNew } from "../constants/data";
 
 const ResultsState = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +19,7 @@ const ResultsState = () => {
   const setStep = useStep((state) => state.setStep);
   const hasRunRef = useRef(false);
 
-  // const validResults = results.filter((song) => song?.match);
-  const validResults = sognsNew;
+  const validResults = results.filter((song) => song?.match);
   const notFoundResults = results.filter((song) => !song?.match);
 
   useEffect(() => {
