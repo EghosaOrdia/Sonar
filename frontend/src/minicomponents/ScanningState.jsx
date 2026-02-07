@@ -60,6 +60,11 @@ const ScanningState = () => {
         }
       } catch (err) {
         console.error(err);
+        toast.error("Error fetching song", {
+          description: "Please try again",
+        });
+        setStep(1);
+        setProgress(steps[0]);
       }
     };
 
