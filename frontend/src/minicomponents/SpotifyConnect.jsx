@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import { spotify } from "../constants/media";
-import { ArrowRight, CheckCircle2Icon, Lock, RefreshCcw } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2Icon,
+  Lock,
+  RefreshCcw,
+  X,
+} from "lucide-react";
 
-const loginWithSpotify = () => {
-  window.location.href = "http://localhost:5000/spotify/login";
-};
+// const loginWithSpotify = () => {
+//   window.location.href = "http://localhost:5000/spotify/login";
+// };
 
-const SpotifyConnect = () => {
+const SpotifyConnect = ({ closeModal }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
     <>
       {!isAuthenticated && (
-        <div className="text-center space-y-1 font-family-sans ">
+        <div className="text-center space-y-1 font-family-sans">
+          <div className="flex justify-end items-center">
+            <button
+              onClick={() => closeModal(false)}
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+            >
+              <X className="lucide-icon" />
+            </button>
+          </div>
           <h2 className="text-center text-3xl font-medium mt-8">
             Connect your Spotify account
           </h2>
@@ -39,7 +53,15 @@ const SpotifyConnect = () => {
       )}
       {isAuthenticated && (
         <div className="overflow-hidden font-family-sans">
-          <div className="p-8 flex flex-col items-center">
+          <div className="flex justify-end items-center">
+            <button
+              onClick={() => closeModal(false)}
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+            >
+              <X className="lucide-icon" />
+            </button>
+          </div>
+          <div className="px-8 pb-8 flex flex-col items-center">
             <div className="mb-8 text-center">
               <h1 className="text-white text-[28px] font-bold leading-tight mb-2">
                 Connect to Spotify
@@ -101,7 +123,7 @@ const SpotifyConnect = () => {
               </div>
 
               <button className="btn-primary w-full flex justify-center align-center gap-4">
-                <span>Start Syncing Music</span>
+                <span>Sync Music</span>
                 <ArrowRight />
               </button>
             </div>

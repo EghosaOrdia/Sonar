@@ -37,7 +37,9 @@ const ResultsState = () => {
         {modalContent == "research" && (
           <ResearchTrack track={researchTrack} closeModal={setIsOpen} />
         )}
-        {modalContent == "spotify-connect" && <SpotifyConnect />}
+        {modalContent == "spotify-connect" && (
+          <SpotifyConnect closeModal={setIsOpen} />
+        )}
       </Modal>
 
       <div className="flex items-center justify-between mb-6">
