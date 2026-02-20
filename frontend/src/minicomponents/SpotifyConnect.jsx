@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { spotify } from "../constants/media";
-import {
-  ArrowRight,
-  CheckCircle2Icon,
-  Lock,
-  RefreshCcw,
-  X,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
 
 const loginWithSpotify = () => {
   window.location.href = "https://spotsync-pdwy.onrender.com/spotify/login";
