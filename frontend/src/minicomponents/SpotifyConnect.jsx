@@ -3,7 +3,11 @@ import { spotify } from "../constants/media";
 import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
 
 const loginWithSpotify = () => {
-  window.location.href = "https://spotsync-pdwy.onrender.com/spotify/login";
+  const newWindow = window.open(
+    "https://spotsync-pdwy.onrender.com/spotify/login",
+    "_blank",
+  );
+  if (newWindow) newWindow.opener = null;
 };
 
 const SpotifyConnect = ({ closeModal }) => {
