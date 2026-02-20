@@ -8,9 +8,9 @@ import {
   X,
 } from "lucide-react";
 
-// const loginWithSpotify = () => {
-//   window.location.href = "http://localhost:5000/spotify/login";
-// };
+const loginWithSpotify = () => {
+  window.location.href = "http://localhost:5000/spotify/login";
+};
 
 const SpotifyConnect = ({ closeModal }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,8 +35,8 @@ const SpotifyConnect = ({ closeModal }) => {
 
           <button
             onClick={() => {
-              // loginWithSpotify();
-              setIsAuthenticated(true);
+              loginWithSpotify();
+              // setIsAuthenticated(true);
             }}
             className="bg-primary-green flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto"
           >

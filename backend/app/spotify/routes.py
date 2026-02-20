@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from typing import List
 from fastapi.responses import RedirectResponse
 
-# from app.spotify.auth import get_auth_url, exchange_code_for_token
+from app.spotify.auth import get_auth_url, exchange_code_for_token
 from app.spotify.client import SpotifyClient
 from app.spotify.search import search_track, search_single_track
 from pydantic import BaseModel
@@ -24,16 +24,16 @@ def me():
     return {"authenticated": "access_token" in TOKENS}
 
 
-# @router.get("/login")
-# def login():
-#     return RedirectResponse(get_auth_url())
+@router.get("/login")
+def login():
+    return RedirectResponse(get_auth_url())
 
 
-# @router.get("/auth/callback")
-# def callback(code: str):
-#     token_data = exchange_code_for_token(code)
-#     TOKENS["access_token"] = token_data["access_token"]
-#     return {"status": "authenticated"}
+@router.get("/auth/callback")
+def callback(code: str):
+    token_data = exchange_code_for_token(code)
+    TOKENS["access_token"] = token_data["access_token"]
+    return {"status": "authenticated"}
 
 
 @router.post("/search")
