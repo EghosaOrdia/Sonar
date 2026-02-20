@@ -5,7 +5,7 @@ import { formatMilliseconds } from "../constants/functions";
 import useTrackStore from "../store/useTrackStore";
 
 const sendToServer = async (data) => {
-  const res = await fetch("http://localhost:5000/spotify/search", {
+  const res = await fetch("https://spotsync-pdwy.onrender.com/spotify/search", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

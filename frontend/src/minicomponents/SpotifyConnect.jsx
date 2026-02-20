@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 const loginWithSpotify = () => {
-  window.location.href = "http://localhost:5000/spotify/login";
+  window.location.href = "https://spotsync-pdwy.onrender.com/spotify/login";
 };
 
 const SpotifyConnect = ({ closeModal }) => {

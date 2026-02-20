@@ -12,7 +12,7 @@ const steps = [
 ];
 
 const sendToServer = async (data) => {
-  const res = await fetch("http://localhost:5000/spotify/search/batch", {
+  const res = await fetch("https://spotsync-pdwy.onrender.com/spotify/search/batch", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
