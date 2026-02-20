@@ -33,6 +33,7 @@ def login():
 def callback(code: str):
     token_data = exchange_code_for_token(code)
     TOKENS["access_token"] = token_data["access_token"]
+    return RedirectResponse("http://localhost:5173?authenticated=true")
     return {"status": "authenticated"}
 
 
