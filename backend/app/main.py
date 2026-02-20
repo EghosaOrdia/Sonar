@@ -6,7 +6,16 @@ app = FastAPI(title="Spotify playlist backend")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "http://localhost:5173", "http://localhost:5173/"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5173/#pickfolder",
+        "https://spot-sync-omega.vercel.app",
+        "https://spot-sync-omega.vercel.app/#pickfolder",
+        "http://localhost:5173/",
+        "http://localhost:5173/#pickfolder/",
+        "https://spot-sync-omega.vercel.app/",
+        "https://spot-sync-omega.vercel.app//#pickfolder/",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
