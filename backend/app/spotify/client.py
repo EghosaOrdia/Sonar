@@ -42,3 +42,8 @@ class SpotifyClient:
         )
         r.raise_for_status()
         return r.json()
+
+    def get_current_user(self):
+        r = requests.get(f"{BASE_URL}/me", headers=self.headers)
+        r.raise_for_status()
+        return r.json()
