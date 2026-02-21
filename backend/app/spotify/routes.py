@@ -37,6 +37,18 @@ def callback(code: str, state: str):
     return RedirectResponse(f"{FRONTEND_URL}?authenticated=true&session_id={state}")
 
 
+@router.get("/user/profile")
+def get_user_profile(session_id: Annotated[str, Header()]):
+    client = get_client(session_id)
+    user = client.get_current_user()
+    return {
+        "display_name": user.get("display_name"),
+        "product": user.get("product"),
+        "images": user.get("images", []),
+        "id": user.get("id"),
+    }
+
+
 @router.get("/me")
 def me(session_id: Annotated[str | None, Header()] = None):
     if not session_id or not get_session_token(session_id):
