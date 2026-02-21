@@ -1,17 +1,67 @@
+import { useEffect } from "react";
 import useStep from "../store/useStep";
+import useAuth from "../store/useAuth";
 import { ScanningState, ResultsState, IdleState } from "../minicomponents";
 import SuccessState from "../minicomponents/SuccessState";
-import { useEffect, useState } from "react";
+
+const BASE_URL = "https://spotsync-pdwy.onrender.com";
 
 const PickFolderApp = () => {
   const step = useStep((state) => state.step);
-  const [authenticated, setIsAuthenticated] = useState(false);
+  const setStep = useStep((state) => state.setStep);
+  const { setAuthenticated, clearAuth } = useAuth();
 
   useEffect(() => {
-    fetch("https://spotsync-pdwy.onrender.com/spotify/me")
-      .then((res) => res.json())
-      .then((data) => setIsAuthenticated(data.authenticated));
+    console.log("Mounted");
+
+    const params = new URLSearchParams(window.location.search);
+    const authenticated = params.get("authenticated");
+    const sessionId = params.get("session_id");
+
+    if (authenticated === "true" && sessionId) {
+      setStep(2);
+      console.log("Authenticated");
+
+      localStorage.setItem("spotify_session_id", sessionId);
+      window.history.replaceState({}, "", window.location.pathname);
+
+      fetchUserProfile(sessionId);
+    } else {
+      const existingSession = localStorage.getItem("spotify_session_id");
+      if (existingSession) {
+        checkExistingSession(existingSession);
+      }
+    }
   }, []);
+
+  const fetchUserProfile = async (sessionId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/spotify/user/profile`, {
+        headers: { "session-id": sessionId },
+      });
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      const data = await res.json();
+      setAuthenticated(data);
+    } catch (err) {
+      console.error("Could not fetch user profile:", err);
+      localStorage.removeItem("spotify_session_id");
+      clearAuth();
+    }
+  };
+
+  const checkExistingSession = async (sessionId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/spotify/me`, {
+        headers: { "session-id": sessionId },
+      });
+      const data = await res.json();
+      if (data.authenticated) {
+        fetchUserProfile(sessionId);
+      }
+    } catch {
+      localStorage.removeItem("spotify_session_id");
+    }
+  };
 
   return (
     <section id="pickfolder" className="py-24 lg:py-32 px-6 relative">

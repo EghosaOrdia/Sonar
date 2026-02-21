@@ -1,65 +1,16 @@
-import React, { useState, useEffect } from "react";
 import { spotify } from "../constants/media";
 import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
+import useAuth from "../store/useAuth";
 
 const BASE_URL = "https://spotsync-pdwy.onrender.com";
 
-const loginWithSpotify = () => {
-  const sessionId = crypto.randomUUID();
-  localStorage.setItem("spotify_session_id", sessionId);
-  window.location.href = `${BASE_URL}/spotify/login?session_id=${sessionId}`;
-};
-
 const SpotifyConnect = ({ closeModal }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const { isAuthenticated, user, clearAuth } = useAuth();
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const authenticated = params.get("authenticated");
-    const sessionId = params.get("session_id");
-
-    if (authenticated === "true" && sessionId) {
-      localStorage.setItem("spotify_session_id", sessionId);
-
-      window.history.replaceState({}, "", window.location.pathname);
-
-      fetchUserProfile(sessionId);
-    } else {
-      const existingSession = localStorage.getItem("spotify_session_id");
-      if (existingSession) {
-        checkExistingSession(existingSession);
-      }
-    }
-  }, []);
-
-  const fetchUserProfile = async (sessionId) => {
-    try {
-      const res = await fetch(`${BASE_URL}/spotify/user/profile`, {
-        headers: { "session-id": sessionId },
-      });
-      if (!res.ok) throw new Error("Failed to fetch profile");
-      const data = await res.json();
-      setUser(data);
-      setIsAuthenticated(true);
-    } catch (err) {
-      console.error("Could not fetch user profile:", err);
-      localStorage.removeItem("spotify_session_id");
-    }
-  };
-
-  const checkExistingSession = async (sessionId) => {
-    try {
-      const res = await fetch(`${BASE_URL}/spotify/me`, {
-        headers: { "session-id": sessionId },
-      });
-      const data = await res.json();
-      if (data.authenticated) {
-        fetchUserProfile(sessionId);
-      }
-    } catch {
-      localStorage.removeItem("spotify_session_id");
-    }
+  const loginWithSpotify = () => {
+    const sessionId = crypto.randomUUID();
+    localStorage.setItem("spotify_session_id", sessionId);
+    window.location.href = `${BASE_URL}/spotify/login?session_id=${sessionId}`;
   };
 
   const handleDisconnect = async () => {
@@ -71,8 +22,7 @@ const SpotifyConnect = ({ closeModal }) => {
       });
       localStorage.removeItem("spotify_session_id");
     }
-    setUser(null);
-    setIsAuthenticated(false);
+    clearAuth();
   };
 
   return (
