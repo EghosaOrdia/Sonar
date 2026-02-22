@@ -74,7 +74,7 @@ const SpotifyConnect = ({ closeModal }) => {
           <div className="px-8 pb-8 flex flex-col items-center">
             <div className="mb-8 text-center">
               <h1 className="text-white text-[28px] font-bold leading-tight mb-2">
-                Connect to Spotify
+                Connected to Spotify
               </h1>
               <p className="text-dark-foreground">
                 Sync your local library seamlessly
