@@ -22,8 +22,6 @@ const PickFolderApp = () => {
     if (authenticated === "true" && sessionId) {
       setStep(4);
       setIsOpen(true);
-      console.log("Authenticated");
-
       localStorage.setItem("spotify_session_id", sessionId);
       window.history.replaceState({}, "", window.location.pathname);
 
@@ -43,7 +41,6 @@ const PickFolderApp = () => {
       });
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
-      console.log(data);
       setIsAuthenticated(data);
     } catch (err) {
       console.error("Could not fetch user profile:", err);
@@ -58,7 +55,6 @@ const PickFolderApp = () => {
         headers: { "session-id": sessionId },
       });
       const data = await res.json();
-      console.log(data);
 
       if (data.authenticated) {
         fetchUserProfile(sessionId);

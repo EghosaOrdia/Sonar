@@ -126,8 +126,8 @@ const SpotifyConnect = ({ closeModal }) => {
                 <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
                   <div className="h-full bg-primary-green rounded-full w-full"></div>
                 </div>
-                <p className="text-dark-foreground text-xs text-center mt-1 italic">
-                  API Handshake successful
+                <p className="text-dark-foreground text-xs text-center mt-1">
+                  API Handshake successful!
                 </p>
               </div>
 
