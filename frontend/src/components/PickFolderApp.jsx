@@ -6,6 +6,7 @@ import SuccessState from "../minicomponents/SuccessState";
 import Modal from "./Modal";
 import SpotifyConnect from "../minicomponents/SpotifyConnect";
 import ConfigurePlaylist from "../minicomponents/ConfigurePlaylist";
+import useTrackStore from "../store/useTrackStore";
 
 const BASE_URL = "https://spotsync-pdwy.onrender.com";
 
@@ -14,6 +15,7 @@ const PickFolderApp = () => {
   const setStep = useStep((state) => state.setStep);
   const { setIsAuthenticated, clearAuth } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { results } = useTrackStore();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -21,7 +23,6 @@ const PickFolderApp = () => {
     const sessionId = params.get("session_id");
 
     if (authenticated === "true" && sessionId) {
-      setStep(3);
       setIsOpen(true);
       localStorage.setItem("spotify_session_id", sessionId);
       window.history.replaceState({}, "", window.location.pathname);
@@ -32,6 +33,10 @@ const PickFolderApp = () => {
       if (existingSession) {
         checkExistingSession(existingSession);
       }
+    }
+
+    if (results.length > 1) {
+      setStep(3);
     }
   }, []);
 

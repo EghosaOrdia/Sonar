@@ -3,7 +3,6 @@ import { spotify } from "../constants/media";
 import useTrackStore from "../store/useTrackStore";
 
 const ConfigurePlaylist = ({ closeModal }) => {
-  //   const results = useTrackStore((state) => state.results);
   const { playlistName, setPlayListName, results } = useTrackStore();
   const validResults = results.filter((song) => song?.match);
 
@@ -41,15 +40,15 @@ const ConfigurePlaylist = ({ closeModal }) => {
             placeholder="My Converted Playlist"
             value={playlistName}
             onChange={handleChange}
-            className="w-full bg-background-dark/50 border border-white/10 rounded-lg px-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary-green/50 focus:border-primary-green transition-all outline-none text-lg"
+            className="w-full bg-primary-dark/50 border border-white/10 rounded-lg px-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary-green/50 focus:border-primary-green transition-all outline-none text-lg"
           />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 space-y-3">
           <label htmlFor="pname" className="block text-lg text-slate-400">
             Playlist Preview
           </label>
-          <div className="bg-background-dark/40 border border-white/5 rounded-lg p-4 custom-scroll  max-h-45 overflow-y-auto space-y-1">
+          <div className="bg-primary-dark/40 border border-white/5 rounded-lg p-4 custom-scroll  max-h-45 overflow-y-auto space-y-1">
             {validResults.map((song, idx) => (
               <div
                 key={song.match.id}
