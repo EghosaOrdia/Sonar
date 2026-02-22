@@ -1,11 +1,14 @@
 import { spotify } from "../constants/media";
 import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
 import useAuth from "../store/useAuth";
+import { useState } from "react";
+import ConfigurePlaylist from "./ConfigurePlaylist";
 
 const BASE_URL = "https://spotsync-pdwy.onrender.com";
 
 const SpotifyConnect = ({ closeModal }) => {
   const { isAuthenticated, user, clearAuth } = useAuth();
+  const [syncState, setSyncState] = useState(false);
 
   const loginWithSpotify = () => {
     const sessionId = crypto.randomUUID();
@@ -61,99 +64,107 @@ const SpotifyConnect = ({ closeModal }) => {
       )}
 
       {isAuthenticated && (
-        <div className="overflow-hidden font-family-sans">
-          <div className="flex justify-end items-center">
-            <button
-              onClick={() => closeModal(false)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
-            >
-              <X className="lucide-icon" />
-            </button>
-          </div>
-
-          <div className="px-8 pb-8 flex flex-col items-center">
-            <div className="mb-8 text-center">
-              <h1 className="text-white text-[28px] font-bold leading-tight mb-2">
-                Connected to Spotify
-              </h1>
-              <p className="text-dark-foreground">
-                Sync your local library seamlessly
-              </p>
-            </div>
-
-            <div className="w-full space-y-6">
-              <div className="bg-primary-dark rounded-xl p-5 border border-white/10 flex flex-col gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-full bg-cover bg-center ring-2 ring-white/10 overflow-hidden">
-                      <img
-                        src={
-                          user?.images?.[0]?.url ||
-                          "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&h=60&fit=crop"
-                        }
-                        alt="profile"
-                      />
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 bg-primary text-background-dark rounded-full size-5 flex items-center justify-center">
-                      <CheckCircle2Icon fill="#1ed760" />
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-white text-base font-bold leading-tight">
-                      Connected as: {user?.display_name ?? "Spotify User"}
-                    </p>
-                    <p className="text-primary-green text-sm font-medium">
-                      Ready to sync
-                    </p>
-                  </div>
-                </div>
-
-                {user?.product === "premium" && (
-                  <div className="flex items-center gap-2 bg-primary-green/10 text-primary-green px-3 py-2 rounded-lg w-fit">
-                    <CheckCircle2Icon fill="#fff" />
-                    <span className="text-xs font-bold uppercase tracking-wider">
-                      Spotify Premium Account
-                    </span>
-                  </div>
-                )}
+        <>
+          {!syncState && (
+            <div className="overflow-hidden font-family-sans">
+              <div className="flex justify-end items-center">
+                <button
+                  onClick={() => closeModal(false)}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+                >
+                  <X className="lucide-icon" />
+                </button>
               </div>
 
-              <div className="flex flex-col gap-2 pt-2">
-                <div className="flex justify-between items-center">
-                  <p className="text-sm font-medium">Connection Status</p>
-                  <p className="text-primary-green text-sm font-bold">100%</p>
+              <div className="px-8 pb-8 flex flex-col items-center">
+                <div className="mb-8 text-center">
+                  <h1 className="text-white text-[28px] font-bold leading-tight mb-2">
+                    Connected to Spotify
+                  </h1>
+                  <p className="text-dark-foreground">
+                    Sync your local library seamlessly
+                  </p>
                 </div>
-                <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
-                  <div className="h-full bg-primary-green rounded-full w-full"></div>
+
+                <div className="w-full space-y-6">
+                  <div className="bg-primary-dark rounded-xl p-5 border border-white/10 flex flex-col gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className="w-12 h-12 rounded-full bg-cover bg-center ring-2 ring-white/10 overflow-hidden">
+                          <img
+                            src={
+                              user?.images?.[0]?.url ||
+                              "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&h=60&fit=crop"
+                            }
+                            alt="profile"
+                          />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 bg-primary text-background-dark rounded-full size-5 flex items-center justify-center">
+                          <CheckCircle2Icon fill="#1ed760" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-white text-base font-bold leading-tight">
+                          Connected as: {user?.display_name ?? "Spotify User"}
+                        </p>
+                        <p className="text-primary-green text-sm font-medium">
+                          Ready to sync
+                        </p>
+                      </div>
+                    </div>
+
+                    {user?.product === "premium" && (
+                      <div className="flex items-center gap-2 bg-primary-green/10 text-primary-green px-3 py-2 rounded-lg w-fit">
+                        <CheckCircle2Icon fill="#fff" />
+                        <span className="text-xs font-bold uppercase tracking-wider">
+                          Spotify Premium Account
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-2 pt-2">
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-medium">Connection Status</p>
+                      <p className="text-primary-green text-sm font-bold">
+                        100%
+                      </p>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                      <div className="h-full bg-primary-green rounded-full w-full"></div>
+                    </div>
+                    <p className="text-dark-foreground text-xs text-center mt-1">
+                      API Handshake successful!
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setSyncState(true)}
+                    className="btn-primary w-full flex justify-center items-center gap-4"
+                  >
+                    <span>Sync Music</span>
+                    <ArrowRight />
+                  </button>
                 </div>
-                <p className="text-dark-foreground text-xs text-center mt-1">
-                  API Handshake successful!
-                </p>
               </div>
 
-              <button
-                onClick={() => closeModal(false)}
-                className="btn-primary w-full flex justify-center items-center gap-4"
-              >
-                <span>Sync Music</span>
-                <ArrowRight />
-              </button>
+              <div className="border-t border-white/5 py-4 flex justify-between items-center px-8">
+                <div className="flex items-center gap-2 text-[#94c7a7] text-sm">
+                  <Lock className="size-4" />
+                  <span>Secure Connection</span>
+                </div>
+                <button
+                  onClick={handleDisconnect}
+                  className="text-[#94c7a7] hover:text-white transition-colors text-sm font-medium cursor-pointer"
+                >
+                  Change Account
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="border-t border-white/5 py-4 flex justify-between items-center px-8">
-            <div className="flex items-center gap-2 text-[#94c7a7] text-sm">
-              <Lock className="size-4" />
-              <span>Secure Connection</span>
-            </div>
-            <button
-              onClick={handleDisconnect}
-              className="text-[#94c7a7] hover:text-white transition-colors text-sm font-medium cursor-pointer"
-            >
-              Change Account
-            </button>
-          </div>
-        </div>
+          {syncState && <ConfigurePlaylist closeModal={closeModal} />}
+        </>
       )}
     </>
   );

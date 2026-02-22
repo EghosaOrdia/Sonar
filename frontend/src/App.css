@@ -220,6 +220,10 @@
     transform 0.2s ease;
 }
 
+.spotify-gradient-bg {
+  background: linear-gradient(135deg, #18bf58 0%, #00c2b8 50%, #90ee90 100%);
+}
+
 @keyframes slideInRight {
   to {
     opacity: 1;

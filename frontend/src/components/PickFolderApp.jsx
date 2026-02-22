@@ -5,6 +5,7 @@ import { ScanningState, ResultsState, IdleState } from "../minicomponents";
 import SuccessState from "../minicomponents/SuccessState";
 import Modal from "./Modal";
 import SpotifyConnect from "../minicomponents/SpotifyConnect";
+import ConfigurePlaylist from "../minicomponents/ConfigurePlaylist";
 
 const BASE_URL = "https://spotsync-pdwy.onrender.com";
 
@@ -20,7 +21,7 @@ const PickFolderApp = () => {
     const sessionId = params.get("session_id");
 
     if (authenticated === "true" && sessionId) {
-      setStep(4);
+      setStep(3);
       setIsOpen(true);
       localStorage.setItem("spotify_session_id", sessionId);
       window.history.replaceState({}, "", window.location.pathname);
