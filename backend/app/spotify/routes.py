@@ -89,11 +89,14 @@ def create_playlist(body: PlayListRequest, session_id: Annotated[str, Header()])
     client = get_client(session_id)
     user = client.get_current_user()
     playlist = client.create_playlist(user["id"], body.name, body.public)
-    return {
-        "playlist_id": playlist["id"],
-        "playlist_url": playlist["external_urls"]["spotify"],
-        "name": playlist["name"],
-    }
+    try:
+        return {
+            "playlist_id": playlist["id"],
+            "playlist_url": playlist["external_urls"]["spotify"],
+            "name": playlist["name"],
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 class AddTracksRequest(BaseModel):

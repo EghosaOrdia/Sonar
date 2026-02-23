@@ -1,13 +1,81 @@
-import { X, AudioLines } from "lucide-react";
+import { X, AudioLines, Redo, RotateCcw } from "lucide-react";
+import { toast } from "sonner";
 import { spotify } from "../constants/media";
 import useTrackStore from "../store/useTrackStore";
+import { BASE_URL } from "../constants/data";
+import { useState } from "react";
+import useStep from "../store/useStep";
 
-const ConfigurePlaylist = ({ closeModal }) => {
-  const { playlistName, setPlayListName, results } = useTrackStore();
+const ConfigurePlaylist = ({ closeModal, setSyncState }) => {
+  const { setStep } = useStep((state) => state.setStep);
+  const { playlistName, setPlayListName, results, setPlaylistUrl } =
+    useTrackStore();
   const validResults = results.filter((song) => song?.match);
+  const [loadingBtn, setLoadingBtn] = useState(false);
 
   const handleChange = (input) => {
     setPlayListName(input.target.value);
+  };
+
+  const handlePlaylist = async () => {
+    const sessionId = localStorage.getItem("spotify_session_id");
+    setLoadingBtn(true);
+
+    try {
+      const playlistRes = await fetch(`${BASE_URL}/spotify/playlist`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "session-id": sessionId,
+        },
+        body: JSON.stringify({
+          name: playlistName,
+          public: false,
+        }),
+      });
+      if (!playlistRes.ok) {
+        const err = playlistRes.json();
+        toast.error("Failed to create playlist", {
+          description: err.detail,
+        });
+        return;
+      }
+
+      const { playlist_id, playlist_url } = await playlistRes.json();
+      setPlaylistUrl(playlist_url);
+
+      toast.success("Playlist created!", {
+        description: "Adding songs...",
+      });
+
+      const trackUris = results.map((r) => r.match?.uri).filter(Boolean);
+      const addTracksRes = await fetch(`${BASE_URL}/spotify/playlist/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "session-id": sessionId,
+        },
+        body: JSON.stringify({
+          playlist_id,
+          track_uris: trackUris,
+        }),
+      });
+      if (!addTracksRes.ok) {
+        const err = await addTracksRes.json();
+        toast.error("Playlist", {
+          description: err.detail,
+        });
+        return;
+      }
+
+      toast.success("Songs created successfully");
+      setStep(4);
+    } catch (err) {
+      console.error("Something went wrong", err);
+      toast.error("Something went wrong", { description: err.message });
+    } finally {
+      setLoadingBtn(false);
+    }
   };
 
   return (
@@ -76,15 +144,21 @@ const ConfigurePlaylist = ({ closeModal }) => {
         <div className="flex items-center justify-center gap-4 mt-8">
           <button
             type="button"
+            onClick={() => setSyncState(false)}
             className="flex-1 order-2 md:order-1 px-8 py-4 rounded-lg text-sm font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all"
           >
             Cancel
           </button>
           <button
             type="button"
-            className="spotify-gradient-bg flex-2 order-1 md:order-2 flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-black text-sm font-bold hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20 cursor-pointer"
+            className={`${loadingBtn ? "cursor-not-allowed loading-btn" : "hover:scale-[1.02] active:scale-[0.98] cursor-pointer"} spotify-gradient-bg flex-2 order-1 md:order-2 flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-black text-sm font-bold  transition-all shadow-lg shadow-primary/20`}
+            onClick={handlePlaylist}
           >
-            <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+            {loadingBtn ? (
+              <RotateCcw />
+            ) : (
+              <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+            )}
             <span className="font-bold">Create Spotify playlist</span>
           </button>
         </div>

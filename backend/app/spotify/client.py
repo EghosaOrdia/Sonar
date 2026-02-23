@@ -26,17 +26,18 @@ class SpotifyClient:
             "public": public,
         }
         r = requests.post(
-            f"{BASE_URL}/users/{user_id}/playlists",
+            f"{BASE_URL}/me/playlists",
             headers=self.headers,
             json=payload,
         )
-        r.raise_for_status()
+        if not r.ok:
+            raise Exception(f"Spotify error {r.status_code}: {r.text}")
         return r.json()
 
     def add_tracks(self, playlist_id: str, track_uris: list[str]):
         payload = {"uris": track_uris}
         r = requests.post(
-            f"{BASE_URL}/playlists/{playlist_id}/tracks",
+            f"{BASE_URL}/playlists/{playlist_id}/items",
             headers=self.headers,
             json=payload,
         )

@@ -113,3 +113,5 @@ export const sognsNew = [
     },
   },
 ];
+
+export const BASE_URL = "https://spotsync-pdwy.onrender.com";

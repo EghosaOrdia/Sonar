@@ -5,10 +5,8 @@ import { ScanningState, ResultsState, IdleState } from "../minicomponents";
 import SuccessState from "../minicomponents/SuccessState";
 import Modal from "./Modal";
 import SpotifyConnect from "../minicomponents/SpotifyConnect";
-import ConfigurePlaylist from "../minicomponents/ConfigurePlaylist";
 import useTrackStore from "../store/useTrackStore";
-
-const BASE_URL = "https://spotsync-pdwy.onrender.com";
+import { BASE_URL } from "../constants/data";
 
 const PickFolderApp = () => {
   const step = useStep((state) => state.step);

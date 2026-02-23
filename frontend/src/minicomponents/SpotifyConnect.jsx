@@ -163,7 +163,12 @@ const SpotifyConnect = ({ closeModal }) => {
             </div>
           )}
 
-          {syncState && <ConfigurePlaylist closeModal={closeModal} />}
+          {syncState && (
+            <ConfigurePlaylist
+              closeModal={closeModal}
+              setSyncState={setSyncState}
+            />
+          )}
         </>
       )}
     </>

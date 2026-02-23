@@ -224,29 +224,6 @@
   background: linear-gradient(135deg, #18bf58 0%, #00c2b8 50%, #90ee90 100%);
 }
 
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.loading-btn {
-  filter: grayscale(90%);
-  svg {
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 /* =====================
   Animations
   =====================
@@ -292,5 +269,28 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.loading-btn {
+  filter: grayscale(90%);
+  svg {
+    animation: spin 1s linear infinite;
   }
 }
