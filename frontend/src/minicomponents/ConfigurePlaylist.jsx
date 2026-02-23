@@ -7,7 +7,8 @@ import { useState } from "react";
 import useStep from "../store/useStep";
 
 const ConfigurePlaylist = ({ closeModal, setSyncState }) => {
-  const { setStep } = useStep((state) => state.setStep);
+  const setStep = useStep((state) => state.setStep);
+
   const { playlistName, setPlayListName, results, setPlaylistUrl } =
     useTrackStore();
   const validResults = results.filter((song) => song?.match);
@@ -69,6 +70,7 @@ const ConfigurePlaylist = ({ closeModal, setSyncState }) => {
       }
 
       toast.success("Songs created successfully");
+      closeModal(false);
       setStep(4);
     } catch (err) {
       console.error("Something went wrong", err);

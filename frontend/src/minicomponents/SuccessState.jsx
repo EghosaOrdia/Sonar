@@ -5,7 +5,7 @@ import useTrackStore from "../store/useTrackStore";
 
 const SuccessState = () => {
   const setStep = useStep((state) => state.setStep);
-  const resetStore = useTrackStore((state) => state.reset);
+  const { playlistUrl, reset } = useTrackStore();
 
   return (
     <div className="state animate__animated animate__zoomIn text-center py-12 opacity-100 transform-none">
@@ -17,15 +17,20 @@ const SuccessState = () => {
         Your playlist with 8 songs is now available on Spotify
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full">
+        <a
+          href={playlistUrl}
+          target="_blank"
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
+        >
           <Headphones className="lucide-icon" />
           Open in Spotify
           <ExternalLink className="lucide-icon" />
-        </button>
+        </a>
         <button
           onClick={() => {
             setStep(1);
-            resetStore();
+            reset();
+            localStorage.clear("")
           }}
           className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border shadow-sm hover:bg-accent hover:text-accent-foreground btn-secondary px-8 py-3 h-auto rounded-full border-white/15"
         >
