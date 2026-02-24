@@ -49,6 +49,17 @@ def get_user_profile(session_id: Annotated[str, Header()]):
     }
 
 
+@router.get("/debug/session")
+def debug_session(session_id: Annotated[str | None, Header()] = None):
+    from app.spotify.auth import SESSION_STORE
+
+    return {
+        "session_id_received": session_id,
+        "keys_in_store": list(SESSION_STORE.keys()),
+        "found": session_id in SESSION_STORE if session_id else False,
+    }
+
+
 @router.get("/me")
 def me(session_id: Annotated[str | None, Header()] = None):
     if not session_id or not get_session_token(session_id):
@@ -86,10 +97,10 @@ class PlayListRequest(BaseModel):
 
 @router.post("/playlist")
 def create_playlist(body: PlayListRequest, session_id: Annotated[str, Header()]):
-    client = get_client(session_id)
-    user = client.get_current_user()
-    playlist = client.create_playlist(user["id"], body.name, body.public)
     try:
+        client = get_client(session_id)
+        user = client.get_current_user()
+        playlist = client.create_playlist(user["id"], body.name, body.public)
         return {
             "playlist_id": playlist["id"],
             "playlist_url": playlist["external_urls"]["spotify"],

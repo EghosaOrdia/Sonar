@@ -24,7 +24,6 @@ const PickFolderApp = () => {
       setIsOpen(true);
       localStorage.setItem("spotify_session_id", sessionId);
       window.history.replaceState({}, "", window.location.pathname);
-
       fetchUserProfile(sessionId);
     } else {
       const existingSession = localStorage.getItem("spotify_session_id");
@@ -41,8 +40,13 @@ const PickFolderApp = () => {
   const fetchUserProfile = async (sessionId) => {
     try {
       const res = await fetch(`${BASE_URL}/spotify/user/profile`, {
-        headers: { "session-id": sessionId },
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "session-id": sessionId,
+        },
       });
+
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
       setIsAuthenticated(data);
