@@ -3,8 +3,7 @@ import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
 import useAuth from "../store/useAuth";
 import { useState } from "react";
 import ConfigurePlaylist from "./ConfigurePlaylist";
-
-const BASE_URL = "https://spotsync-pdwy.onrender.com";
+import { BASE_URL } from "../constants/data";
 
 const SpotifyConnect = ({ closeModal }) => {
   const { isAuthenticated, user, clearAuth } = useAuth();

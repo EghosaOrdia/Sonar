@@ -3,9 +3,10 @@ import { toast } from "sonner";
 import { RotateCcw, Clock, X } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 import useTrackStore from "../store/useTrackStore";
+import { BASE_URL } from "../constants/data";
 
 const sendToServer = async (data) => {
-  const res = await fetch("https://spotsync-pdwy.onrender.com/spotify/search", {
+  const res = await fetch(`${BASE_URL}/spotify/search`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

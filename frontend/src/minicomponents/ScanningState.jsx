@@ -3,6 +3,7 @@ import useStep from "../store/useStep";
 import useTrackStore from "../store/useTrackStore";
 import { toast } from "sonner";
 import { Info, Scan } from "lucide-react";
+import { BASE_URL } from "../constants/data";
 
 const steps = [
   { label: "Uploading and checking your file", progress: 25 },
@@ -12,7 +13,7 @@ const steps = [
 ];
 
 const sendToServer = async (data) => {
-  const res = await fetch("https://spotsync-pdwy.onrender.com/spotify/search/batch", {
+  const res = await fetch(`${BASE_URL }/spotify/search/batch`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
