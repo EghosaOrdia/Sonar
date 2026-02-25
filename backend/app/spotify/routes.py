@@ -16,7 +16,8 @@ from app.schema import Song
 
 
 router = APIRouter()
-FRONTEND_URL = "http://localhost:5173"
+# FRONTEND_URL = "http://localhost:5173"
+FRONTEND_URL = "https://spot-sync-omega.vercel.app"
 
 
 def get_client(session_id: str) -> SpotifyClient:
