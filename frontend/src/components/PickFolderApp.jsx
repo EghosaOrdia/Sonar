@@ -85,7 +85,7 @@ const PickFolderApp = () => {
             Select your music folder and watch the magic happen
           </p>
         </div>
-        <div className="glass-card p-8 lg:p-12">
+        <div className="glass-card">
           <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
             <SpotifyConnect closeModal={setIsOpen} />
           </Modal>

@@ -43,6 +43,25 @@ async function* WalkDirectory(dirHandle) {
 
 import * as mm from "music-metadata";
 const AUDIO_EXTENSIONS = ["mp3", "wav", "flac", "ogg", "m4a"];
+/**
+ * Extract title + artist from a File object using music-metadata-browser
+ */
+const extractMetadata = async (file) => {
+  try {
+    const metadata = await mm.parseBlob(file);
+    const { title, artist } = metadata.common;
+
+    return {
+      title: sanitizeFileName(title) || file.name.replace(/\.[^/.]+$/, ""), // fallback to filename
+      artist: sanitizeFileName(artist) || "",
+    };
+  } catch {
+    return {
+      title: file.name.replace(/\.[^/.]+$/, ""),
+      artist: "",
+    };
+  }
+};
 
 async function ScanAudioFiles(directoryHandle) {
   const results = [];
@@ -52,15 +71,7 @@ async function ScanAudioFiles(directoryHandle) {
     if (!AUDIO_EXTENSIONS.includes(ext)) continue;
 
     const file = await entry.getFile();
-    const metadata = await mm.parseBlob(file);
-    const sanitizedFileName = sanitizeFileName(entry.name);
-    let artist = metadata.common.artist || sanitizedFileName;
-    let title = metadata.common.title || sanitizedFileName;
-
-    results.push({
-      artist: sanitizeFileName(artist),
-      title: sanitizeFileName(title),
-    });
+    results.push(extractMetadata(file));
   }
 
   return results;
@@ -72,5 +83,70 @@ function formatMilliseconds(ms) {
 
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
+
+/**
+ * Parse an M3U file and return an array of relative file paths
+ */
+const parseM3U = (content) => {
+  return content
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
+};
+
+const getFileName = (path) => {
+  return path.split(/[/\\]/).pop();
+};
+
+export const extractTracksFromPlaylist = async () => {
+  const [playlistFileHandle] = await window.showOpenFilePicker({
+    types: [
+      {
+        description: "Playlist Files",
+        accept: { "audio/x-mpegurl": [".m3u", ".m3u8"] },
+      },
+    ],
+  });
+
+  const playlistFile = await playlistFileHandle.getFile();
+  const content = await playlistFile.text();
+  const paths = parseM3U(content);
+  const tracks = [];
+
+  for (const relativePath of paths) {
+    const file = getFileName(relativePath);
+    tracks.push(file);
+  }
+
+  return tracks;
+};
+
+export const pickAndFilterAudioFiles = async (allowedFileNames) => {
+  // const allowedSet = new Set(allowedFileNames);
+
+  const fileHandles = await window.showOpenFilePicker({
+    multiple: true,
+    types: [
+      {
+        description: "Audio Files",
+        accept: {
+          "audio/*": [".mp3", ".wav", ".flac", ".m4a", ".aac"],
+        },
+      },
+    ],
+  });
+
+  const matchedFiles = [];
+  for (const handle of fileHandles) {
+    const file = await handle.getFile();
+
+    if (allowedFileNames.includes(file.name)) {
+      const metadata = await extractMetadata(file);
+      matchedFiles.push(metadata);
+    }
+  }
+
+  return matchedFiles;
+};
 
 export { sanitizeFileName, ScanAudioFiles, formatMilliseconds };
