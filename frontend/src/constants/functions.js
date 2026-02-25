@@ -109,6 +109,7 @@ export const extractTracksFromPlaylist = async () => {
   });
 
   const playlistFile = await playlistFileHandle.getFile();
+
   const content = await playlistFile.text();
   const paths = parseM3U(content);
   const tracks = [];
@@ -118,7 +119,7 @@ export const extractTracksFromPlaylist = async () => {
     tracks.push(file);
   }
 
-  return tracks;
+  return [playlistFile.name, tracks];
 };
 
 export const pickAndFilterAudioFiles = async (allowedFileNames) => {

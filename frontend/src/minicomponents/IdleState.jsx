@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FolderOpen, FolderClosed, ListVideo, ListMusic } from "lucide-react";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
@@ -6,7 +7,7 @@ import {
   pickAndFilterAudioFiles,
   ScanAudioFiles,
 } from "../constants/functions";
-import { useState } from "react";
+import { toast } from "sonner";
 
 const handleScan = async () => {
   try {
@@ -19,6 +20,7 @@ const handleScan = async () => {
 };
 
 const IdleState = () => {
+  const [selectedPlaylist, setSelectedPlaylist] = useState("");
   const [importType, setImportType] = useState("folder");
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const setTracks = useTrackStore((state) => state.setTracks);
@@ -26,20 +28,14 @@ const IdleState = () => {
 
   const Move = async () => {
     const files = await handleScan();
-
     if (!files || files.length == 0) return;
     setTracks(files);
     setStep(2);
   };
 
-  const PlayListMove = async () => {
-    const audioFiles = await extractTracksFromPlaylist();
-    setPlaylistTracks(audioFiles);
-  };
-
   return (
     <div>
-      <div className="bg-white/2 border-b border-white/20 p-5 flex justify-center">
+      <div className="bg-white/2 border-b border-white/20 p-5 rounded-t-2xl flex justify-center">
         <div className="flex bg-primary-dark p-1 rounded-2xl overflow-clip">
           <button
             onClick={() => setImportType("folder")}
@@ -99,52 +95,42 @@ const IdleState = () => {
 
       {importType == "playlist" && (
         <div className="state animate__animated animate__zoomIn py-12">
-          <div className="actions flex justify-center gap-8">
-            <div className="flex gap-4">
-              <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
-                <ListMusic className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
-              </button>
-              <div>
-                <h2 className="">Drag and drop your playlist here</h2>
-                <p className="text-dark-foreground mb-8 text-sm">
-                  or{" "}
-                  <button
-                    onClick={PlayListMove}
-                    className="text-btn-green hover:underline cursor-pointer"
-                  >
-                    click to browse
-                  </button>{" "}
-                  your local storage
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
-                <ListVideo className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
-              </button>
-              <div>
-                <h2 className="">Drag and drop your songs here</h2>
-                <p className="text-dark-foreground mb-8 text-sm">
-                  or{" "}
-                  <button
-                    onClick={async () => {
-                      const allowedFiles =
-                        await pickAndFilterAudioFiles(playlistTracks);
-                      setPlaylistTracks(allowedFiles);
-                      setTracks(allowedFiles);
-                      setStep(2);
-                    }}
-                    className="text-btn-green hover:underline cursor-pointer"
-                  >
-                    click to browse
-                  </button>{" "}
-                  your local storage
-                </p>
-              </div>
-            </div>
+          <div className="text-center">
+            <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
+              <ListMusic className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
+            </button>
+            <h2 className="text-xl">Drag and drop your playlist here</h2>
+
+            <p className="text-dark-foreground mb-8">
+              or click to browse your local storage
+            </p>
+
+            <button
+              onClick={async () => {
+                const [playlistName, audioFiles] =
+                  await extractTracksFromPlaylist();
+                setSelectedPlaylist(playlistName);
+                setPlaylistTracks(audioFiles);
+
+                toast.success("Uploaded playlist successfully!", {
+                  description: "Select songs from storage",
+                });
+              }}
+              id="pickFolderBtn"
+              className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
+            >
+              <ListVideo className="lucide-icon" />
+              Select Playlist
+            </button>
+
+            {selectedPlaylist && (
+              <span className="block bg-primary-dark/40 mx-auto mt-8 py-4 rounded-sm text-dark-foreground font-bold">
+                Selected Playlist: {selectedPlaylist}
+              </span>
+            )}
           </div>
 
-          <div className="flex flex-col items-center gap-4 mt-4">
+          <div className="flex flex-col items-center gap-4 mt-8">
             <span className="text-sm uppercase tracking-[0.2em] text-slate-500 font-bold">
               Supported Playlist Formats
             </span>
@@ -157,6 +143,32 @@ const IdleState = () => {
               </span>
             </div>
           </div>
+
+          {playlistTracks.length > 0 && (
+            <div className="flex justify-center gap-4 mt-16 ml-auto">
+              <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
+                <ListVideo className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
+              </button>
+
+              <div>
+                <h2 className="">Upload songs</h2>
+                <p className="text-dark-foreground mb-8 text-sm">
+                  <button
+                    onClick={async () => {
+                      const allowedFiles =
+                        await pickAndFilterAudioFiles(playlistTracks);
+                      setTracks(allowedFiles);
+                      if (playlistTracks.length > 0) setStep(2);
+                    }}
+                    className="text-btn-green hover:underline cursor-pointer"
+                  >
+                    click to browse
+                  </button>{" "}
+                  your local storage
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
