@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { FolderOpen, FolderClosed, ListVideo, ListMusic } from "lucide-react";
+import {
+  FolderOpen,
+  FolderClosed,
+  ListVideo,
+  ListMusic,
+  RotateCcw,
+} from "lucide-react";
 import { toast } from "sonner";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
@@ -10,6 +16,7 @@ import {
 } from "../constants/functions";
 
 const IdleState = () => {
+  const [loading, setLoading] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
   const [importType, setImportType] = useState("folder");
   const [playlistTracks, setPlaylistTracks] = useState([]);
@@ -30,11 +37,18 @@ const IdleState = () => {
     const files = await handleDirectoryScan();
     if (!files || files.length == 0) return;
     setTracks(files);
+    setLoading(true);
     setStep(2);
   };
 
   return (
-    <div>
+    <div className="relative">
+      {loading && (
+        <div className="loading-screen absolute w-full h-full bg-primary-dark/10 z-20 backdrop-blur-2xl flex justify-center items-center">
+          <RotateCcw className="size-24 text-primary-green loading" />
+        </div>
+      )}
+
       <div className="bg-white/2 border-b border-white/20 p-5 rounded-t-2xl flex justify-center">
         <div className="flex bg-primary-dark p-1 rounded-2xl overflow-clip">
           <button
@@ -158,6 +172,7 @@ const IdleState = () => {
                       const allowedFiles =
                         await pickAndFilterAudioFiles(playlistTracks);
                       setTracks(allowedFiles);
+                      setLoading(true);
                       if (playlistTracks.length > 0) setStep(2);
                     }}
                     className="text-btn-green hover:underline cursor-pointer"

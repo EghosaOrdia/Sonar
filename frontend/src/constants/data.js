@@ -114,5 +114,5 @@ export const sognsNew = [
   },
 ];
 
-export const BASE_URL = "https://spotsync-pdwy.onrender.com";
-// export const BASE_URL = "https://spotsync-production.up.railway.app";
+// export const BASE_URL = "https://spotsync-pdwy.onrender.com";
+export const BASE_URL = "https://spotsync.up.railway.app";

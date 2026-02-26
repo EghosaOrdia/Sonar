@@ -82,6 +82,13 @@ def search_song(song: Song):
 
 @router.post("/search/batch")
 def batch_search(songs: List[Song]):
+    result = [
+        {
+            "input": {"title": s.title, "artist": s.artist},
+            "match": search_track(s.title, s.artist),
+        }
+        for s in songs
+    ]
     results = [{"match": search_track(s.title, s.artist)} for s in songs]
 
     return {

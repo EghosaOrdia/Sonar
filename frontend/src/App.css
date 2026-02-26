@@ -289,9 +289,13 @@
   }
 }
 
+.loading {
+  animation: spin 1s linear infinite reverse;
+}
+
 .loading-btn {
   filter: grayscale(90%);
   svg {
-    animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite reverse;
   }
 }
