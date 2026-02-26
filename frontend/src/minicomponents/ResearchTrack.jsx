@@ -132,7 +132,10 @@ const ResearchTrack = ({ track, closeModal }) => {
                   trackResults.map((song) => (
                     <div
                       onClick={() => {
-                        const newMatch = song.match ?? song;
+                        const newMatch = {
+                          ...(song.match ?? song),
+                          found: true,
+                        };
 
                         const updatedResults = storeTrackResults.map((item) =>
                           item.match?.id === track.match?.id
@@ -141,6 +144,7 @@ const ResearchTrack = ({ track, closeModal }) => {
                         );
 
                         setTracks(updatedResults);
+
                         toast.success("Track list updated successfully");
                         setTimeout(() => {
                           closeModal(false);

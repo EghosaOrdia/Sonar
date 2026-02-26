@@ -42,7 +42,7 @@ const ScanningState = () => {
       try {
         for (let i = 0; i < 4; i++) {
           setProgress(steps[i]);
-          await sleep(2500);
+          await sleep(1000);
         }
 
         const response = await sendToServer(tracks);
