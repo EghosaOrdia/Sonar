@@ -20,7 +20,6 @@ const ResultsState = () => {
 
   const validResults = results.filter((song) => song?.match?.found === true);
   const notFoundResults = results.filter((song) => !song?.match?.found);
-  console.log(notFoundResults);
 
   useEffect(() => {
     if (hasRunRef.current) return;
