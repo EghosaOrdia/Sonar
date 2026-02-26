@@ -13,7 +13,7 @@ const Hero = () => {
       </div>
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
         <h1 className="hero-heading text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter">
-          SpotSync
+          Sonar
         </h1>
         <p className="text-lg sm:text-xl lg:text-2xl text-dark-foreground max-w-2xl mx-auto mb-2 leading-relaxed">
           Turn your local music collection into Spotify playlists.
