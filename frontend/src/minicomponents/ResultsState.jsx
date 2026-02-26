@@ -18,12 +18,11 @@ const ResultsState = () => {
 
   const setStep = useStep((state) => state.setStep);
 
-  const validResults = results.filter((song) => song?.match);
-  const notFoundResults = results.filter((song) => !song?.match);
+  const validResults = results.filter((song) => song?.match?.found === true);
+  const notFoundResults = results.filter((song) => !song?.match?.found);
+  console.log(notFoundResults);
 
   useEffect(() => {
-    console.log(results);
-
     if (hasRunRef.current) return;
     hasRunRef.current = true;
 
@@ -131,35 +130,28 @@ const ResultsState = () => {
                 </span>
               </div>
               <div className="space-y-1">
-                {results
-                  .filter((song) => !song?.match)
-                  .map(
-                    (song) =>
-                      !song.matched && (
-                        <div
-                          key={0}
-                          className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
-                        >
-                          <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
+                {notFoundResults.map((song) => (
+                  <div
+                    key={song.match.id}
+                    className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
+                  >
+                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
 
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium truncate">Unknown</p>
-                            <p className="text-sm text-dark-foreground truncate">
-                              Unknown
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Clock className="lucide-icon" />
-                            <span className="text-sm text-dark-foreground">
-                              {song.duration || "N/A"}
-                            </span>
-                            <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
-                              Not Found
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                  )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">
+                        {song.match.track_name}
+                      </p>
+                      <p className="text-sm text-dark-foreground truncate">
+                        {song.match.artist}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
+                        Not Found
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

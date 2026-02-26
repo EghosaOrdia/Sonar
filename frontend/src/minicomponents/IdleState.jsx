@@ -35,8 +35,8 @@ const IdleState = () => {
 
   const handleFolderSelection = async () => {
     const files = await handleDirectoryScan();
-    if (!files || files.length == 0) return;
     setTracks(files);
+    if (!files || files.length == 0) return;
     setLoading(true);
     setStep(2);
   };
