@@ -1,11 +1,12 @@
 import { spotify } from "../constants/media";
-import { ArrowRight, CheckCircle2Icon, Lock, X } from "lucide-react";
+import { ArrowRight, CheckCircle2Icon, Lock, RotateCcw, X } from "lucide-react";
 import useAuth from "../store/useAuth";
 import { useState } from "react";
 import ConfigurePlaylist from "./ConfigurePlaylist";
 import { BASE_URL } from "../constants/data";
 
 const SpotifyConnect = ({ closeModal }) => {
+  const [loadingState, setLoadingState] = useState(false);
   const { isAuthenticated, user, clearAuth } = useAuth();
   const [syncState, setSyncState] = useState(false);
 
@@ -47,10 +48,17 @@ const SpotifyConnect = ({ closeModal }) => {
           </p>
 
           <button
-            onClick={loginWithSpotify}
-            className="bg-primary-green flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto"
+            onClick={() => {
+              loginWithSpotify();
+              setLoadingState(true);
+            }}
+            className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto`}
           >
-            <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+            {loadingState ? (
+              <RotateCcw className="lucide-icon" />
+            ) : (
+              <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+            )}
             <span className="font-bold">Connect Spotify account</span>
           </button>
 
