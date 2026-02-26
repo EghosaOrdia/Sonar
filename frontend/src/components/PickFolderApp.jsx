@@ -9,10 +9,9 @@ import useTrackStore from "../store/useTrackStore";
 import { BASE_URL } from "../constants/data";
 
 const PickFolderApp = () => {
-  const step = useStep((state) => state.step);
-  const setStep = useStep((state) => state.setStep);
-  const { setIsAuthenticated, clearAuth } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { step, setStep } = useStep();
+  const { setIsAuthenticated, clearAuth } = useAuth();
   const { results } = useTrackStore();
 
   useEffect(() => {

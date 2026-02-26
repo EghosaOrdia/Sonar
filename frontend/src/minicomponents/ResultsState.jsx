@@ -10,19 +10,20 @@ import SpotifyConnect from "./SpotifyConnect";
 import { toast } from "sonner";
 
 const ResultsState = () => {
+  const hasRunRef = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [researchTrack, setResearchTrack] = useState(null);
-  const results = useTrackStore((state) => state.results);
+  const { results, reset } = useTrackStore();
 
-  const resetTrackStore = useTrackStore((state) => state.reset);
   const setStep = useStep((state) => state.setStep);
-  const hasRunRef = useRef(false);
 
   const validResults = results.filter((song) => song?.match);
   const notFoundResults = results.filter((song) => !song?.match);
 
   useEffect(() => {
+    console.log(results);
+
     if (hasRunRef.current) return;
     hasRunRef.current = true;
 
@@ -55,7 +56,7 @@ const ResultsState = () => {
         </div>
         <button
           onClick={() => {
-            resetTrackStore();
+            reset();
             setStep(1);
           }}
           className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"

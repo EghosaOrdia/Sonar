@@ -13,7 +13,7 @@ const steps = [
 ];
 
 const sendToServer = async (data) => {
-  const res = await fetch(`${BASE_URL }/spotify/search/batch`, {
+  const res = await fetch(`${BASE_URL}/spotify/search/batch`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -25,12 +25,10 @@ const sendToServer = async (data) => {
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const ScanningState = () => {
-  const setStep = useStep((state) => state.setStep);
-  const tracks = useTrackStore((state) => state.tracks);
-  const setResults = useTrackStore((state) => state.setResults);
   const hasRunRef = useRef(false);
-
   const [progress, setProgress] = useState(steps[0]);
+  const setStep = useStep((state) => state.setStep);
+  const { tracks, setResults } = useTrackStore();
 
   useEffect(() => {
     if (hasRunRef.current) return;
@@ -48,11 +46,6 @@ const ScanningState = () => {
         }
 
         const response = await sendToServer(tracks);
-        // const response = {
-        //   match: {},
-        // };
-
-        setProgress(steps[3]);
 
         if (response?.results) {
           setResults(response.results);
@@ -73,7 +66,7 @@ const ScanningState = () => {
   }, [tracks, setResults, setStep]);
 
   return (
-    <div className="state animate__animated animate__zoomIn text-center py-12">
+    <div className="state animate__animated animate__zoomIn text-center py-12 px-8">
       <div className="relative w-40 h-40 mx-auto mb-8">
         <div className="absolute inset-0 rounded-full border-2 border-primary-green/20"></div>
         <div className="absolute inset-4 rounded-full border border-primary-green/30"></div>

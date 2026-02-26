@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FolderOpen, FolderClosed, ListVideo, ListMusic } from "lucide-react";
+import { toast } from "sonner";
 import useTrackStore from "../store/useTrackStore";
 import useStep from "../store/useStep";
 import {
@@ -7,17 +8,6 @@ import {
   pickAndFilterAudioFiles,
   ScanAudioFiles,
 } from "../constants/functions";
-import { toast } from "sonner";
-
-const handleScan = async () => {
-  try {
-    const dir = await window.showDirectoryPicker();
-    const audioData = await ScanAudioFiles(dir);
-    return audioData;
-  } catch (err) {
-    console.warn("Folder pick cancelled or failed: ", err);
-  }
-};
 
 const IdleState = () => {
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
@@ -26,8 +16,18 @@ const IdleState = () => {
   const setTracks = useTrackStore((state) => state.setTracks);
   const setStep = useStep((state) => state.setStep);
 
-  const Move = async () => {
-    const files = await handleScan();
+  const handleDirectoryScan = async () => {
+    try {
+      const dir = await window.showDirectoryPicker();
+      const audioData = await ScanAudioFiles(dir);
+      return audioData;
+    } catch (err) {
+      console.warn("Folder pick cancelled or failed: ", err);
+    }
+  };
+
+  const handleFolderSelection = async () => {
+    const files = await handleDirectoryScan();
     if (!files || files.length == 0) return;
     setTracks(files);
     setStep(2);
@@ -66,7 +66,7 @@ const IdleState = () => {
           </p>
 
           <button
-            onClick={() => Move()}
+            onClick={() => handleFolderSelection()}
             id="pickFolderBtn"
             className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
           >

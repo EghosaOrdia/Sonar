@@ -71,7 +71,15 @@ def _format_track(item):
 def search_track(song_title: str, artist_name: str):
     tracks = _search_tracks(song_title, artist_name)
     if not tracks:
-        return None
+        return {
+            "id": None,
+            "track_name": song_title,
+            "artist": artist_name,
+            "uri": None,
+            "thumbnail": None,
+            "duration": None,
+            "found": False,
+        }
 
     song_query = song_title.lower().strip()
     artist_query = artist_name.lower().strip()
@@ -81,9 +89,13 @@ def search_track(song_title: str, artist_name: str):
         artists = [a["name"].lower() for a in item["artists"]]
 
         if song_query in track_name and any(artist_query in a for a in artists):
-            return _format_track(item)
+            result = _format_track(item)
+            result["found"] = True
+            return result
 
-    return _format_track(tracks[0])
+    result = _format_track(tracks[0])
+    result["found"] = True
+    return result
 
 
 def search_single_track(song_title: str, artist_name: str):
