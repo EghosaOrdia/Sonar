@@ -76,11 +76,11 @@ const PickFolderApp = () => {
       <div className="app-overlay absolute inset-0 pointer-events-none"></div>
       <div className="max-w-4xl mx-auto relative z-10 text-white">
         <div className="section-header text-center mb-12">
-          <h2 className="text-10xl sm:text-4xl lg:text-10xl font-bold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
             Start
             <span className="text-primary-green"> Converting</span>
           </h2>
-          <p className="text-dark-foreground text-lg">
+          <p className="text-dark-foreground text-xl sm:text-xl lg:text-2xl">
             Select your music folder and watch the magic happen
           </p>
         </div>
