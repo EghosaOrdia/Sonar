@@ -3,14 +3,7 @@ import useStep from "../../store/useStep";
 import useTrackStore from "../../store/useTrackStore";
 import { toast } from "sonner";
 import { Info, Scan } from "lucide-react";
-import { BASE_URL } from "../../constants/data";
-
-const steps = [
-  { label: "Uploading and checking your file", progress: 25 },
-  { label: "Processing your information", progress: 50 },
-  { label: "Sending for reviewing", progress: 75 },
-  { label: "Waiting for results", progress: 95 },
-];
+import { steps, BASE_URL } from "../../constants/data";
 
 const sendToServer = async (data) => {
   const res = await fetch(`${BASE_URL}/spotify/search/batch`, {

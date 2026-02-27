@@ -89,29 +89,11 @@ export const songs = [
   },
 ];
 
-export const sognsNew = [
-  {
-    match: {
-      id: 1,
-      track_name: "Blinding Lights",
-      artist: "The Weeknd",
-      duration: 180590,
-      matched: true,
-      thumbnail:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=60&amp;h=60&amp;fit=crop",
-    },
-  },
-  {
-    match: {
-      id: 2,
-      track_name: "Shape of You",
-      artist: "Ed Sheeran",
-      duration: 200488,
-      matched: true,
-      thumbnail:
-        "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=60&amp;h=60&amp;fit=crop",
-    },
-  },
+export const steps = [
+  { label: "Uploading and checking your file", progress: 25 },
+  { label: "Processing your information", progress: 50 },
+  { label: "Sending for reviewing", progress: 75 },
+  { label: "Waiting for results", progress: 95 },
 ];
 
 // export const BASE_URL = "https://spotsync-pdwy.onrender.com";
