@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import useStep from "../store/useStep";
 import useAuth from "../store/useAuth";
-import { ScanningState, ResultsState, IdleState } from "../minicomponents";
-import SuccessState from "../minicomponents/SuccessState";
+import { ScanningState, ResultsState, IdleState } from "./FolderPicker";
+import SuccessState from "./FolderPicker/Success";
 import Modal from "./Modal";
-import SpotifyConnect from "../minicomponents/SpotifyConnect";
+import SpotifyConnect from "./modals/SpotifyConnect";
 import useTrackStore from "../store/useTrackStore";
 import { BASE_URL } from "../constants/data";
 
-const PickFolderApp = () => {
+const FolderPicker = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { step, setStep } = useStep();
   const { setIsAuthenticated, clearAuth } = useAuth();
@@ -98,4 +98,4 @@ const PickFolderApp = () => {
   );
 };
 
-export default PickFolderApp;
+export default FolderPicker;

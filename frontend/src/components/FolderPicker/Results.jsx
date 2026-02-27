@@ -1,15 +1,15 @@
 import { CheckCircle, Clock, RotateCcw, SparklesIcon, X } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
-import Modal from "../components/Modal";
-import ResearchTrack from "./ResearchTrack";
-import useTrackStore from "../store/useTrackStore";
-import useStep from "../store/useStep";
-import { formatMilliseconds } from "../constants/functions";
-import SpotifyConnect from "./SpotifyConnect";
+import Modal from "../Modal";
+import ResearchTrack from "../modals/ResearchTrack";
+import useTrackStore from "../../store/useTrackStore";
+import useStep from "../../store/useStep";
+import { formatMilliseconds } from "../../constants/functions";
+import SpotifyConnect from "../modals/SpotifyConnect";
 import { toast } from "sonner";
 
-const ResultsState = () => {
+const Results = () => {
   const hasRunRef = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
@@ -171,4 +171,4 @@ const ResultsState = () => {
   );
 };
 
-export default ResultsState;
+export default Results;

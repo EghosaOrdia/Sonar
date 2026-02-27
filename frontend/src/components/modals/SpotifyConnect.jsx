@@ -1,9 +1,9 @@
-import { spotify } from "../constants/media";
+import { spotify } from "../../constants/media";
 import { ArrowRight, CheckCircle2Icon, Lock, RotateCcw, X } from "lucide-react";
-import useAuth from "../store/useAuth";
+import useAuth from "../../store/useAuth";
 import { useState } from "react";
-import ConfigurePlaylist from "./ConfigurePlaylist";
-import { BASE_URL } from "../constants/data";
+import ConfigurePlaylist from "./PlaylistConfig";
+import { BASE_URL } from "../../constants/data";
 
 const SpotifyConnect = ({ closeModal }) => {
   const [loadingState, setLoadingState] = useState(false);

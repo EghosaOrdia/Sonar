@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { RotateCcw, Clock, X } from "lucide-react";
-import { formatMilliseconds } from "../constants/functions";
-import useTrackStore from "../store/useTrackStore";
-import { BASE_URL } from "../constants/data";
+import { formatMilliseconds } from "../../constants/functions";
+import useTrackStore from "../../store/useTrackStore";
+import { BASE_URL } from "../../constants/data";
 
 const sendToServer = async (data) => {
   const res = await fetch(`${BASE_URL}/spotify/search`, {

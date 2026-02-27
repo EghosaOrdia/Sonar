@@ -1,10 +1,10 @@
 import { X, AudioLines, Redo, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
-import { spotify } from "../constants/media";
-import useTrackStore from "../store/useTrackStore";
-import { BASE_URL } from "../constants/data";
+import { spotify } from "../../constants/media";
+import useTrackStore from "../../store/useTrackStore";
+import { BASE_URL } from "../../constants/data";
 import { useState } from "react";
-import useStep from "../store/useStep";
+import useStep from "../../store/useStep";
 
 const ConfigurePlaylist = ({ closeModal, setSyncState }) => {
   const setStep = useStep((state) => state.setStep);

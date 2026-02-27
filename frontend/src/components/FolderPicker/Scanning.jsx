@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import useStep from "../store/useStep";
-import useTrackStore from "../store/useTrackStore";
+import useStep from "../../store/useStep";
+import useTrackStore from "../../store/useTrackStore";
 import { toast } from "sonner";
 import { Info, Scan } from "lucide-react";
-import { BASE_URL } from "../constants/data";
+import { BASE_URL } from "../../constants/data";
 
 const steps = [
   { label: "Uploading and checking your file", progress: 25 },
@@ -24,7 +24,7 @@ const sendToServer = async (data) => {
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-const ScanningState = () => {
+const Scanning = () => {
   const hasRunRef = useRef(false);
   const [progress, setProgress] = useState(steps[0]);
   const setStep = useStep((state) => state.setStep);
@@ -107,4 +107,4 @@ const ScanningState = () => {
   );
 };
 
-export default ScanningState;
+export default Scanning;

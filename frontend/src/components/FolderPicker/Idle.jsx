@@ -7,15 +7,15 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
-import useTrackStore from "../store/useTrackStore";
-import useStep from "../store/useStep";
+import useTrackStore from "../../store/useTrackStore";
+import useStep from "../../store/useStep";
 import {
   extractTracksFromPlaylist,
   pickAndFilterAudioFiles,
   ScanAudioFiles,
-} from "../constants/functions";
+} from "../../constants/functions";
 
-const IdleState = () => {
+const Idle = () => {
   const [loading, setLoading] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
   const [importType, setImportType] = useState("folder");
@@ -190,4 +190,4 @@ const IdleState = () => {
   );
 };
 
-export default IdleState;
+export default Idle;
