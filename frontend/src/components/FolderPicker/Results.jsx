@@ -1,25 +1,26 @@
 import { CheckCircle, Clock, RotateCcw, SparklesIcon, X } from "lucide-react";
-
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import Modal from "../Modal";
-import ResearchTrack from "../modals/ResearchTrack";
+import { ResearchTrack, SpotifyConnect } from "../modals";
 import useTrackStore from "../../store/useTrackStore";
 import useStep from "../../store/useStep";
 import { formatMilliseconds } from "../../constants/functions";
-import SpotifyConnect from "../modals/SpotifyConnect";
-import { toast } from "sonner";
 
 const Results = () => {
   const hasRunRef = useRef(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
-  const [researchTrack, setResearchTrack] = useState(null);
+  const [modal, setModal] = useState({
+    isOpen: false,
+    content: "",
+    researchTrack: null,
+  });
   const { results, reset } = useTrackStore();
-
   const setStep = useStep((state) => state.setStep);
 
   const validResults = results.filter((song) => song?.match?.found === true);
   const notFoundResults = results.filter((song) => !song?.match?.found);
+
+  const closeModal = () => setModal((prev) => ({ ...prev, isOpen: false }));
 
   useEffect(() => {
     if (hasRunRef.current) return;
@@ -32,12 +33,15 @@ const Results = () => {
 
   return (
     <div className="state animate__animated animate__zoomIn p-8">
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        {modalContent == "research" && (
-          <ResearchTrack track={researchTrack} closeModal={setIsOpen} />
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => setModal((prev) => ({ ...prev, isOpen: false }))}
+      >
+        {modal.content == "research" && (
+          <ResearchTrack track={modal.researchTrack} closeModal={closeModal} />
         )}
-        {modalContent == "spotify-connect" && (
-          <SpotifyConnect closeModal={setIsOpen} />
+        {modal.content == "spotify-connect" && (
+          <SpotifyConnect closeModal={closeModal} />
         )}
       </Modal>
 
@@ -91,9 +95,12 @@ const Results = () => {
                       />
                       <div
                         onClick={() => {
-                          setIsOpen(true);
-                          setModalContent("research");
-                          setResearchTrack(song);
+                          setModal((prev) => ({
+                            ...prev,
+                            isOpen: true,
+                            content: "research",
+                            researchTrack: song,
+                          }));
                         }}
                         className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
                       >
@@ -159,8 +166,11 @@ const Results = () => {
 
       <button
         onClick={() => {
-          setIsOpen(true);
-          setModalContent("spotify-connect");
+          setModal((prev) => ({
+            ...prev,
+            isOpen: true,
+            content: "spotify-connect",
+          }));
         }}
         className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow px-4 w-full btn-primary bg-primary-green hover:bg-[#1abc54] text-black font-bold py-4 h-auto rounded-full text-lg"
       >
