@@ -1,4 +1,4 @@
-const sanitizeFileName = (raw) => {
+export const sanitizeFileName = (raw) => {
   let cleaned = raw
     // Remove file extension
     .replace(/\.[^/.]+$/, "")
@@ -63,7 +63,7 @@ const extractMetadata = async (file) => {
   }
 };
 
-async function ScanAudioFiles(directoryHandle) {
+export async function ScanAudioFiles(directoryHandle) {
   const results = [];
 
   for await (const entry of WalkDirectory(directoryHandle)) {
@@ -77,7 +77,17 @@ async function ScanAudioFiles(directoryHandle) {
   return results;
 }
 
-function formatMilliseconds(ms) {
+export const handleDirectoryScan = async () => {
+  try {
+    const dir = await window.showDirectoryPicker();
+    const audioData = await ScanAudioFiles(dir);
+    return audioData;
+  } catch (err) {
+    console.warn("Folder pick cancelled or failed: ", err);
+  }
+};
+
+export function formatMilliseconds(ms) {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.round((ms / 1000) % 60);
 
@@ -149,5 +159,3 @@ export const pickAndFilterAudioFiles = async (allowedFileNames) => {
 
   return matchedFiles;
 };
-
-export { sanitizeFileName, ScanAudioFiles, formatMilliseconds };

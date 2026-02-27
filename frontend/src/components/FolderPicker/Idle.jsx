@@ -13,7 +13,7 @@ import useStep from "../../store/useStep";
 import {
   extractTracksFromPlaylist,
   pickAndFilterAudioFiles,
-  ScanAudioFiles,
+  handleDirectoryScan,
 } from "../../constants/functions";
 
 const Idle = () => {
@@ -26,33 +26,39 @@ const Idle = () => {
   const setTracks = useTrackStore((state) => state.setTracks);
   const setStep = useStep((state) => state.setStep);
 
-  const handleDirectoryScan = async () => {
-    try {
-      const dir = await window.showDirectoryPicker();
-      const audioData = await ScanAudioFiles(dir);
-      return audioData;
-    } catch (err) {
-      console.warn("Folder pick cancelled or failed: ", err);
-    }
-  };
-
   const handleFolderSelection = async () => {
     const files = await handleDirectoryScan();
     setTracks(files);
     if (!files || files.length == 0) return;
     setImportConfig((prev) => ({ ...prev, loading: true }));
-
     setStep(2);
+  };
+
+  const handlePlaylistSelection = async () => {
+    const [playlistName, audioFiles] = await extractTracksFromPlaylist();
+    setImportConfig((prev) => ({
+      ...prev,
+      selectedPlaylist: playlistName,
+      playlistTracks: audioFiles,
+    }));
+
+    toast.success("Uploaded playlist successfully!", {
+      description: "Select songs from storage",
+    });
+  };
+
+  const handlePlaylistSongsSelection = async () => {
+    const allowedFiles = await pickAndFilterAudioFiles(
+      importConfig.playlistTracks,
+    );
+    setTracks(allowedFiles);
+    setImportConfig((prev) => ({ ...prev, loading: true }));
+    if (importConfig.playlistTracks.length > 0) setStep(2);
   };
 
   return (
     <div className="relative">
-      {importConfig.loading && (
-        <div className="loading-screen absolute w-full h-full bg-primary-dark/10 z-20 backdrop-blur-2xl flex justify-center items-center">
-          <RotateCcw className="size-24 text-primary-green loading" />
-        </div>
-      )}
-
+      {/* Folder Upload / Playlist Upload Options */}
       <div className="bg-white/2 border-b border-white/20 p-5 rounded-t-2xl flex justify-center">
         <div className="flex bg-primary-dark p-1 rounded-2xl overflow-clip">
           <button
@@ -128,19 +134,7 @@ const Idle = () => {
             </p>
 
             <button
-              onClick={async () => {
-                const [playlistName, audioFiles] =
-                  await extractTracksFromPlaylist();
-                setImportConfig((prev) => ({
-                  ...prev,
-                  selectedPlaylist: playlistName,
-                  playlistTracks: audioFiles,
-                }));
-
-                toast.success("Uploaded playlist successfully!", {
-                  description: "Select songs from storage",
-                });
-              }}
+              onClick={handlePlaylistSelection}
               id="pickFolderBtn"
               className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
             >
@@ -169,6 +163,7 @@ const Idle = () => {
             </div>
           </div>
 
+          {/* Checks if playlist has been uploaded */}
           {importConfig.playlistTracks.length > 0 && (
             <div className="flex justify-center gap-4 mt-16 ml-auto">
               <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
@@ -179,14 +174,7 @@ const Idle = () => {
                 <h2 className="">Upload songs</h2>
                 <p className="text-dark-foreground mb-8 text-sm">
                   <button
-                    onClick={async () => {
-                      const allowedFiles = await pickAndFilterAudioFiles(
-                        importConfig.playlistTracks,
-                      );
-                      setTracks(allowedFiles);
-                      setImportConfig((prev) => ({ ...prev, loading: true }));
-                      if (importConfig.playlistTracks.length > 0) setStep(2);
-                    }}
+                    onClick={handlePlaylistSongsSelection}
                     className="text-btn-green hover:underline cursor-pointer"
                   >
                     click to browse
