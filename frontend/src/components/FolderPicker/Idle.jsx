@@ -9,6 +9,7 @@ import {
 import { toast } from "sonner";
 import useTrackStore from "../../store/useTrackStore";
 import useStep from "../../store/useStep";
+
 import {
   extractTracksFromPlaylist,
   pickAndFilterAudioFiles,
@@ -16,10 +17,12 @@ import {
 } from "../../constants/functions";
 
 const Idle = () => {
-  const [loading, setLoading] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState("");
-  const [importType, setImportType] = useState("folder");
-  const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [importConfig, setImportConfig] = useState({
+    loading: false,
+    selectedPlaylist: "",
+    importType: "folder",
+    playlistTracks: [],
+  });
   const setTracks = useTrackStore((state) => state.setTracks);
   const setStep = useStep((state) => state.setStep);
 
@@ -37,13 +40,14 @@ const Idle = () => {
     const files = await handleDirectoryScan();
     setTracks(files);
     if (!files || files.length == 0) return;
-    setLoading(true);
+    setImportConfig((prev) => ({ ...prev, loading: true }));
+
     setStep(2);
   };
 
   return (
     <div className="relative">
-      {loading && (
+      {importConfig.loading && (
         <div className="loading-screen absolute w-full h-full bg-primary-dark/10 z-20 backdrop-blur-2xl flex justify-center items-center">
           <RotateCcw className="size-24 text-primary-green loading" />
         </div>
@@ -52,15 +56,19 @@ const Idle = () => {
       <div className="bg-white/2 border-b border-white/20 p-5 rounded-t-2xl flex justify-center">
         <div className="flex bg-primary-dark p-1 rounded-2xl overflow-clip">
           <button
-            onClick={() => setImportType("folder")}
-            className={`${importType == "folder" ? "bg-btn-green text-black" : "text-white"} px-12 py-2 text-center flex items-center gap-2  transition-all duration-300 font-bold rounded-xl cursor-pointer`}
+            onClick={() =>
+              setImportConfig((prev) => ({ ...prev, importType: "folder" }))
+            }
+            className={`${importConfig.importType == "folder" ? "bg-btn-green text-black" : "text-white"} px-12 py-2 text-center flex items-center gap-2  transition-all duration-300 font-bold rounded-xl cursor-pointer`}
           >
             <FolderOpen className="lucide-icon" />
             Folder
           </button>
           <button
-            onClick={() => setImportType("playlist")}
-            className={`${importType == "playlist" ? "bg-btn-green text-black" : "text-white"} px-12 py-2 text-center flex items-center gap-2  transition-all duration-300 font-bold rounded-xl cursor-pointer`}
+            onClick={() =>
+              setImportConfig((prev) => ({ ...prev, importType: "playlist" }))
+            }
+            className={`${importConfig.importType == "playlist" ? "bg-btn-green text-black" : "text-white"} px-12 py-2 text-center flex items-center gap-2  transition-all duration-300 font-bold rounded-xl cursor-pointer`}
           >
             <ListMusic className="lucide-icon" />
             Playlist
@@ -68,7 +76,7 @@ const Idle = () => {
         </div>
       </div>
 
-      {importType == "folder" && (
+      {importConfig.importType == "folder" && (
         <div className="state animate__animated animate__zoomIn text-center py-12">
           <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
             <FolderOpen className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
@@ -107,7 +115,7 @@ const Idle = () => {
         </div>
       )}
 
-      {importType == "playlist" && (
+      {importConfig.importType == "playlist" && (
         <div className="state animate__animated animate__zoomIn py-12">
           <div className="text-center">
             <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
@@ -123,8 +131,11 @@ const Idle = () => {
               onClick={async () => {
                 const [playlistName, audioFiles] =
                   await extractTracksFromPlaylist();
-                setSelectedPlaylist(playlistName);
-                setPlaylistTracks(audioFiles);
+                setImportConfig((prev) => ({
+                  ...prev,
+                  selectedPlaylist: playlistName,
+                  playlistTracks: audioFiles,
+                }));
 
                 toast.success("Uploaded playlist successfully!", {
                   description: "Select songs from storage",
@@ -137,9 +148,9 @@ const Idle = () => {
               Select Playlist
             </button>
 
-            {selectedPlaylist && (
+            {importConfig.selectedPlaylist && (
               <span className="block bg-primary-dark/40 mx-auto mt-8 py-4 rounded-sm text-dark-foreground font-bold">
-                Selected Playlist: {selectedPlaylist}
+                Selected Playlist: {importConfig.selectedPlaylist}
               </span>
             )}
           </div>
@@ -158,7 +169,7 @@ const Idle = () => {
             </div>
           </div>
 
-          {playlistTracks.length > 0 && (
+          {importConfig.playlistTracks.length > 0 && (
             <div className="flex justify-center gap-4 mt-16 ml-auto">
               <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
                 <ListVideo className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
@@ -169,11 +180,12 @@ const Idle = () => {
                 <p className="text-dark-foreground mb-8 text-sm">
                   <button
                     onClick={async () => {
-                      const allowedFiles =
-                        await pickAndFilterAudioFiles(playlistTracks);
+                      const allowedFiles = await pickAndFilterAudioFiles(
+                        importConfig.playlistTracks,
+                      );
                       setTracks(allowedFiles);
-                      setLoading(true);
-                      if (playlistTracks.length > 0) setStep(2);
+                      setImportConfig((prev) => ({ ...prev, loading: true }));
+                      if (importConfig.playlistTracks.length > 0) setStep(2);
                     }}
                     className="text-btn-green hover:underline cursor-pointer"
                   >
