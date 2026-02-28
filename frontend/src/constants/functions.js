@@ -50,15 +50,16 @@ const extractMetadata = async (file) => {
   try {
     const metadata = await mm.parseBlob(file);
     const { title, artist } = metadata.common;
+    const fileName = file.name.replace(/\.[^/.]+$/, "");
 
     return {
-      title: sanitizeFileName(title) || file.name.replace(/\.[^/.]+$/, ""), // fallback to filename
-      artist: sanitizeFileName(artist) || "",
+      title: sanitizeFileName(title) || fileName,
+      artist: sanitizeFileName(artist) || fileName,
     };
   } catch {
     return {
       title: file.name.replace(/\.[^/.]+$/, ""),
-      artist: "",
+      artist: file.name.replace(/\.[^/.]+$/, ""),
     };
   }
 };
@@ -71,7 +72,8 @@ export async function ScanAudioFiles(directoryHandle) {
     if (!AUDIO_EXTENSIONS.includes(ext)) continue;
 
     const file = await entry.getFile();
-    results.push(extractMetadata(file));
+    const metaData = await extractMetadata(file);
+    results.push(metaData);
   }
 
   return results;
@@ -81,6 +83,7 @@ export const handleDirectoryScan = async () => {
   try {
     const dir = await window.showDirectoryPicker();
     const audioData = await ScanAudioFiles(dir);
+
     return audioData;
   } catch (err) {
     console.warn("Folder pick cancelled or failed: ", err);

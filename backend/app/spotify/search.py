@@ -1,3 +1,4 @@
+import re
 import requests
 import uuid
 from app.spotify.token import TokenStore
@@ -6,10 +7,22 @@ SEARCH_URL = "https://api.spotify.com/v1/search"
 tokenStore = TokenStore()
 
 
+def clean_filename(filename):
+    name = re.sub(r"\s?[\[\(][^\]\)]*[\]\)]", "", filename)
+
+    regex = re.compile(
+        r"\s?[\[\(]?((official|offiziell|musik|musikvideo|lyric|video|music|audio|monstercat|ncs|release|visualiser)\s?)+[\]\)]?\s?",
+        re.IGNORECASE,
+    )
+    name = re.sub(regex, "", name).strip()
+
+    return name
+
+
 def _search_tracks(song_title: str, artist_name: str, limit: int = 5):
-    query = f"track:{song_title} artist:{artist_name}"
+    query = f"track:{clean_filename(song_title)} artist:{clean_filename(artist_name)}"
     if song_title == artist_name:
-        query = f"track:{song_title}"
+        query = f"track:{clean_filename(song_title)}"
     params = {"q": query, "type": "track", "limit": limit}
 
     def make_request():

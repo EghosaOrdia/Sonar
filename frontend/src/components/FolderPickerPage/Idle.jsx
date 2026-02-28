@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  FolderOpen,
-  FolderClosed,
-  ListVideo,
-  ListMusic,
-  RotateCcw,
-} from "lucide-react";
+import { FolderOpen, FolderClosed, ListVideo, ListMusic } from "lucide-react";
 import { toast } from "sonner";
 import useTrackStore from "../../store/useTrackStore";
 import useStep from "../../store/useStep";
@@ -29,6 +23,7 @@ const Idle = () => {
   const handleFolderSelection = async () => {
     const files = await handleDirectoryScan();
     setTracks(files);
+
     if (!files || files.length == 0) return;
     setImportConfig((prev) => ({ ...prev, loading: true }));
     setStep(2);

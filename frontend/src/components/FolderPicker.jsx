@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import useStep from "../store/useStep";
 import useAuth from "../store/useAuth";
-import { ScanningState, ResultsState, IdleState } from "./FolderPicker";
-import SuccessState from "./FolderPicker/Success";
 import Modal from "./Modal";
+import {
+  IdleState,
+  ScanningState,
+  ResultsState,
+  SuccessState,
+} from "./FolderPickerPage";
 import SpotifyConnect from "./modals/SpotifyConnect";
 import useTrackStore from "../store/useTrackStore";
 import { BASE_URL } from "../constants/data";
