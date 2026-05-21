@@ -32,7 +32,7 @@ const Results = () => {
   }, []);
 
   return (
-    <div className="state animate__animated animate__zoomIn p-8">
+    <div className="state animate__animated animate__zoomIn">
       <Modal
         isOpen={modal.isOpen}
         onClose={() => setModal((prev) => ({ ...prev, isOpen: false }))}

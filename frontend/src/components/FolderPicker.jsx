@@ -100,7 +100,6 @@ const FolderPicker = () => {
             </Modal>
             {step === 1 && <IdleState />}
             {step === 2 && <ScanningState />}
-            {step === 3 && <ResultsState />}
             {step === 4 && <SuccessState />}
           </div>
           <div className="col-span-12 lg:col-span-5">
@@ -130,6 +129,7 @@ const FolderPicker = () => {
                       here in real time.
                     </p>
                   </div>
+                  {step === 3 && <ResultsState />}
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between px-2 text-[10px] font-mono-plex uppercase tracking-[0.2em] text-zinc-500">

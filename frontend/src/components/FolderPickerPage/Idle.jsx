@@ -1,9 +1,7 @@
 import { useState } from "react";
 import {
   FolderOpen,
-  FolderClosed,
   ListVideo,
-  ListMusic,
   FileMusic,
   ShieldCheck,
   CloudUpload,
@@ -90,9 +88,9 @@ const Idle = () => {
         </div>
       </div>
 
-      {importConfig.importType == "folder" && (
-        <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] p-6 sm:p-10 min-h-90">
-          <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 py-10 sm:py-14 flex flex-col items-center text-center cursor-pointer group">
+      <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] p-6 sm:p-10 min-h-90">
+        {importConfig.importType == "folder" && (
+          <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 pt-10 sm:pt-14 flex flex-col items-center text-center cursor-pointer group">
             <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
               <FolderOpen className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
             </button>
@@ -110,22 +108,11 @@ const Idle = () => {
               <CloudUpload className="lucide-icon" />
               Select Folder
             </button>
-
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-mono-plex uppercase tracking-[0.18em] text-zinc-600">
-              <span>.mp3</span>
-              <span>.flac</span>
-              <span>.wav</span>
-              <span>.m4a</span>
-              <span>.m3u</span>
-              <span>.csv</span>
-            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {importConfig.importType == "playlist" && (
-        <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] p-6 sm:p-10 min-h-90">
-          <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 py-10 sm:py-14 flex flex-col items-center text-center cursor-pointer group">
+        {importConfig.importType == "playlist" && (
+          <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 pt-10 sm:pt-14 flex flex-col items-center text-center cursor-pointer group">
             <div className="text-center">
               <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
                 <FileMusic className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
@@ -152,15 +139,6 @@ const Idle = () => {
               )}
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-mono-plex uppercase tracking-[0.18em] text-zinc-600">
-              <span>.mp3</span>
-              <span>.flac</span>
-              <span>.wav</span>
-              <span>.m4a</span>
-              <span>.m3u</span>
-              <span>.csv</span>
-            </div>
-
             {/* Checks if playlist has been uploaded */}
             {importConfig.playlistTracks.length > 0 && (
               <div className="flex justify-center gap-4 mt-16 ml-auto">
@@ -183,8 +161,17 @@ const Idle = () => {
               </div>
             )}
           </div>
+        )}
+
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-mono-plex uppercase tracking-[0.18em] text-zinc-600">
+          <span>.mp3</span>
+          <span>.flac</span>
+          <span>.wav</span>
+          <span>.m4a</span>
+          <span>.m3u</span>
+          <span>.csv</span>
         </div>
-      )}
+      </div>
     </div>
   );
 };
