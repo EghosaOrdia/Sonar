@@ -3,10 +3,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header
-      data-testid="site-nav"
-      class="fixed top-0 inset-x-0 z-50 transition-all duration-500 py-4"
-    >
+    <header class="fixed top-0 inset-x-0 z-50 transition-all duration-500 py-4">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 transition-all duration-500 ">
         <div class="flex items-center justify-between rounded-full px-4 sm:px-5 py-2.5 transition-all duration-500 border border-transparent">
           <a
