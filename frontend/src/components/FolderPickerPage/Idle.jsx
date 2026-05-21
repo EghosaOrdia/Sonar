@@ -91,7 +91,7 @@ const Idle = () => {
       </div>
 
       {importConfig.importType == "folder" && (
-        <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] border border-white/5 p-6 sm:p-10 min-h-90">
+        <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] p-6 sm:p-10 min-h-90">
           <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 py-10 sm:py-14 flex flex-col items-center text-center cursor-pointer group">
             <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
               <FolderOpen className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
