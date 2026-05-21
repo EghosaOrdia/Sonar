@@ -2,6 +2,7 @@ import { Toaster } from "sonner";
 import "./App.css";
 import { Hero, HowItWorks, PickFolderApp } from "./components";
 import Header from "./components/Header";
+import Features from "./components/Features";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Hero />
       <HowItWorks />
       <PickFolderApp />
+      <Features />
     </main>
   );
 }
