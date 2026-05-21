@@ -386,9 +386,9 @@ const Features = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="lucide lucide-copy-check ml-auto h-4 w-4 text-[#1DB954]"
                 aria-hidden="true"
               >
@@ -403,7 +403,7 @@ const Features = () => {
               style={{
                 background:
                   "radial-gradient(circle, rgba(29, 185, 84, 0.18) 0%, transparent 70%)",
-                filter: "blur(20px);",
+                filter: "blur(20px)",
               }}
             ></span>
           </div>
