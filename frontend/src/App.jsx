@@ -5,7 +5,7 @@ import Header from "./components/Header";
 
 function App() {
   return (
-    <main className="min-h-screen bg-primary-dark font-family-sans font-normal">
+    <main className="min-h-screen bg-[#05060A] font-family-sans font-normal">
       <div className="noise-overlay"></div>
       <Toaster theme="dark" position="top-center" />
       <Header />
