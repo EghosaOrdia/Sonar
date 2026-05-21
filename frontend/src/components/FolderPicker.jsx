@@ -79,22 +79,22 @@ const FolderPicker = () => {
   return (
     <section id="studio" className="relative py-20 sm:py-28 overflow-hidden">
       {/* <div className="app-overlay absolute inset-0 pointer-events-none"></div> */}
-      <div className="max-w-4xl mx-auto relative z-10 text-white">
-        <div class="flex flex-col items-center text-center">
-          <span class="text-[10px] font-mono-plex uppercase tracking-[0.22em] text-zinc-500">
+      <div className="max-w-6xl mx-auto relative z-10 text-white">
+        <div className="flex flex-col items-center text-center">
+          <span className="text-[10px] font-mono-plex uppercase tracking-[0.22em] text-zinc-500">
             The sync studio
           </span>
-          <h2 class="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white">
+          <h2 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white">
             Drop in music. Walk out with a<span data-ve-dynamic="true"> </span>
-            <span class="text-[#1DB954]">Spotify playlist.</span>
+            <span className="text-[#1DB954]">Spotify playlist.</span>
           </h2>
-          <p class="mt-4 max-w-2xl text-zinc-400">
+          <p className="mt-4 max-w-2xl text-zinc-400">
             A live demo of how Sonar reads, matches, and rebuilds. Pick a folder
             or a playlist file — no real upload happens.
           </p>
         </div>
         <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
-          <div className="glass-card col-span-12 lg:col-span-7 mt-12">
+          <div className="glass-card col-span-12 lg:col-span-7">
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
               <SpotifyConnect closeModal={setIsOpen} />
             </Modal>
@@ -103,36 +103,36 @@ const FolderPicker = () => {
             {step === 3 && <ResultsState />}
             {step === 4 && <SuccessState />}
           </div>
-          <div class="col-span-12 lg:col-span-5">
-            <div class="h-full rounded-3xl border border-white/8 bg-linear-to-b from-[#0d0e14] to-[#0a0b10] p-4 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
-              <div class="flex items-center justify-between px-2 pt-1">
+          <div className="col-span-12 lg:col-span-5">
+            <div className="h-full rounded-3xl border border-white/8 bg-linear-to-b from-[#0d0e14] to-[#0a0b10] p-4 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
+              <div className="flex items-center justify-between px-2 pt-1">
                 <div>
-                  <div class="text-[10px] font-mono-plex uppercase tracking-[0.22em] text-zinc-500">
+                  <div className="text-[10px] font-mono-plex uppercase tracking-[0.22em] text-zinc-500">
                     Live matches
                   </div>
-                  <div class="font-display text-lg text-white">
+                  <div className="font-display text-lg text-white">
                     Spotify catalog
                   </div>
                 </div>
-                <div class="inline-flex items-center gap-1.5 rounded-full bg-[#1DB954]/10 text-[#1DB954] text-[10px] font-mono-plex uppercase tracking-[0.2em] px-2.5 py-1 border border-[#1DB954]/20">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1DB954]/10 text-[#1DB954] text-[10px] font-mono-plex uppercase tracking-[0.2em] px-2.5 py-1 border border-[#1DB954]/20">
                   <Disc3 className="lucide-disc-3 h-3 w-3 animate-spin duration-500" />
                   Awaiting source
                 </div>
               </div>
-              <div class="mt-4 rounded-2xl bg-[#06070b] border border-white/5 min-h-90 max-h-120 overflow-y-auto p-2">
-                <div class="h-full min-h-85 grid place-items-center text-center px-6">
+              <div className="mt-4 rounded-2xl bg-[#06070b] border border-white/5 min-h-90 max-h-120 overflow-y-auto p-2">
+                <div className="h-full min-h-85 grid place-items-center text-center px-6">
                   <div>
-                    <div class="mx-auto h-12 w-12 rounded-xl bg-white/3 border border-white/5 grid place-items-center">
+                    <div className="mx-auto h-12 w-12 rounded-xl bg-white/3 border border-white/5 grid place-items-center">
                       <ListMusic className=" h-5 w-5 text-zinc-600" />
                     </div>
-                    <p class="mt-4 text-sm text-zinc-500 max-w-xs">
+                    <p className="mt-4 text-sm text-zinc-500 max-w-xs">
                       Select a folder or playlist file to see matches stream in
                       here in real time.
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="mt-3 flex items-center justify-between px-2 text-[10px] font-mono-plex uppercase tracking-[0.2em] text-zinc-500">
+              <div className="mt-3 flex items-center justify-between px-2 text-[10px] font-mono-plex uppercase tracking-[0.2em] text-zinc-500">
                 <span>0 matched</span>
                 <span>
                   <span data-ve-dynamic="true">1</span> unmatched

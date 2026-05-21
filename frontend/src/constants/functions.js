@@ -79,10 +79,48 @@ export async function ScanAudioFiles(directoryHandle) {
   return results;
 }
 
+// Feature detection: check if File System Access API is supported
+const isFileSystemAccessSupported = () => {
+  return typeof window !== "undefined" && "showDirectoryPicker" in window;
+};
+
+// Fallback: use webkitdirectory attribute
+const pickDirectoryFallback = async () => {
+  return new Promise((resolve) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.webkitdirectory = true;
+    input.multiple = true;
+
+    input.onchange = () => {
+      resolve(Array.from(input.files));
+    };
+
+    input.click();
+  });
+};
+
 export const handleDirectoryScan = async () => {
   try {
-    const dir = await window.showDirectoryPicker();
-    const audioData = await ScanAudioFiles(dir);
+    let audioData;
+
+    if (isFileSystemAccessSupported()) {
+      // Use File System Access API if available
+      const dir = await window.showDirectoryPicker();
+      audioData = await ScanAudioFiles(dir);
+    } else {
+      // Fallback to webkitdirectory
+      const files = await pickDirectoryFallback();
+      audioData = [];
+
+      for (const file of files) {
+        const ext = file.name.split(".").pop().toLowerCase();
+        if (!AUDIO_EXTENSIONS.includes(ext)) continue;
+
+        const metaData = await extractMetadata(file);
+        audioData.push(metaData);
+      }
+    }
 
     return audioData;
   } catch (err) {
@@ -112,53 +150,93 @@ const getFileName = (path) => {
 };
 
 export const extractTracksFromPlaylist = async () => {
-  const [playlistFileHandle] = await window.showOpenFilePicker({
-    types: [
-      {
-        description: "Playlist Files",
-        accept: { "audio/x-mpegurl": [".m3u", ".m3u8"] },
-      },
-    ],
-  });
+  try {
+    let playlistFile;
 
-  const playlistFile = await playlistFileHandle.getFile();
+    if (isFileSystemAccessSupported()) {
+      const [playlistFileHandle] = await window.showOpenFilePicker({
+        types: [
+          {
+            description: "Playlist Files",
+            accept: { "audio/x-mpegurl": [".m3u", ".m3u8"] },
+          },
+        ],
+      });
+      playlistFile = await playlistFileHandle.getFile();
+    } else {
+      // Fallback for browsers without File System Access API
+      playlistFile = await new Promise((resolve) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".m3u,.m3u8";
+        input.onchange = () => {
+          if (input.files[0]) resolve(input.files[0]);
+        };
+        input.click();
+      });
+    }
 
-  const content = await playlistFile.text();
-  const paths = parseM3U(content);
-  const tracks = [];
+    const content = await playlistFile.text();
+    const paths = parseM3U(content);
+    const tracks = [];
 
-  for (const relativePath of paths) {
-    const file = getFileName(relativePath);
-    tracks.push(file);
+    for (const relativePath of paths) {
+      const file = getFileName(relativePath);
+      tracks.push(file);
+    }
+
+    return [playlistFile.name, tracks];
+  } catch (err) {
+    console.warn("Playlist pick cancelled or failed: ", err);
+    return ["", []];
   }
-
-  return [playlistFile.name, tracks];
 };
 
 export const pickAndFilterAudioFiles = async (allowedFileNames) => {
-  // const allowedSet = new Set(allowedFileNames);
+  try {
+    let fileHandles;
 
-  const fileHandles = await window.showOpenFilePicker({
-    multiple: true,
-    types: [
-      {
-        description: "Audio Files",
-        accept: {
-          "audio/*": [".mp3", ".wav", ".flac", ".m4a", ".aac"],
-        },
-      },
-    ],
-  });
+    if (isFileSystemAccessSupported()) {
+      fileHandles = await window.showOpenFilePicker({
+        multiple: true,
+        types: [
+          {
+            description: "Audio Files",
+            accept: {
+              "audio/*": [".mp3", ".wav", ".flac", ".m4a", ".aac"],
+            },
+          },
+        ],
+      });
+    } else {
+      // Fallback for browsers without File System Access API
+      const files = await new Promise((resolve) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.multiple = true;
+        input.accept = ".mp3,.wav,.flac,.m4a,.aac";
+        input.onchange = () => {
+          resolve(Array.from(input.files));
+        };
+        input.click();
+      });
 
-  const matchedFiles = [];
-  for (const handle of fileHandles) {
-    const file = await handle.getFile();
-
-    if (allowedFileNames.includes(file.name)) {
-      const metadata = await extractMetadata(file);
-      matchedFiles.push(metadata);
+      fileHandles = files;
     }
-  }
 
-  return matchedFiles;
+    const matchedFiles = [];
+    for (const handle of fileHandles) {
+      const file = handle instanceof File ? handle : await handle.getFile();
+
+      if (allowedFileNames.includes(file.name)) {
+        const metadata = await extractMetadata(file);
+        matchedFiles.push(metadata);
+      }
+    }
+
+    return matchedFiles;
+  } catch (err) {
+    console.warn("File pick cancelled or failed: ", err);
+    return [];
+  }
 };
