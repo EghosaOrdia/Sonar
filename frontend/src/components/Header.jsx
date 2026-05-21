@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 inset-x-0 z-50 transition-all duration-500 py-4">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 transition-all duration-500 ">
-        <div className="flex items-center justify-between rounded-full px-4 sm:px-5 py-2.5 transition-all duration-500 border border-transparent">
+        <div className="flex items-center justify-between rounded-full px-4 sm:px-5 py-2.5 transition-all duration-500 sonar-glass border border-transparent">
           <a
             href="#top"
             data-testid="logo-link"

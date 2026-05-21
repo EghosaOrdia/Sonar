@@ -124,68 +124,65 @@ const Idle = () => {
       )}
 
       {importConfig.importType == "playlist" && (
-        <div className="state animate__animated animate__zoomIn py-12">
-          <div className="text-center">
-            <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
-              <ListMusic className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
-            </button>
-            <h2 className="text-xl">Drag and drop your playlist here</h2>
+        <div className="state animate__animated animate__zoomIn text-center py-12 relative rounded-2xl bg-[#06070b] p-6 sm:p-10 min-h-90">
+          <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 py-10 sm:py-14 flex flex-col items-center text-center cursor-pointer group">
+            <div className="text-center">
+              <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
+                <FileMusic className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
+              </button>
+              <h2 className="text-xl">Drag and drop your playlist here</h2>
 
-            <p className="text-dark-foreground mb-8">
-              or click to browse your local storage
-            </p>
+              <p className="text-dark-foreground mb-8">
+                or click to browse your local storage
+              </p>
 
-            <button
-              onClick={() => handlePlaylistSelection()}
-              id="pickFolderBtn"
-              className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
-            >
-              <ListVideo className="lucide-icon" />
-              Select Playlist
-            </button>
-
-            {importConfig.selectedPlaylist && (
-              <span className="block bg-primary-dark/40 mx-auto mt-8 py-4 rounded-sm text-dark-foreground font-bold">
-                Selected Playlist: {importConfig.selectedPlaylist}
-              </span>
-            )}
-          </div>
-
-          <div className="flex flex-col items-center gap-4 mt-8">
-            <span className="text-sm uppercase tracking-[0.2em] text-slate-500 font-bold">
-              Supported Playlist Formats
-            </span>
-            <div className="flex flex-wrap justify-center gap-3">
-              <span className="px-3 py-1.5 rounded-md bg-white/5 border border-white/5 text-slate-300 text-xs font-medium tracking-wide">
-                .m3u
-              </span>
-              <span className="px-3 py-1.5 rounded-md bg-white/5 border border-white/5 text-slate-300 text-xs font-medium tracking-wide">
-                .m3u8
-              </span>
-            </div>
-          </div>
-
-          {/* Checks if playlist has been uploaded */}
-          {importConfig.playlistTracks.length > 0 && (
-            <div className="flex justify-center gap-4 mt-16 ml-auto">
-              <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
-                <ListVideo className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
+              <button
+                onClick={() => handlePlaylistSelection()}
+                id="pickFolderBtn"
+                className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
+              >
+                <ListVideo className="lucide-icon" />
+                Select Playlist
               </button>
 
-              <div>
-                <h2 className="">Upload songs</h2>
-                <p className="text-dark-foreground mb-8 text-sm">
-                  <button
-                    onClick={handlePlaylistSongsSelection}
-                    className="text-btn-green hover:underline cursor-pointer"
-                  >
-                    click to browse
-                  </button>{" "}
-                  your local storage
-                </p>
-              </div>
+              {importConfig.selectedPlaylist && (
+                <span className="block bg-primary-dark/40 mx-auto mt-8 py-4 rounded-sm text-dark-foreground font-bold">
+                  Selected Playlist: {importConfig.selectedPlaylist}
+                </span>
+              )}
             </div>
-          )}
+
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-mono-plex uppercase tracking-[0.18em] text-zinc-600">
+              <span>.mp3</span>
+              <span>.flac</span>
+              <span>.wav</span>
+              <span>.m4a</span>
+              <span>.m3u</span>
+              <span>.csv</span>
+            </div>
+
+            {/* Checks if playlist has been uploaded */}
+            {importConfig.playlistTracks.length > 0 && (
+              <div className="flex justify-center gap-4 mt-16 ml-auto">
+                <button className="app-iconbox w-12 h-12 mb-8 rounded-xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
+                  <ListVideo className="size-6 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
+                </button>
+
+                <div>
+                  <h2 className="">Upload songs</h2>
+                  <p className="text-dark-foreground mb-8 text-sm">
+                    <button
+                      onClick={handlePlaylistSongsSelection}
+                      className="text-btn-green hover:underline cursor-pointer"
+                    >
+                      click to browse
+                    </button>{" "}
+                    your local storage
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
