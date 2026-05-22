@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, HTTPException, Query, Header
+from fastapi import APIRouter, Request, HTTPException, Query, Header, UploadFile, File
 from typing import List, Annotated
 from fastapi.responses import RedirectResponse
 
@@ -10,10 +10,12 @@ from app.spotify.auth import (
     clear_session,
 )
 from app.spotify.client import SpotifyClient
-from app.spotify.search import search_track, search_single_track
+from app.spotify.search import search_track, search_single_track, generate_fingerprint
 from pydantic import BaseModel
 from app.schema import Song
-
+import requests
+from app.config import ACOUSTIC_KEY, ACOUSTIC_LOOKUP_ENDPOINT
+import tempfile
 
 router = APIRouter()
 # FRONTEND_URL = "http://localhost:5173"
@@ -124,3 +126,28 @@ def add_to_playlist(
     client = get_client(session_id)
     result = client.add_tracks(body.playlist_id, body.track_uris)
     return result
+
+
+@router.post("/identify-song")
+async def identify_song(file: UploadFile = File(...)):
+    with tempfile.NamedTemporaryFile(delete=False) as temp:
+        contents = await file.read()
+        temp.write(contents)
+
+        temp_path = temp.name
+
+    duration, fingerprint = generate_fingerprint(temp_path)
+
+    response = requests.get(
+        "https://api.acoustid.org/v2/lookup",
+        params={
+            "client": ACOUSTIC_KEY,
+            "meta": "recordings",
+            "fingerprint": fingerprint,
+            "duration": duration,
+        },
+    )
+
+    data = response.json()
+
+    return data

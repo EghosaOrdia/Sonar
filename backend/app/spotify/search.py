@@ -2,6 +2,8 @@ import re
 import requests
 import uuid
 from app.spotify.token import TokenStore
+import subprocess
+import tempfile
 
 SEARCH_URL = "https://api.spotify.com/v1/search"
 tokenStore = TokenStore()
@@ -120,3 +122,21 @@ def search_single_track(song_title: str, artist_name: str):
     for track in tracks:
         curated_tracks.append(_format_track(track))
     return curated_tracks
+
+
+def generate_fingerprint(path: str):
+    result = subprocess.run(["fpcalc", path], capture_output=True, text=True)
+
+    output = result.stdout.splitlines()
+
+    duration = None
+    fingerprint = None
+
+    for line in output:
+        if line.startswith("DURATION="):
+            duration = line.replace("DURATION=", "")
+
+        if line.startswith("FINGERPRINT="):
+            fingerprint = line.replace("FINGERPRINT=", "")
+
+    return duration, fingerprint
