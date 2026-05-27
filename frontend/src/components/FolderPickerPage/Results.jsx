@@ -13,6 +13,7 @@ const Results = () => {
     isOpen: false,
     content: "",
     researchTrack: null,
+    trackType: "",
   });
   const { results, reset } = useTrackStore();
   const setStep = useStep((state) => state.setStep);
@@ -93,6 +94,7 @@ const Results = () => {
                         className="w-full h-full object-cover"
                         src={song.match.thumbnail}
                       />
+                      
                       <div
                         onClick={() => {
                           setModal((prev) => ({
@@ -100,6 +102,7 @@ const Results = () => {
                             isOpen: true,
                             content: "research",
                             researchTrack: song,
+                            trackType: "found",
                           }));
                         }}
                         className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
@@ -141,7 +144,22 @@ const Results = () => {
                     key={song.match.id}
                     className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer opacity-100 transform-none"
                   >
-                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
+                    <div className="relative w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0"></div>
+
+                    <div
+                      onClick={() => {
+                        setModal((prev) => ({
+                          ...prev,
+                          isOpen: true,
+                          content: "research",
+                          researchTrack: song,
+                          trackType: "found",
+                        }));
+                      }}
+                      className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <RotateCcw className="lucide-icon" />
+                    </div>
 
                     <div className="flex-1 min-w-0">
                       <p className="font-medium truncate">

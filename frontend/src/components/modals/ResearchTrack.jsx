@@ -5,8 +5,10 @@ import { formatMilliseconds } from "../../constants/functions";
 import useTrackStore from "../../store/useTrackStore";
 import { BASE_URL } from "../../constants/data";
 
-const sendToServer = async (data) => {
-  const res = await fetch(`${BASE_URL}/spotify/search`, {
+const sendToServer = async (data, trackType) => {
+  let url = `${BASE_URL}/spotify/`;
+  trackType == "found" ? (url += "search") : (url += "fingerptint-identify");
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -15,7 +17,7 @@ const sendToServer = async (data) => {
   return res.json();
 };
 
-const ResearchTrack = ({ track, closeModal }) => {
+const ResearchTrack = ({ track, closeModal, trackType }) => {
   const [trackResults, setTrackResults] = useState([]);
   const isFetchingRef = useRef(false);
   const currentTrackRef = useRef(null);
@@ -38,7 +40,7 @@ const ResearchTrack = ({ track, closeModal }) => {
       // console.log("Sending data:", data);
 
       try {
-        const response = await sendToServer(data);
+        const response = await sendToServer(data, trackType);
         // console.log("Full Spotify search response:", response);
 
         if (response && response.match) {

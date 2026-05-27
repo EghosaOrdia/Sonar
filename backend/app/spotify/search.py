@@ -24,10 +24,10 @@ def clean_filename(filename):
     return name
 
 
-def _search_tracks(song_title: str, artist_name: str, limit: int = 5):
+def _search_tracks(song_title: str, artist_name: str, file_name: str, limit: int = 5):
     query = f"track:{clean_filename(song_title)} artist:{clean_filename(artist_name)}"
-    if song_title == artist_name:
-        query = f"track:{clean_filename(song_title)}"
+    if song_title == "" or artist_name == "":
+        query = f"track:{clean_filename(file_name)}"
     params = {"q": query, "type": "track", "limit": limit}
 
     def make_request():
@@ -86,8 +86,8 @@ def _format_track(item):
     }
 
 
-def search_track(song_title: str, artist_name: str):
-    tracks = _search_tracks(song_title, artist_name)
+def search_track(song_title: str, artist_name: str, file_name: str):
+    tracks = _search_tracks(song_title, artist_name, file_name)
     if not tracks:
         return {
             "id": uuid.uuid4().hex[:4],
@@ -116,8 +116,8 @@ def search_track(song_title: str, artist_name: str):
     return result
 
 
-def search_single_track(song_title: str, artist_name: str):
-    tracks = _search_tracks(song_title, artist_name, limit=10)
+def search_single_track(song_title: str, artist_name: str, file_name: str):
+    tracks = _search_tracks(song_title, artist_name, file_name, limit=10)
     curated_tracks = []
     if not tracks:
         return None

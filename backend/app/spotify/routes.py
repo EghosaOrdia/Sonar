@@ -84,13 +84,13 @@ def logout(session_id: Annotated[str, Header()]):
 
 @router.post("/search")
 def search_song(song: Song):
-    match = search_single_track(song.title, song.artist)
+    match = search_single_track(song.title, song.artist, song.fileName)
     return {"match": match}
 
 
 @router.post("/search/batch")
 def batch_search(songs: List[Song]):
-    results = [{"match": search_track(s.title, s.artist)} for s in songs]
+    results = [{"match": search_track(s.title, s.artist, s.fileName)} for s in songs]
 
     return {
         "total": len(songs),
@@ -134,7 +134,7 @@ def add_to_playlist(
     return result
 
 
-@router.post("/fingerptint-upload")
+@router.post("/fingerptint-identify")
 async def identify_song(file: UploadFile = File(...)):
     allowed = {".mp3", ".wav", ".flac", ".m4a", ".ogg"}
     filename = file.filename or ""
@@ -167,7 +167,7 @@ async def identify_song(file: UploadFile = File(...)):
         artist = data["results"][0]["recordings"][0]["artists"][0]["name"]
         title = data["results"][0]["recordings"][0]["title"]
 
-        match = search_single_track(title, artist)
+        match = search_single_track(title, artist, title)
 
     except Exception as e:
         raise HTTPException(
