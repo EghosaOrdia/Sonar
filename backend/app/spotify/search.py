@@ -1,9 +1,12 @@
 import re
 import requests
 import uuid
+import os
 from app.spotify.token import TokenStore
 import subprocess
 import tempfile
+import acoustid
+from app.config import ACOUSTIC_KEY, ACOUSTIC_LOOKUP_ENDPOINT
 
 SEARCH_URL = "https://api.spotify.com/v1/search"
 tokenStore = TokenStore()
@@ -125,6 +128,9 @@ def search_single_track(song_title: str, artist_name: str):
 
 
 def generate_fingerprint(path: str):
+    duration, fingerprint = acoustid.fingerprint_file(path)
+    return {"duration": duration, "fingerprint": fingerprint}
+
     result = subprocess.run(["fpcalc", path], capture_output=True, text=True)
 
     output = result.stdout.splitlines()
@@ -140,3 +146,33 @@ def generate_fingerprint(path: str):
             fingerprint = line.replace("FINGERPRINT=", "")
 
     return duration, fingerprint
+
+
+def extract_fingerprint_from_file(path: str) -> dict:
+    duration, fingerprint = generate_fingerprint(path)
+    return {"duration": duration, "fingerprint": fingerprint}
+
+
+def extract_fingerprint_from_bytes(audio_bytes: bytes, suffix: str = "mp3"):
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+        tmp.write(audio_bytes)
+        tmp_path = tmp.name
+    try:
+        return extract_fingerprint_from_file(tmp_path)
+    finally:
+        os.unlink(tmp_path)
+
+
+def identify_track(file_path: str) -> list:
+    results = acoustid.match(ACOUSTIC_KEY, file_path)
+    matches = []
+    for score, recording_id, title, artist in results:
+        matches.append(
+            {
+                "score": score,
+                "title": title,
+                "artist": artist,
+                "acoustid_recording_id": recording_id,
+            }
+        )
+    return matches

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException, Query, Header, UploadFile, File
 from typing import List, Annotated
 from fastapi.responses import RedirectResponse
+import httpx
 
 from app.spotify.auth import (
     get_auth_url,
@@ -10,7 +11,12 @@ from app.spotify.auth import (
     clear_session,
 )
 from app.spotify.client import SpotifyClient
-from app.spotify.search import search_track, search_single_track, generate_fingerprint
+from app.spotify.search import (
+    search_track,
+    search_single_track,
+    generate_fingerprint,
+    extract_fingerprint_from_bytes,
+)
 from pydantic import BaseModel
 from app.schema import Song
 import requests
@@ -128,26 +134,46 @@ def add_to_playlist(
     return result
 
 
-@router.post("/identify-song")
+@router.post("/fingerptint-upload")
 async def identify_song(file: UploadFile = File(...)):
-    with tempfile.NamedTemporaryFile(delete=False) as temp:
-        contents = await file.read()
-        temp.write(contents)
+    allowed = {".mp3", ".wav", ".flac", ".m4a", ".ogg"}
+    filename = file.filename or ""
+    if "." not in filename:
+        raise HTTPException(status_code=400, detail="Unsupported file type")
 
-        temp_path = temp.name
+    suffix = "." + filename.rsplit(".", 1)[-1].lower()
+    if suffix not in allowed:
+        raise HTTPException(status_code=400, detail="Unsupported file type")
 
-    duration, fingerprint = generate_fingerprint(temp_path)
+    audio_bytes = await file.read()
 
-    response = requests.get(
-        "https://api.acoustid.org/v2/lookup",
-        params={
-            "client": ACOUSTIC_KEY,
-            "meta": "recordings",
-            "fingerprint": fingerprint,
-            "duration": duration,
-        },
-    )
+    try:
+        result = extract_fingerprint_from_bytes(audio_bytes, suffix=suffix)
+        fingerprint = result["fingerprint"]
+        duration = result["duration"]
 
-    data = response.json()
+        async with httpx.AsyncClient() as client:
+            response = requests.get(
+                "https://api.acoustid.org/v2/lookup",
+                params={
+                    "client": ACOUSTIC_KEY,
+                    "meta": "recordings",
+                    "fingerprint": fingerprint,
+                    "duration": duration,
+                },
+            )
+        data = response.json()
 
-    return data
+        artist = data["results"][0]["recordings"][0]["artists"][0]["name"]
+        title = data["results"][0]["recordings"][0]["title"]
+
+        match = search_single_track(title, artist)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Fingerprint extraction failed: {e}"
+        )
+
+    return {"match": match}
+    results[0]["recordings"][0]["artists"][0]["name"]
+    results[0]["recordings"][0]["title"]

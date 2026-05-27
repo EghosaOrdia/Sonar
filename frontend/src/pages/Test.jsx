@@ -1,7 +1,44 @@
-import { FileMusic, FolderOpen } from "lucide-react";
-import React from "react";
+import { File, FileMusic, FolderOpen, MicIcon } from "lucide-react";
+import React, { useState } from "react";
+import { toast, Toaster } from "sonner";
 
 const Test = () => {
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      toast.error("Error reading file", {
+        description: "Please select a file",
+      });
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/spotify/fingerptint-upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const data = await response.json();
+      console.log(data);
+      toast.success("Upload successful!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Upload failed");
+    }
+  };
+
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden min-h-screen bg-[#05060A] font-family-sans font-normal">
       <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 pt-10 sm:pt-14 flex flex-col items-center text-center cursor-pointer group">
@@ -16,7 +53,23 @@ const Test = () => {
           <FileMusic className="lucide-icon" />
           Select Audio File
         </label>
-        <input type="file" name="musicfile" id="musicfile" hidden />
+        <input
+          type="file"
+          name="musicfile"
+          id="musicfile"
+          accept="audio/*"
+          onChange={handleFileChange}
+          hidden
+        />
+
+        {file && <p className="text-white mt-4">Selected: {file.name}</p>}
+
+        <button
+          onClick={handleUpload}
+          className="flex btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full mt-8"
+        >
+          Upload
+        </button>
       </div>
     </section>
   );
