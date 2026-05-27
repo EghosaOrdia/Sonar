@@ -1,7 +1,10 @@
 import { CircleCheck, ExternalLink, ListMusic, RotateCcw } from "lucide-react";
 import React from "react";
+import useTrackStore from "../../store/useTrackStore";
 
 const Active = () => {
+  const { reset } = useTrackStore();
+
   return (
     <div className="relative rounded-2xl bg-[#06070b] border border-white/5 p-6 sm:p-10 min-h-90">
       <div className="relative" data-testid="process-view">
@@ -16,7 +19,7 @@ const Active = () => {
             </h3>
           </div>
           <button
-          onClick={}
+            onClick={() => reset()}
             className="text-zinc-500 hover:text-white transition-colors"
             aria-label="Reset"
           >
