@@ -98,4 +98,5 @@ export const steps = [
 
 // export const BASE_URL = "https://spotsync-pdwy.onrender.com";
 // export const BASE_URL = "https://spotsync.up.railway.app";
-export const BASE_URL = "https://sonar-production-be8d.up.railway.app";
+// export const BASE_URL = "https://sonar-production-be8d.up.railway.app";
+export const BASE_URL = "http://127.0.0.1:8000";

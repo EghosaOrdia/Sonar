@@ -4,18 +4,7 @@ import { RotateCcw, Clock, X } from "lucide-react";
 import { formatMilliseconds } from "../../constants/functions";
 import useTrackStore from "../../store/useTrackStore";
 import { BASE_URL } from "../../constants/data";
-
-const sendToServer = async (data, trackType) => {
-  let url = `${BASE_URL}/spotify/`;
-  trackType == "found" ? (url += "search") : (url += "fingerptint-identify");
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
-  return res.json();
-};
+import useStep from "../../store/useStep";
 
 const ResearchTrack = ({ track, closeModal, trackType }) => {
   const [trackResults, setTrackResults] = useState([]);
@@ -23,6 +12,25 @@ const ResearchTrack = ({ track, closeModal, trackType }) => {
   const currentTrackRef = useRef(null);
   const storeTrackResults = useTrackStore((state) => state.results);
   const setTracks = useTrackStore((state) => state.setResults);
+  const setStep = useStep((state) => state.setStep);
+
+  const sendToServer = async (data, trackType) => {
+    try {
+      let url = `${BASE_URL}/spotify/`;
+      trackType == "found"
+        ? (url += "search")
+        : (url += "fingerprint-identify");
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      return res.json();
+    } catch {
+      setStep(1);
+    }
+  };
 
   useEffect(() => {
     if (!track || isFetchingRef.current || currentTrackRef.current === track)
@@ -37,7 +45,7 @@ const ResearchTrack = ({ track, closeModal, trackType }) => {
         artist: track.match.artist,
         title: track.match.track_name,
       };
-      // console.log("Sending data:", data);
+      console.log("Sending data:", data);
 
       try {
         const response = await sendToServer(data, trackType);

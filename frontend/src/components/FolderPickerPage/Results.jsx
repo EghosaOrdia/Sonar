@@ -39,7 +39,11 @@ const Results = () => {
         onClose={() => setModal((prev) => ({ ...prev, isOpen: false }))}
       >
         {modal.content == "research" && (
-          <ResearchTrack track={modal.researchTrack} closeModal={closeModal} />
+          <ResearchTrack
+            track={modal.researchTrack}
+            closeModal={closeModal}
+            trackType={modal.trackType}
+          />
         )}
         {modal.content == "spotify-connect" && (
           <SpotifyConnect closeModal={closeModal} />
@@ -94,7 +98,7 @@ const Results = () => {
                         className="w-full h-full object-cover"
                         src={song.match.thumbnail}
                       />
-                      
+
                       <div
                         onClick={() => {
                           setModal((prev) => ({
@@ -153,7 +157,7 @@ const Results = () => {
                           isOpen: true,
                           content: "research",
                           researchTrack: song,
-                          trackType: "found",
+                          trackType: "notfound",
                         }));
                       }}
                       className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center"

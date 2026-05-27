@@ -1,77 +1,66 @@
-import { File, FileMusic, FolderOpen, MicIcon } from "lucide-react";
-import React, { useState } from "react";
-import { toast, Toaster } from "sonner";
+import React from "react";
+import { IdleState } from "../components/FolderPickerPage";
+import { Disc3, ListMusic } from "lucide-react";
+import useStep from "../store/useStep";
+import Active from "../components/FolderPickerPage/Active";
+import useTrackStore from "../store/useTrackStore";
 
 const Test = () => {
-  const [file, setFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      toast.error("Error reading file", {
-        description: "Please select a file",
-      });
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/spotify/fingerptint-upload",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
-
-      const data = await response.json();
-      console.log(data);
-      toast.success("Upload successful!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Upload failed");
-    }
-  };
+  const { step } = useStep();
+  const { results } = useTrackStore();
 
   return (
-    <section className="relative py-20 sm:py-28 overflow-hidden min-h-screen bg-[#05060A] font-family-sans font-normal">
-      <div className="relative beam-border rounded-2xl transition-colors border-white/10 px-6 pt-10 sm:pt-14 flex flex-col items-center text-center cursor-pointer group">
-        <button className="app-iconbox w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group hover:border-primary-green/50 transition-colors duration-300 cursor-pointer">
-          <FileMusic className="size-12 text-dark-foreground group-hover:scale-125 group-hover:text-primary-green transition-all duration-300" />
-        </button>
-
-        <label
-          htmlFor="musicfile"
-          className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
-        >
-          <FileMusic className="lucide-icon" />
-          Select Audio File
-        </label>
-        <input
-          type="file"
-          name="musicfile"
-          id="musicfile"
-          accept="audio/*"
-          onChange={handleFileChange}
-          hidden
-        />
-
-        {file && <p className="text-white mt-4">Selected: {file.name}</p>}
-
-        <button
-          onClick={handleUpload}
-          className="flex btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full mt-8"
-        >
-          Upload
-        </button>
+    <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
+      <div className="glass-card col-span-12 lg:col-span-7">
+        {/* <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <SpotifyConnect closeModal={setIsOpen} />
+        </Modal> */}
+        {step === 1 && <IdleState />}
+        {step === 2 && <Active />}
       </div>
-    </section>
+
+      {/* To be implemented */}
+      <div className="col-span-12 lg:col-span-5">
+        <div className="h-full rounded-3xl border border-white/8 bg-linear-to-b from-[#0d0e14] to-[#0a0b10] p-4 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
+          <div className="flex items-center justify-between px-2 pt-1">
+            <div>
+              <div className="text-[10px] font-mono-plex uppercase tracking-[0.22em] text-zinc-500">
+                Live matches
+              </div>
+              <div className="font-display text-lg text-white">
+                Spotify catalog
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1DB954]/10 text-[#1DB954] text-[10px] font-mono-plex uppercase tracking-[0.2em] px-2.5 py-1 border border-[#1DB954]/20">
+              <Disc3 className="lucide-disc-3 h-3 w-3 animate-spin duration-500" />
+              Awaiting source
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-2xl bg-[#06070b] border border-white/5 min-h-90 max-h-120 overflow-y-auto p-2">
+            {results.length > 1}
+            <div className="h-full min-h-85 grid place-items-center text-center px-6">
+              <div>
+                <div className="mx-auto h-12 w-12 rounded-xl bg-white/3 border border-white/5 grid place-items-center">
+                  <ListMusic className=" h-5 w-5 text-zinc-600" />
+                </div>
+                <p className="mt-4 text-sm text-zinc-500 max-w-xs">
+                  Select a folder or playlist file to see matches stream in here
+                  in real time.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between px-2 text-[10px] font-mono-plex uppercase tracking-[0.2em] text-zinc-500">
+            <span>0 matched</span>
+            <span>
+              <span data-ve-dynamic="true">1</span> unmatched
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

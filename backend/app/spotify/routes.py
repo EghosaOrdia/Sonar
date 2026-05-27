@@ -134,7 +134,7 @@ def add_to_playlist(
     return result
 
 
-@router.post("/fingerptint-identify")
+@router.post("/fingerprint-identify")
 async def identify_song(file: UploadFile = File(...)):
     allowed = {".mp3", ".wav", ".flac", ".m4a", ".ogg"}
     filename = file.filename or ""
