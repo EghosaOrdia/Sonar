@@ -1,16 +1,19 @@
 import React from "react";
 import { IdleState } from "../components/FolderPickerPage";
-import { Disc3, ListMusic } from "lucide-react";
+import { Clock, Disc3, ListMusic, RotateCcw } from "lucide-react";
 import useStep from "../store/useStep";
 import Active from "../components/FolderPickerPage/Active";
 import useTrackStore from "../store/useTrackStore";
+import { formatMilliseconds } from "../constants/functions";
 
 const Test = () => {
   const { step } = useStep();
   const { results } = useTrackStore();
 
+  const validResults = results.filter((song) => song?.match?.found === true);
+
   return (
-    <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
+    <div className="min-h-screen bg-[#05060A] font-family-sans font-normal p-32 grid grid-cols-12 gap-4 lg:gap-5">
       <div className="glass-card col-span-12 lg:col-span-7">
         {/* <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <SpotifyConnect closeModal={setIsOpen} />
@@ -38,17 +41,57 @@ const Test = () => {
           </div>
 
           <div className="mt-4 rounded-2xl bg-[#06070b] border border-white/5 min-h-90 max-h-120 overflow-y-auto p-2">
-            {results.length > 1}
-            <div className="h-full min-h-85 grid place-items-center text-center px-6">
-              <div>
-                <div className="mx-auto h-12 w-12 rounded-xl bg-white/3 border border-white/5 grid place-items-center">
-                  <ListMusic className=" h-5 w-5 text-zinc-600" />
+            <div className="h-full min-h-85">
+              {results.length > 1 ? (
+                <div className="space-y-1">
+                  {results.map((song) => (
+                    <div
+                      key={song.match.id}
+                      style={{ "--i": song.match.id }}
+                      className="song-item flex items-center gap-4 p-3 rounded-xl cursor-pointer  hover:bg-white/5"
+                    >
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/5 shrink-0">
+                        <img
+                          alt={song.match.track_name}
+                          className="w-full h-full object-cover"
+                          src={song.match.thumbnail}
+                        />
+
+                        <div className="absolute inset-0 bg-black/40 opacity-0 hover:bg-primary-green/70 hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <RotateCcw className="lucide-icon" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium truncate">
+                          {song.match.track_name}
+                        </p>
+                        <p className="text-sm text-dark-foreground truncate">
+                          {song.match.artist}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Clock className="lucide-icon" />
+                        <span className="text-sm text-dark-foreground">
+                          {formatMilliseconds(song.match.duration)}
+                        </span>
+                        <div className="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-primary-green/10 text-primary-green border-0">
+                          Matched
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <p className="mt-4 text-sm text-zinc-500 max-w-xs">
-                  Select a folder or playlist file to see matches stream in here
-                  in real time.
-                </p>
-              </div>
+              ) : (
+                <div className="grid place-items-center text-center px-6">
+                  <div className="mx-auto h-12 w-12 rounded-xl bg-white/3 border border-white/5 grid place-items-center">
+                    <ListMusic className=" h-5 w-5 text-zinc-600" />
+                  </div>
+                  <p className="mt-4 text-sm text-zinc-500 max-w-xs">
+                    Select a folder or playlist file to see matches stream in
+                    here in real time.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

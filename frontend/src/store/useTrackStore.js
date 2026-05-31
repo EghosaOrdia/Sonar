@@ -11,6 +11,10 @@ const useTrackStore = create(
 
       setPlayListName: (newPlaylist) => set({ playlistName: newPlaylist }),
       setTracks: (newTrack) => set({ tracks: newTrack }),
+      addResult: (result) =>
+        set((state) => ({
+          results: [...state.results, result],
+        })),
       setResults: (result) => set({ results: result }),
       setPlaylistUrl: (newPlaylistUrl) => set({ playlistUrl: newPlaylistUrl }),
 
