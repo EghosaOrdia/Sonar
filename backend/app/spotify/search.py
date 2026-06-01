@@ -77,7 +77,7 @@ def _format_track(item):
     images = item["album"].get("images", [])
 
     return {
-        "id": unique_id,
+        "id": str(unique_id),
         "track_name": item["name"],
         "artist": item["artists"][0]["name"],
         "uri": item["uri"],
@@ -90,7 +90,7 @@ def search_track(song_title: str, artist_name: str, file_name: str):
     tracks = _search_tracks(song_title, artist_name, file_name)
     if not tracks:
         return {
-            "id": uuid.uuid4().hex[:4],
+            "id": str(uuid.uuid4().hex[:4]),
             "track_name": song_title,
             "artist": artist_name,
             "uri": None,

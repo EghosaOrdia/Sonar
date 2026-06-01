@@ -1,18 +1,15 @@
 import {
   CircleCheck,
-  DotIcon,
   ExternalLink,
   Info,
   ListMusic,
   RotateCcw,
 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useTrackStore from "../../store/useTrackStore";
 import useStep from "../../store/useStep";
-import { Link } from "react-router";
 import { toast } from "sonner";
 import { BASE_URL } from "../../constants/data";
-import Results from "./Results";
 import useAuth from "../../store/useAuth";
 import { spotify } from "../../constants/media";
 
@@ -31,16 +28,17 @@ const loginWithSpotify = () => {
 const Active = () => {
   const hasRunRef = useRef(false);
   const [loadingState, setLoadingState] = useState(false);
-  const { reset } = useTrackStore();
-  const { tracks, addResult } = useTrackStore();
-  const { isAuthenticated, clearAuth } = useAuth();
+  const { tracks, addResult, reset } = useTrackStore();
+
+  const { isAuthenticated } = useAuth();
 
   const setStep = useStep((state) => state.setStep);
   const [playListDetails, setPlaylistDetails] = useState({
-    title: "My Offline Playlist 🚀",
+    title: "",
     status: "Sync in progress",
     currentStep: 0,
     matchedCount: 0,
+    scannedCount: 0,
     totalCount: tracks.length,
     playlistUrl: "",
   });
@@ -51,6 +49,7 @@ const Active = () => {
       status: "",
       currentStep: 0,
       matchedCount: 0,
+      scannedCount: 0,
       totalCount: 0,
       playlistUrl: "",
     });
@@ -63,14 +62,54 @@ const Active = () => {
     }));
   };
 
-  const sendToServer = async (data) => {
-    const res = await fetch(`${BASE_URL}/spotify/search`, {
+  const streamFromServer = async (data) => {
+    const res = await fetch(`${BASE_URL}/spotify/search/batch`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
-    return res;
+    if (!res.ok) return;
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop();
+
+      for (const part of parts) {
+        const line = part.replace(/^data: /, "").trim();
+
+        if (!line) continue;
+
+        const data = JSON.parse(line);
+        const trackResult = { match: data.match };
+
+        if (data.match.found) {
+          setPlaylistDetails((prev) => ({
+            ...prev,
+            matchedCount: prev.matchedCount + 1,
+          }));
+        }
+        addResult(trackResult);
+        setPlaylistDetails((prev) => ({
+          ...prev,
+          scannedCount: prev.scannedCount + 1,
+        }));
+      }
+    }
+
+    setPlaylistDetails((prev) => ({
+      ...prev,
+      currentStep: prev.currentStep + 1,
+    }));
   };
 
   useEffect(() => {
@@ -81,41 +120,22 @@ const Active = () => {
       description: "Reading your music files...",
       icon: <Info />,
     });
+
     const runProcess = async () => {
       try {
-        for (const track of tracks) {
-          const response = await sendToServer(track);
-          if (response.status != 200) continue;
-          const data = await response.json();
-          const trackResult = { match: data["match"][0] };
-          setPlaylistDetails((prev) => ({
-            ...prev,
-            matchedCount: prev.matchedCount + 1,
-          }));
-          addResult(trackResult);
-        }
-
-        setPlaylistDetails((prev) => ({
-          ...prev,
-          currentStep: prev.currentStep + 1,
-        }));
-
-        // if (response?.results) {
-        //   setResults(response.results);
-        //   toast.success("Songs fetched success");
-        //   setStep(3);
-        // }
+        await streamFromServer(tracks);
       } catch (err) {
         console.error(err);
         toast.error("Error fetching song", {
           description: "Please try again",
         });
+        reset();
         setStep(1);
       }
     };
 
     runProcess();
-  }, [tracks]);
+  }, []);
 
   return (
     <div className="relative rounded-2xl bg-[#06070b] border border-white/5 p-6 sm:p-10 min-h-90">
@@ -129,7 +149,7 @@ const Active = () => {
               <CircleCheck className="h-5 w-5 text-[#1DB954]" />
               <input
                 className="grow text-xl sm:text-2xl text-white border-zinc-500 border-b-2 border-dashed  focus:border-primary-green outline-none"
-                placeholder={playListDetails.title}
+                placeholder="Playlist name"
                 value={playListDetails.title}
                 onChange={changeEvent}
               />
@@ -152,7 +172,7 @@ const Active = () => {
             <div
               style={{
                 width: `${Math.round(
-                  (playListDetails.matchedCount / playListDetails.totalCount) *
+                  (playListDetails.scannedCount / playListDetails.totalCount) *
                     100,
                 )}%`,
               }}
@@ -163,7 +183,7 @@ const Active = () => {
             <span>
               <span>
                 {Math.round(
-                  (playListDetails.matchedCount / playListDetails.totalCount) *
+                  (playListDetails.scannedCount / playListDetails.totalCount) *
                     100,
                 )}
               </span>
@@ -171,7 +191,7 @@ const Active = () => {
               <span>{playListDetails.totalCount}</span> matched
             </span>
             <span>
-              <span>{playListDetails.matchedCount}</span> files read
+              <span>{playListDetails.scannedCount}</span> files read
             </span>
           </div>
         </div>
@@ -231,7 +251,7 @@ const Active = () => {
             loginWithSpotify();
             setLoadingState(true);
           }}
-          className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto`}
+          className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 p-4 font-family-sans text-lg items-center justify-center rounded-3xl mt-7`}
         >
           {loadingState ? (
             <RotateCcw className="lucide-icon" />

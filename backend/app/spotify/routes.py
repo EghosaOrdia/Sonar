@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request, HTTPException, Query, Header, UploadFile, File
 from typing import List, Annotated
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 import httpx
+import json
 
 from app.spotify.auth import (
     get_auth_url,
@@ -90,13 +91,20 @@ def search_song(song: Song):
 
 @router.post("/search/batch")
 def batch_search(songs: List[Song]):
-    results = [{"match": search_track(s.title, s.artist, s.fileName)} for s in songs]
+    def generate():
+        for s in songs:
+            match = search_track(s.title, s.artist, s.fileName)
+            result = {"match": match}
+            yield f"data: {json.dumps(result)}\n\n"
 
-    return {
-        "total": len(songs),
-        "matched": sum(1 for r in results if r["match"]),
-        "results": results,
-    }
+    return StreamingResponse(generate(), media_type="text/event-stream")
+    # results = [{"match": search_track(s.title, s.artist, s.fileName)} for s in songs]
+
+    # return {
+    #     "total": len(songs),
+    #     "matched": sum(1 for r in results if r["match"]),
+    #     "results": results,
+    # }
 
 
 class PlayListRequest(BaseModel):

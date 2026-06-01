@@ -53,14 +53,14 @@ const extractMetadata = async (file) => {
     const fileName = file.name.replace(/\.[^/.]+$/, "");
 
     return {
-      title: sanitizeFileName(title),
-      artist: sanitizeFileName(artist),
+      title: sanitizeFileName(title) ?? "",
+      artist: sanitizeFileName(artist) ?? "",
       fileName: fileName,
     };
   } catch {
     return {
-      title: null,
-      artist: null,
+      title: null ?? "",
+      artist: null ?? "",
       fileName: file.name.replace(/\.[^/.]+$/, ""),
     };
   }
