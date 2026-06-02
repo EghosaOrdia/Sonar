@@ -149,7 +149,9 @@ def generate_fingerprint(path: str):
 
 
 def extract_fingerprint_from_file(path: str) -> dict:
-    duration, fingerprint = generate_fingerprint(path)
+    result = generate_fingerprint(path)
+    fingerprint = result["fingerprint"]
+    duration = result["duration"]
     return {"duration": duration, "fingerprint": fingerprint}
 
 

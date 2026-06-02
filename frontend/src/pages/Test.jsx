@@ -1,15 +1,54 @@
 import { IdleState } from "../components/FolderPickerPage";
-import { Clock, Disc3, ListMusic, RotateCcw } from "lucide-react";
+import { Clock, Disc3, Fingerprint, ListMusic, RotateCcw } from "lucide-react";
 import useStep from "../store/useStep";
 import Active from "../components/FolderPickerPage/Active";
 import useTrackStore from "../store/useTrackStore";
 import { formatMilliseconds } from "../constants/functions";
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../constants/data";
 
 const Test = () => {
   const { step } = useStep();
   const { results } = useTrackStore();
+  const [file, setFile] = useState(null);
 
   let validResults = results.filter((song) => song?.match?.found === true);
+  let unmatchedSongs = results.filter((song) => song?.match?.found === false);
+
+  const handleFileChange = (e) => {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    const sendToServer = async () => {
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch(
+          `${BASE_URL}/spotify/fingerprint-identify`,
+          {
+            method: "POST",
+            body: formData,
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Upload failed");
+        }
+
+        const data = await response.json();
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    sendToServer();
+  }, [file]);
 
   return (
     <div className="min-h-screen bg-[#05060A] font-family-sans font-normal p-32 grid grid-cols-12 gap-4 lg:gap-5">
@@ -60,7 +99,9 @@ const Test = () => {
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="truncate">{song.match.track_name}</p>
+                      <p className="truncate text-sm font-medium">
+                        {song.match.track_name}
+                      </p>
                       <p className="text-sm text-dark-foreground truncate">
                         {song.match.artist}
                       </p>
@@ -74,6 +115,35 @@ const Test = () => {
                         Matched
                       </div>
                     </div>
+                  </div>
+                ))}
+                {unmatchedSongs.map((song) => (
+                  <div class="flex items-center gap-3 rounded-xl px-2 py-2 bg-white/2">
+                    <div class="h-9 w-9 rounded-md bg-zinc-900 ring-1 ring-white/5 shrink-0 grid place-items-center text-zinc-600">
+                      ?
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <div class="truncate text-sm text-zinc-400">
+                        {song.match.track_name}
+                      </div>
+                      <div class="truncate text-xs text-zinc-600">
+                        {song.match.artist}
+                      </div>
+                    </div>
+                    <label
+                      htmlFor="track"
+                      class="flex justify-between items-center gap-2 text-[10px] font-mono-plex uppercase tracking-[0.16em] text-zinc-500 bg-white/3 px-3 py-1 rounded-full cursor-pointer"
+                    >
+                      Re-search
+                      <Fingerprint className="w-4 h-4" />
+                      <input
+                        type="file"
+                        name="track"
+                        id="track"
+                        onChange={handleFileChange}
+                        hidden
+                      />
+                    </label>
                   </div>
                 ))}
               </div>
@@ -94,9 +164,7 @@ const Test = () => {
 
           <div className="mt-3 flex items-center justify-between px-2 text-[10px] font-mono-plex uppercase tracking-[0.2em] text-zinc-500">
             <span>{validResults.length} matched</span>
-            <span>
-              <span data-ve-dynamic="true">1</span> unmatched
-            </span>
+            <span>{results.length - validResults.length} unmatched</span>
           </div>
         </div>
       </div>

@@ -251,7 +251,7 @@ const Active = () => {
             loginWithSpotify();
             setLoadingState(true);
           }}
-          className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 p-4 font-family-sans text-lg items-center justify-center rounded-3xl mt-7`}
+          className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 p-4 font-family-sans text-lg items-center justify-center rounded-3xl hover:scale-95 duration-200 transition-all cursor-pointer mt-7`}
         >
           {loadingState ? (
             <RotateCcw className="lucide-icon" />

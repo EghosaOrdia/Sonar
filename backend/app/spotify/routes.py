@@ -3,6 +3,9 @@ from typing import List, Annotated
 from fastapi.responses import RedirectResponse, StreamingResponse
 import httpx
 import json
+import base64
+import acoustid
+import os
 
 from app.spotify.auth import (
     get_auth_url,
@@ -146,6 +149,7 @@ def add_to_playlist(
 async def identify_song(file: UploadFile = File(...)):
     allowed = {".mp3", ".wav", ".flac", ".m4a", ".ogg"}
     filename = file.filename or ""
+
     if "." not in filename:
         raise HTTPException(status_code=400, detail="Unsupported file type")
 
@@ -154,34 +158,39 @@ async def identify_song(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Unsupported file type")
 
     audio_bytes = await file.read()
+    tmp_path = None
 
     try:
-        result = extract_fingerprint_from_bytes(audio_bytes, suffix=suffix)
-        fingerprint = result["fingerprint"]
-        duration = result["duration"]
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            tmp.write(audio_bytes)
+            tmp_path = tmp.name
 
-        async with httpx.AsyncClient() as client:
-            response = requests.get(
-                "https://api.acoustid.org/v2/lookup",
-                params={
-                    "client": ACOUSTIC_KEY,
-                    "meta": "recordings",
-                    "fingerprint": fingerprint,
-                    "duration": duration,
-                },
+        matches = list(acoustid.match(ACOUSTIC_KEY, tmp_path, meta="recordings"))
+        print(
+            f"Matches found: {len(matches)}, file: {tmp_path}, key: {ACOUSTIC_KEY[:5]}..."
+        )
+
+        if not matches:
+            raise HTTPException(status_code=404, detail="No fingerprint match found")
+
+        score, recording_id, title, artist = matches[0]
+
+        if not title or not artist:
+            raise HTTPException(
+                status_code=404, detail="Match found but missing metadata"
             )
-        data = response.json()
-
-        artist = data["results"][0]["recordings"][0]["artists"][0]["name"]
-        title = data["results"][0]["recordings"][0]["title"]
 
         match = search_single_track(title, artist, title)
 
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Fingerprint extraction failed: {e}"
         )
 
+    finally:
+        if tmp_path and os.path.exists(tmp_path):
+            os.unlink(tmp_path)
+
     return {"match": match}
-    results[0]["recordings"][0]["artists"][0]["name"]
-    results[0]["recordings"][0]["title"]
