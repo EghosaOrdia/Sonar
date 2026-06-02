@@ -6,7 +6,7 @@ from app.spotify.token import TokenStore
 import subprocess
 import tempfile
 import acoustid
-from app.config import ACOUSTIC_KEY, ACOUSTIC_LOOKUP_ENDPOINT
+from app.config import ACOUSTID_KEY, ACOUSTIC_LOOKUP_ENDPOINT
 
 SEARCH_URL = "https://api.spotify.com/v1/search"
 tokenStore = TokenStore()
@@ -166,7 +166,7 @@ def extract_fingerprint_from_bytes(audio_bytes: bytes, suffix: str = "mp3"):
 
 
 def identify_track(file_path: str) -> list:
-    results = acoustid.match(ACOUSTIC_KEY, file_path)
+    results = acoustid.match(ACOUSTID_KEY, file_path)
     matches = []
     for score, recording_id, title, artist in results:
         matches.append(

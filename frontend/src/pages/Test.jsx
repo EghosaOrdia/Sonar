@@ -118,24 +118,26 @@ const Test = () => {
                   </div>
                 ))}
                 {unmatchedSongs.map((song) => (
-                  <div class="flex items-center gap-3 rounded-xl px-2 py-2 bg-white/2">
-                    <div class="h-9 w-9 rounded-md bg-zinc-900 ring-1 ring-white/5 shrink-0 grid place-items-center text-zinc-600">
+                  <div
+                    key={song.match.id}
+                    className="flex items-center gap-3 rounded-xl px-2 py-2 bg-white/2"
+                  >
+                    <div className="h-9 w-9 rounded-md bg-zinc-900 ring-1 ring-white/5 shrink-0 grid place-items-center text-zinc-600">
                       ?
                     </div>
-                    <div class="min-w-0 flex-1">
-                      <div class="truncate text-sm text-zinc-400">
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm text-zinc-400">
                         {song.match.track_name}
                       </div>
-                      <div class="truncate text-xs text-zinc-600">
+                      <div className="truncate text-xs text-zinc-600">
                         {song.match.artist}
                       </div>
                     </div>
                     <label
                       htmlFor="track"
-                      class="flex justify-between items-center gap-2 text-[10px] font-mono-plex uppercase tracking-[0.16em] text-zinc-500 bg-white/3 px-3 py-1 rounded-full cursor-pointer"
+                      className="flex justify-between items-center gap-2 text-[10px] font-mono-plex uppercase tracking-[0.16em] text-white bg-primary-green p-2 rounded-full cursor-pointer"
                     >
-                      Re-search
-                      <Fingerprint className="w-4 h-4" />
+                      <RotateCcw className="w-4 h-4" />
                       <input
                         type="file"
                         name="track"

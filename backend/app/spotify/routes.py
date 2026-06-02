@@ -3,6 +3,7 @@ from typing import List, Annotated
 from fastapi.responses import RedirectResponse, StreamingResponse
 import httpx
 import json
+import subprocess
 import base64
 import acoustid
 import os
@@ -24,12 +25,15 @@ from app.spotify.search import (
 from pydantic import BaseModel
 from app.schema import Song
 import requests
-from app.config import ACOUSTIC_KEY, ACOUSTIC_LOOKUP_ENDPOINT
+from app.config import ACOUSTID_KEY, ACOUSTIC_LOOKUP_ENDPOINT
 import tempfile
 
 router = APIRouter()
 # FRONTEND_URL = "http://localhost:5173"
 FRONTEND_URL = "https://spot-sync-omega.vercel.app"
+ACOUSTID_URL = "https://api.acoustid.org/v2/lookup"
+MUSICBRAINZ_URL = "https://musicbrainz.org/ws/2"
+USER_AGENT = "http://localhost:5173/test/1.0.0 (eghordia130@gmail.com)"
 
 
 def get_client(session_id: str) -> SpotifyClient:
@@ -147,47 +151,43 @@ def add_to_playlist(
 
 @router.post("/fingerprint-identify")
 async def identify_song(file: UploadFile = File(...)):
-    allowed = {".mp3", ".wav", ".flac", ".m4a", ".ogg"}
-    filename = file.filename or ""
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+        temp_file.write(await file.read())
+        temp_path = temp_file.name
 
-    if "." not in filename:
-        raise HTTPException(status_code=400, detail="Unsupported file type")
+    result = subprocess.run(
+        ["fpcalc", "-json", temp_path], capture_output=True, text=True, check=True
+    )
 
-    suffix = "." + filename.rsplit(".", 1)[-1].lower()
-    if suffix not in allowed:
-        raise HTTPException(status_code=400, detail="Unsupported file type")
+    duration, fingerprint = acoustid.fingerprint_file(temp_path)
+    # fingerprint_data = json.loads(result.stdout)
 
-    audio_bytes = await file.read()
-    tmp_path = None
+    # response = list(
+    #     acoustid.match(ACOUSTID_KEY, temp_path, meta="recordings+releasegroups+artists")
+    # )
 
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-            tmp.write(audio_bytes)
-            tmp_path = tmp.name
-
-        matches = list(acoustid.match(ACOUSTIC_KEY, tmp_path, meta="recordings"))
-
-        if not matches:
-            raise HTTPException(status_code=404, detail="No fingerprint match found")
-
-        score, recording_id, title, artist = matches[0]
-
-        if not title or not artist:
-            raise HTTPException(
-                status_code=404, detail="Match found but missing metadata"
-            )
-
-        match = search_single_track(title, artist, title)
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Fingerprint extraction failed: {e}"
-        )
-
-    finally:
-        if tmp_path and os.path.exists(tmp_path):
-            os.unlink(tmp_path)
-
-    return {"match": match}
+    response = requests.get(
+        "https://api.acoustid.org/v2/lookup",
+        params={
+            "client": ACOUSTID_KEY,
+            "duration": int(duration),
+            "fingerprint": fingerprint,
+            "meta": "recordings+releasegroups+artists",
+        },
+    )
+    # print(response.request.url)
+    # print(response.json())
+    recording_id = "72ea8aab-7ffb-4731-adeb-32afd7c906fd"
+    mb_response = requests.get(
+        f"{MUSICBRAINZ_URL}/recording/{recording_id}",
+        params={
+            "inc": "artists+releases+release-groups+isrcs+tags+genres",
+            "fmt": "json",
+        },
+        headers={"User-Agent": USER_AGENT},  # MusicBrainz requires this
+    )
+    mb_data = mb_response.json()
+    mb_response.raise_for_status()
+    print(mb_response.request.url)
+    print(mb_data)
+    return response.json()
