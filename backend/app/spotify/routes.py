@@ -166,9 +166,6 @@ async def identify_song(file: UploadFile = File(...)):
             tmp_path = tmp.name
 
         matches = list(acoustid.match(ACOUSTIC_KEY, tmp_path, meta="recordings"))
-        print(
-            f"Matches found: {len(matches)}, file: {tmp_path}, key: {ACOUSTIC_KEY[:5]}..."
-        )
 
         if not matches:
             raise HTTPException(status_code=404, detail="No fingerprint match found")
