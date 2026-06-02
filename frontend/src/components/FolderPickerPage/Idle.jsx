@@ -17,6 +17,7 @@ import {
 } from "../../constants/functions";
 
 const Idle = () => {
+  const [unlocked, setUnlocked] = useState(false);
   const [importConfig, setImportConfig] = useState({
     loading: false,
     selectedPlaylist: "",
@@ -55,6 +56,17 @@ const Idle = () => {
     setTracks(allowedFiles);
     setImportConfig((prev) => ({ ...prev, loading: true }));
     if (importConfig.playlistTracks.length > 0) setStep(2);
+  };
+
+  const guardedClick = (e, handler) => {
+    if (!unlocked) {
+      e.stopPropagation();
+      toast.error("Connect spotify account first", {
+        description: "Please connect your spotify account before continuing",
+      });
+      return;
+    }
+    handler(e);
   };
 
   return (
@@ -101,7 +113,9 @@ const Idle = () => {
             </p>
 
             <button
-              onClick={() => handleFolderSelection()}
+              onClick={(e) => {
+                guardedClick(e, () => handleFolderSelection());
+              }}
               id="pickFolderBtn"
               className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
             >
