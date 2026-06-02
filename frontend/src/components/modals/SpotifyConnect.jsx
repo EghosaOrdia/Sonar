@@ -31,19 +31,20 @@ const SpotifyConnect = ({ closeModal }) => {
   return (
     <>
       {!isAuthenticated && (
-        <div className="text-center space-y-1 font-family-sans">
+        <div className="text-center space-y-1 font-family-sans p-4">
           <div className="flex justify-end items-center">
             <button
               onClick={() => closeModal(false)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-200 bg-primary-dark/50 rounded-full px-3 py-2 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
             >
-              <X className="lucide-icon" />
+              <X className="w-4 h-4" />
+              <span>close</span>
             </button>
           </div>
-          <h2 className="text-center text-3xl font-medium mt-8">
+          <h2 className="text-center text-2xl font-bold">
             Connect your Spotify account
           </h2>
-          <p className="text-dark-foreground w-1/2 mx-auto">
+          <p className="text-dark-foreground w-3/4 mx-auto">
             We need permission to create playlists in your library
           </p>
 
@@ -52,20 +53,22 @@ const SpotifyConnect = ({ closeModal }) => {
               loginWithSpotify();
               setLoadingState(true);
             }}
-            className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 py-4 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto`}
+            className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 py-4 px-6 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto`}
           >
             {loadingState ? (
               <RotateCcw className="lucide-icon" />
             ) : (
-              <img src={spotify} alt="spotify logo" className="w-9 h-9" />
+              <img src={spotify} alt="spotify logo" className="w-6 h-6" />
             )}
-            <span className="font-bold">Connect Spotify account</span>
+            <span>Connect Spotify account</span>
           </button>
 
           <div className="text-center border-t py-4 border-white/10 text-dark-foreground mt-8">
             <p className="font-bold text-xl">Privacy First</p>
-            <p>We only request access to create and manage playlists.</p>
-            <p>Your personal data stays yours</p>
+            <p className="text-sm">
+              We only request access to create and manage playlists.
+            </p>
+            <p className="text-sm">Your personal data stays yours</p>
           </div>
         </div>
       )}

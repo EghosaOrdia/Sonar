@@ -10,7 +10,6 @@ import { formatMilliseconds } from "../constants/functions";
 const FolderPicker = () => {
   // const [isOpen, setIsOpen] = useState(false);
   const { step, setStep } = useStep();
-  console.log(step);
 
   const { setIsAuthenticated, clearAuth } = useAuth();
   const { results } = useTrackStore();

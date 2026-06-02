@@ -15,9 +15,11 @@ import {
   pickAndFilterAudioFiles,
   handleDirectoryScan,
 } from "../../constants/functions";
+import useAuth from "../../store/useAuth";
 
 const Idle = () => {
   const [unlocked, setUnlocked] = useState(false);
+  const { isAuthenticated } = useAuth();
   const [importConfig, setImportConfig] = useState({
     loading: false,
     selectedPlaylist: "",
@@ -61,13 +63,15 @@ const Idle = () => {
   const guardedClick = (e, handler) => {
     if (!unlocked) {
       e.stopPropagation();
-      toast.error("Connect spotify account first", {
-        description: "Please connect your spotify account before continuing",
+      toast.error("Connect spotify account", {
+        description: "Please sync your spotify account",
       });
       return;
     }
     handler(e);
   };
+
+  if (isAuthenticated) setUnlocked(true);
 
   return (
     <div className="relative rounded-3xl border border-white/8 bg-linear-to-b from-[#0d0e14] to-[#0a0b10] p-3 sm:p-4 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
@@ -138,7 +142,9 @@ const Idle = () => {
               </p>
 
               <button
-                onClick={() => handlePlaylistSelection()}
+                onClick={(e) => {
+                  guardedClick(e, () => handlePlaylistSelection());
+                }}
                 id="pickFolderBtn"
                 className="inline-flex items-center justify-center gap-4 whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow btn-primary hover:bg-[#1abc54] text-black font-bold px-8 py-3 h-auto rounded-full"
               >

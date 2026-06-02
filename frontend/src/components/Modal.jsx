@@ -9,10 +9,11 @@ export default function Modal({
 }) {
   if (!isOpen) return null;
 
-  const defaultBackdropStyles = "fixed inset-0 z-50 bg-black/80";
+  const defaultBackdropStyles =
+    "fixed inset-0 z-50 bg-black/80 grid place-items-center";
 
   const defaultContainerStyles =
-    "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border pt-6 px-6 shadow-lg duration-200 sm:rounded-lg max-w-2xl bg-[#121212] border-white/10 text-white animate__animated animate__zoomIn";
+    "lg:w-3/4 gap-4 border shadow-lg duration-200 rounded-2xl max-w-2xl bg-[#121212] border-white/10 text-white animate__animated animate__zoomIn";
 
   return (
     <Portal>
