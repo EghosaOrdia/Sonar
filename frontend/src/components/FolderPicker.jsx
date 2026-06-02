@@ -8,8 +8,7 @@ import { Clock, Disc3, ListMusic, RotateCcw } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
 
 const FolderPicker = () => {
-  const [unlocked, setUnlocked] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const { step, setStep } = useStep();
   console.log(step);
 
@@ -26,7 +25,7 @@ const FolderPicker = () => {
     const sessionId = params.get("session_id");
 
     if (authenticated === "true" && sessionId) {
-      setIsOpen(true);
+      // setIsOpen(true);
       localStorage.setItem("spotify_session_id", sessionId);
       window.history.replaceState({}, "", window.location.pathname);
       fetchUserProfile(sessionId);
@@ -111,15 +110,6 @@ const FolderPicker = () => {
     }
   };
 
-  const guardedClick = (e, handler) => {
-    if (!unlocked) {
-      e.stopPropagation();
-      alert("Do the action first!");
-      return;
-    }
-    handler(e);
-  };
-
   return (
     <section id="studio" className="relative py-20 sm:py-28 overflow-hidden">
       {/* <div className="app-overlay absolute inset-0 pointer-events-none"></div> */}
@@ -138,16 +128,7 @@ const FolderPicker = () => {
           </p>
         </div>
         <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
-          <div
-            onClick={(e) => {
-              guardedClick(e, () => {});
-            }}
-            className={`glass-card col-span-12 lg:col-span-7 cursor-not-allowed`}
-            style={{
-              // pointerEvents: unlocked ? "auto" : "none",
-              cursor: "not-allowed",
-            }}
-          >
+          <div className="glass-card col-span-12 lg:col-span-7">
             {step === 1 && <IdleState />}
             {step === 2 && <Active />}
           </div>
