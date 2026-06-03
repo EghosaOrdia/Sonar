@@ -6,6 +6,7 @@ import useTrackStore from "../store/useTrackStore";
 import { BASE_URL } from "../constants/data";
 import { Clock, Disc3, ListMusic, RotateCcw } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
+import Active from "./FolderPickerPage/Active";
 
 const FolderPicker = () => {
   // const [isOpen, setIsOpen] = useState(false);
