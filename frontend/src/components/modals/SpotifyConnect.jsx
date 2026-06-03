@@ -76,13 +76,14 @@ const SpotifyConnect = ({ closeModal }) => {
       {isAuthenticated && (
         <>
           {!syncState && (
-            <div className="overflow-hidden font-family-sans">
+            <div className="overflow-hidden font-family-sans p-4">
               <div className="flex justify-end items-center">
                 <button
                   onClick={() => closeModal(false)}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 w-9 transition-all duration-200 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-200 bg-primary-dark/50 rounded-full px-3 py-2 hover:bg-primary-dark/70 text-dark-foreground hover:text-white cursor-pointer"
                 >
-                  <X className="lucide-icon" />
+                  <X className="w-4 h-4" />
+                  <span>close</span>
                 </button>
               </div>
 
@@ -147,14 +148,6 @@ const SpotifyConnect = ({ closeModal }) => {
                       API Handshake successful!
                     </p>
                   </div>
-
-                  <button
-                    onClick={() => setSyncState(true)}
-                    className="btn-primary w-full flex justify-center items-center gap-4"
-                  >
-                    <span>Sync Music</span>
-                    <ArrowRight />
-                  </button>
                 </div>
               </div>
 

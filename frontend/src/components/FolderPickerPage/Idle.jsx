@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FolderOpen,
   ListVideo,
@@ -71,7 +71,13 @@ const Idle = () => {
     handler(e);
   };
 
-  if (isAuthenticated) setUnlocked(true);
+  useEffect(() => {
+    const authenticateUser = () => {
+      if (isAuthenticated) setUnlocked(true);
+    };
+
+    authenticateUser();
+  }, [isAuthenticated]);
 
   return (
     <div className="relative rounded-3xl border border-white/8 bg-linear-to-b from-[#0d0e14] to-[#0a0b10] p-3 sm:p-4 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
