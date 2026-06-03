@@ -29,8 +29,8 @@ from app.config import ACOUSTID_KEY, ACOUSTIC_LOOKUP_ENDPOINT
 import tempfile
 
 router = APIRouter()
-FRONTEND_URL = "http://localhost:5173"
-# FRONTEND_URL = "https://spot-sync-omega.vercel.app"
+# FRONTEND_URL = "http://localhost:5173"
+FRONTEND_URL = "https://spot-sync-omega.vercel.app"
 ACOUSTID_URL = "https://api.acoustid.org/v2/lookup"
 MUSICBRAINZ_URL = "https://musicbrainz.org/ws/2"
 USER_AGENT = "http://localhost:5173/test/1.0.0 (eghordia130@gmail.com)"
