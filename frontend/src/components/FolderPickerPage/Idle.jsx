@@ -74,6 +74,7 @@ const Idle = () => {
   useEffect(() => {
     const authenticateUser = () => {
       if (isAuthenticated) setUnlocked(true);
+      else setUnlocked(false);
     };
 
     authenticateUser();
