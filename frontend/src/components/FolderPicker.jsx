@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import useStep from "../store/useStep";
 import useAuth from "../store/useAuth";
-import { IdleState } from "./FolderPickerPage";
+import { ActiveState, IdleState } from "./FolderPickerPage";
 import useTrackStore from "../store/useTrackStore";
 import { BASE_URL } from "../constants/data";
 import { Clock, Disc3, ListMusic, RotateCcw } from "lucide-react";
 import { formatMilliseconds } from "../constants/functions";
-import Active from "./FolderPickerPage/Active";
 
 const FolderPicker = () => {
   // const [isOpen, setIsOpen] = useState(false);
@@ -130,7 +129,7 @@ const FolderPicker = () => {
         <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
           <div className="glass-card col-span-12 lg:col-span-7">
             {step === 1 && <IdleState />}
-            {step === 2 && <Active />}
+            {step === 2 && <ActiveState />}
           </div>
 
           <div className="col-span-12 lg:col-span-5">

@@ -1,3 +1,4 @@
+export { default as ActiveState } from "./Active";
 export { default as IdleState } from "./Idle";
 export { default as ScanningState } from "./Scanning";
 export { default as ResultsState } from "./Results";
