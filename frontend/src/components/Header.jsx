@@ -80,7 +80,7 @@ const Header = () => {
             {isAuthenticated && (
               <button
                 onClick={() => setModal(true)}
-                className="group inline-flex items-center gap-2 rounded-full bg-[#1DB954] hover:bg-[#1ED760] text-black font-semibold text-sm px-4 py-3 transition-all hover:shadow-[0_8px_24px_rgba(29,185,84,0.35)]"
+                className="group inline-flex items-center gap-2 rounded-full bg-[#1DB954] hover:bg-[#1ED760] text-black font-semibold text-sm transition-all hover:shadow-[0_8px_24px_rgba(29,185,84,0.35)]"
               >
                 <div className="w-12 h-12 rounded-full bg-cover bg-center ring-2 ring-white/10 overflow-hidden">
                   <img
