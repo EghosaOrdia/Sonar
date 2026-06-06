@@ -293,7 +293,7 @@
 
 .loading-btn {
   filter: grayscale(90%);
-  svg {
+  .rotate-ccw {
     animation: spin 1s linear infinite reverse;
   }
 }
