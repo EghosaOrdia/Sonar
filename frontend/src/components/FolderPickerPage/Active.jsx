@@ -294,7 +294,7 @@ const Active = () => {
               className={`${loadingBtn ? "cursor-not-allowed loading-btn" : "hover:scale-[1.02] active:scale-[0.98] cursor-pointer"} inline-flex items-center gap-2 rounded-full bg-[#1DB954] hover:bg-[#1ED760] text-black font-semibold text-sm px-4 py-2 transition-all hover:shadow-[0_8px_24px_rgba(29,185,84,0.35)]`}
             >
               {loadingBtn ? (
-                <RotateCcw className="rotate-ccw"/>
+                <RotateCcw className="rotate-ccw" />
               ) : (
                 <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
                   <path
@@ -303,8 +303,14 @@ const Active = () => {
                   ></path>
                 </svg>
               )}
-              Create Playlist
-              <ExternalLink className="h-3.5 w-3.5" />
+              {playListDetails.playlistUrl === "" ? (
+                "Create Playlist"
+              ) : (
+                <>
+                  "View Playlist"
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </>
+              )}
             </button>
           </div>
         </div>
