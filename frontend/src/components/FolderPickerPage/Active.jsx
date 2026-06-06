@@ -159,7 +159,6 @@ const Active = () => {
       }
 
       toast.success("Songs created successfully");
-      setStep(4);
     } catch (err) {
       // console.error("Something went wrong", err);
       toast.error("Something went wrong", { description: err.message });
