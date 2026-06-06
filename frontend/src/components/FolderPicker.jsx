@@ -128,6 +128,7 @@ const FolderPicker = () => {
         </div>
         <div className="mt-12 grid grid-cols-12 gap-4 lg:gap-5">
           <div className="glass-card col-span-12 lg:col-span-7">
+            {/* <IdleState /> */}
             {step === 1 && <IdleState />}
             {step === 2 && <ActiveState />}
           </div>
