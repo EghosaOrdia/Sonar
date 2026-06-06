@@ -27,7 +27,7 @@ const Idle = () => {
     playlistTracks: [],
   });
   const setTracks = useTrackStore((state) => state.setTracks);
-  const { step, setStep } = useStep();
+  const { setStep } = useStep();
 
   const handleFolderSelection = async () => {
     const files = await handleDirectoryScan();
