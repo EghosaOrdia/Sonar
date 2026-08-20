@@ -1,5 +1,12 @@
 import { spotify } from "../../constants/media";
-import { ArrowRight, CheckCircle2Icon, Lock, RotateCcw, X } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2Icon,
+  LoaderCircle,
+  Lock,
+  RotateCcw,
+  X,
+} from "lucide-react";
 import useAuth from "../../store/useAuth";
 import { useState } from "react";
 import ConfigurePlaylist from "./PlaylistConfig";
@@ -56,7 +63,7 @@ const SpotifyConnect = ({ closeModal }) => {
             className={`${loadingState ? "loading-btn" : "bg-primary-green"} flex gap-3 py-4 px-6 font-family-sans text-lg items-center justify-center rounded-full btn-primary cursor-pointer mt-4 mx-auto`}
           >
             {loadingState ? (
-              <RotateCcw className="lucide-icon" />
+              <LoaderCircle className="lucide-icon animate-spin" />
             ) : (
               <img src={spotify} alt="spotify logo" className="w-6 h-6" />
             )}
