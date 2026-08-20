@@ -96,5 +96,5 @@ export const steps = [
   { label: "Waiting for results", progress: 95 },
 ];
 
-// export const BASE_URL = "https://sonar-production-be8d.up.railway.app";
-export const BASE_URL = "http://127.0.0.1:8000";
+// export const BASE_URL = "http://127.0.0.1:8000";
+export const BASE_URL = "https://sonar.pxxlspace.cv";
